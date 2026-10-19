@@ -3,7 +3,6 @@
 
 🌐 **رابط النسخة الحية على الويب:** [https://quranirtaqi.github.io/Itqan/](https://quranirtaqi.github.io/Itqan/)
 
----
 
 ## 🌟 نبذة عن المشروع
 
