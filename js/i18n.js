@@ -9,7 +9,7 @@ const I18N_STORAGE_KEY = 'qrn_app_lang';
 const I18N_DICTIONARY = {
   ar: {
     // Header
-    brand_title: "إرتَقِ بالقرآن",
+    brand_title: "إرتَقِ",
     page_count_badge: "604 صفحة",
     scroll_top_title: "العودة لأعلى الصفحة",
     tamkeen: "تمكين",
