@@ -61,6 +61,8 @@ const COACH_MARKS_STEPS = [
   {
     targetSelector: 'header',
     fallbackSelector: '#btnHeaderScrollTop',
+    titleKey: 'tour_step_1_title',
+    textKey: 'tour_step_1_text',
     badge: 'الخطوة 1 من 10',
     icon: 'compass',
     title: 'الشريط العلوي وأدوات التحكم والوصول السريع',
@@ -70,6 +72,8 @@ const COACH_MARKS_STEPS = [
   {
     targetSelector: '.lg\\:col-span-8',
     fallbackSelector: '#statProgressBar',
+    titleKey: 'tour_step_2_title',
+    textKey: 'tour_step_2_text',
     badge: 'الخطوة 2 من 10',
     icon: 'percent',
     title: 'لوحة إنجاز الحفظ ومسار الختم',
@@ -79,6 +83,8 @@ const COACH_MARKS_STEPS = [
   {
     targetSelector: '#plannerCard',
     fallbackSelector: '#statRemainingNotice',
+    titleKey: 'tour_step_3_title',
+    textKey: 'tour_step_3_text',
     badge: 'الخطوة 3 من 10',
     icon: 'flame',
     title: 'شعلة الالتزام ورصيد أيام التعويض (Streak)',
@@ -88,6 +94,8 @@ const COACH_MARKS_STEPS = [
   {
     targetSelector: '#dailyWardContainer',
     fallbackSelector: '#dailyWardCard',
+    titleKey: 'tour_step_4_title',
+    textKey: 'tour_step_4_text',
     badge: 'الخطوة 4 من 10',
     icon: 'calendar-check',
     title: 'الورد اليومي الذكي للمراجعة والحفظ',
@@ -97,6 +105,8 @@ const COACH_MARKS_STEPS = [
   {
     targetSelector: '#tabModeSurah',
     fallbackSelector: '.tab-btn',
+    titleKey: 'tour_step_5_title',
+    textKey: 'tour_step_5_text',
     badge: 'الخطوة 5 من 10',
     icon: 'layers',
     title: 'خيارات العرض والبحث الفوري والتصفية',
@@ -106,6 +116,8 @@ const COACH_MARKS_STEPS = [
   {
     targetSelector: '#surahGridContainer',
     fallbackSelector: '#viewSurahs',
+    titleKey: 'tour_step_6_title',
+    textKey: 'tour_step_6_text',
     badge: 'الخطوة 6 من 10',
     icon: 'check-circle-2',
     title: 'تسجيل الحفظ وجدولة المراجعة (SRS)',
@@ -115,6 +127,8 @@ const COACH_MARKS_STEPS = [
   {
     targetSelector: '#viewPages',
     fallbackSelector: '#tabModePage',
+    titleKey: 'tour_step_7_title',
+    textKey: 'tour_step_7_text',
     badge: 'الخطوة 7 من 10',
     icon: 'layout-grid',
     title: 'شبكة الصفحات والتصفية وتحديد النطاق',
@@ -124,6 +138,8 @@ const COACH_MARKS_STEPS = [
   {
     targetSelector: '#tabModePage',
     fallbackSelector: '#pageGridContainer',
+    titleKey: 'tour_step_8_title',
+    textKey: 'tour_step_8_text',
     badge: 'الخطوة 8 من 10',
     icon: 'volume-2',
     title: 'معاينة المصحف الشريف والتلاوة الصوتية',
@@ -133,6 +149,8 @@ const COACH_MARKS_STEPS = [
   {
     targetSelector: '#viewTamkeen',
     fallbackSelector: '#tabModeTamkeen',
+    titleKey: 'tour_step_9_title',
+    textKey: 'tour_step_9_text',
     badge: 'الخطوة 9 من 10',
     icon: 'brain',
     title: 'منظومة «تَمْكِين» لاختبار وتثبيت الحفظ',
@@ -142,6 +160,8 @@ const COACH_MARKS_STEPS = [
   {
     targetSelector: '#btnBackupCard',
     fallbackSelector: '#btnResetConfirm',
+    titleKey: 'tour_step_10_title',
+    textKey: 'tour_step_10_text',
     badge: 'الخطوة 10 من 10',
     icon: 'database',
     title: 'دفتر التثبيت والنسخ الاحتياطي وتصفير السجل',
@@ -195,23 +215,38 @@ function renderCoachStep() {
   const badgeEl = document.getElementById('coachMarksBadge');
   const btnPrev = document.getElementById('btnCoachMarksPrev');
   const btnNext = document.getElementById('btnCoachMarksNext');
+  const btnSkip = document.getElementById('btnCoachMarksSkip');
   const dotsContainer = document.getElementById('coachMarksDots');
 
-  if (badgeEl) badgeEl.textContent = step.badge;
-  if (titleEl) {
-    titleEl.innerHTML = `<i data-lucide="${step.icon}" class="w-4 h-4 text-gold-500 shrink-0"></i><span>${step.title}</span>`;
+  const lang = (typeof getAppLanguage === 'function') ? getAppLanguage() : 'ar';
+  const isRTL = (lang === 'ar');
+
+  const stepWord = (typeof t === 'function') ? t('step', 'الخطوة') : 'الخطوة';
+  const ofWord = (typeof t === 'function') ? t('of_total', 'من') : 'من';
+  if (badgeEl) {
+    badgeEl.textContent = `${stepWord} ${currentCoachStep + 1} ${ofWord} ${COACH_MARKS_STEPS.length}`;
   }
-  if (textEl) textEl.textContent = step.text;
+
+  if (btnSkip) {
+    btnSkip.textContent = (typeof t === 'function') ? t('skip_tour_btn', 'تخطي الجولة ✕') : 'تخطي الجولة ✕';
+  }
+
+  const stepTitle = (typeof t === 'function' && step.titleKey) ? t(step.titleKey, step.title) : step.title;
+  const stepText = (typeof t === 'function' && step.textKey) ? t(step.textKey, step.text) : step.text;
+
+  if (titleEl) {
+    titleEl.innerHTML = `<i data-lucide="${step.icon}" class="w-4 h-4 text-gold-500 shrink-0"></i><span>${stepTitle}</span>`;
+  }
+  if (textEl) textEl.textContent = stepText;
 
   if (dotsContainer) {
     dotsContainer.innerHTML = COACH_MARKS_STEPS.map((_, i) => `
       <button type="button" onclick="startCoachMarksTour(${i})" class="h-2 rounded-full transition-all ${
         i === currentCoachStep ? 'w-5 bg-gold-500' : 'w-2 bg-slate-300 dark:bg-slate-700 hover:bg-slate-400'
-      }" title="الخطوة ${i + 1}"></button>
+      }" title="${stepWord} ${i + 1}"></button>
     `).join('');
   }
 
-  const isRTL = (typeof getAppLanguage === 'function' ? getAppLanguage() : 'ar') === 'ar';
   const nextChevron = isRTL ? 'chevron-left' : 'chevron-right';
   const prevChevron = isRTL ? 'chevron-right' : 'chevron-left';
 
@@ -2245,7 +2280,13 @@ async function saveCardImage() {
   if (!cardElement || !btnSaveCardAsImage) return;
 
   btnSaveCardAsImage.disabled = true;
-  if (btnSaveCardText) btnSaveCardText.textContent = "جاري إنشاء الصورة...";
+  const defaultBtnText = (typeof t === 'function') ? t('save_card_image_btn', 'حفظ كصورة في الاستوديو') : 'حفظ كصورة في الاستوديو';
+  const generatingText = (typeof t === 'function') ? t('generating_image_btn', 'جاري إنشاء الصورة...') : 'جاري إنشاء الصورة...';
+  const successText = (typeof t === 'function') ? t('image_download_success', 'تم تنزيل الصورة بنجاح في جهازك!') : 'تم تنزيل الصورة بنجاح في جهازك!';
+  const errorText = (typeof t === 'function') ? t('image_generate_error', 'تعذر إنشاء الصورة، يرجى المحاولة مرة أخرى.') : 'تعذر إنشاء الصورة، يرجى المحاولة مرة أخرى.';
+  const filePrefix = (typeof t === 'function') ? t('export_file_prefix', 'انجاز_القرآن') : 'انجاز_القرآن';
+
+  if (btnSaveCardText) btnSaveCardText.textContent = generatingText;
 
   try {
     const canvas = await html2canvas(cardElement, {
@@ -2255,7 +2296,7 @@ async function saveCardImage() {
       logging: false
     });
 
-    const fileName = `انجاز_القرآن_${new Date().toISOString().slice(0, 10)}.png`;
+    const fileName = `${filePrefix}_${new Date().toISOString().slice(0, 10)}.png`;
 
     canvas.toBlob(async (blob) => {
       if (!blob) {
@@ -2266,9 +2307,9 @@ async function saveCardImage() {
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
-        showToast("تم تنزيل الصورة بنجاح!");
+        if (typeof showToast === 'function') showToast(successText);
         btnSaveCardAsImage.disabled = false;
-        if (btnSaveCardText) btnSaveCardText.textContent = "حفظ كصورة في الاستوديو";
+        if (btnSaveCardText) btnSaveCardText.textContent = defaultBtnText;
         return;
       }
 
@@ -2284,16 +2325,16 @@ async function saveCardImage() {
         URL.revokeObjectURL(downloadUrl);
       }, 1500);
 
-      showToast("تم تنزيل الصورة بنجاح في جهازك!");
+      if (typeof showToast === 'function') showToast(successText);
       btnSaveCardAsImage.disabled = false;
-      if (btnSaveCardText) btnSaveCardText.textContent = "حفظ كصورة في الاستوديو";
+      if (btnSaveCardText) btnSaveCardText.textContent = defaultBtnText;
     }, 'image/png');
 
   } catch (error) {
     console.error("خطأ في توليد صورة بطاقة الإنجاز:", error);
-    showToast("تعذر إنشاء الصورة، يرجى المحاولة مرة أخرى.");
+    if (typeof showToast === 'function') showToast(errorText);
     btnSaveCardAsImage.disabled = false;
-    if (btnSaveCardText) btnSaveCardText.textContent = "حفظ كصورة في الاستوديو";
+    if (btnSaveCardText) btnSaveCardText.textContent = defaultBtnText;
   }
 }
 
@@ -2945,3 +2986,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 })();
+
+if (typeof window !== 'undefined') {
+  window.renderAll = renderAll;
+  window.renderCoachStep = renderCoachStep;
+  window.startCoachMarksTour = startCoachMarksTour;
+  window.stopCoachMarksTour = stopCoachMarksTour;
+  window.saveCardImage = saveCardImage;
+}

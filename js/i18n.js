@@ -412,10 +412,65 @@ const I18N_DICTIONARY = {
     about_contact_title: "للتواصل والملاحظات والاقتراحات",
     about_contact_badge: "تواصل مباشر",
     about_contact_desc: "نسعد بآرائكم وملاحظاتكم لتطوير التطبيق وخدمة كتاب الله عبر البريد الإلكتروني:",
-    about_email_label: "البريد الإلكتروني: <bdi dir=\"ltr\">irtaqiquran@gmail.com</bdi>",
+    about_email_label: "البريد الإلكتروني: <bdi dir=\"ltr\">quran@asmpolimi.com</bdi>",
     about_hadith_footer: "«خَيْرُكُمْ مَنْ تَعَلَّمَ الْقُرْآنَ وَعَلَّمَهُ»",
     about_dua_footer: "نسأل الله تعالى أن يجعله عملاً خالصاً لوجهه الكريم ونافعاً لحفاظ كتابه",
-    about_dismiss_btn: "حسناً، استوعبت ذلك"
+    about_dismiss_btn: "حسناً، استوعبت ذلك",
+
+    // Achievement Card & Modal
+    achievement_modal_title: "بطاقة إنجاز الحفظ والمراجعة",
+    student_name_label: "اسم الحافظ:",
+    student_name_placeholder: "اكتب اسمك هنا ليظهر في الشهادة...",
+    card_basmalah: "بسم الله الرحمن الرحيم",
+    card_certificate_title: "شهادة إنجاز حفظ القرآن الكريم",
+    card_awarded_to: "مُنحت لِـ: ",
+    card_blessing: "وفقك الله لخدمة كتابه والعمل بما فيه",
+    card_ratio_label: "نسبة ما تم إنجازه من القرآن الكريم",
+    card_progress_label: "{current} من {total} صفحة",
+    card_remaining_pages: "باقي {count} صفحة",
+    pages_remaining_notice: "باقي {count} صفحة",
+    khatm_completed_badge: "تم الختم بحمد الله 🎉",
+    khatm_congrats: "ما شاء الله! تبارك الرحمن أتممت حفظ القرآن كاملاً 🎉",
+    card_stat_ayahs: "الآيات",
+    card_stat_pages: "الصفحات",
+    card_stat_surahs: "السور",
+    card_stat_juz: "الأجزاء",
+    card_hadith_footer: "«خَيْرُكُمْ مَنْ تَعَلَّمَ الْقُرْآنَ وَعَلَّمَهُ»",
+    save_card_image_btn: "حفظ كصورة في الاستوديو",
+    generating_image_btn: "جاري إنشاء الصورة...",
+    export_file_prefix: "انجاز_القرآن",
+    image_download_success: "تم تنزيل الصورة بنجاح في جهازك!",
+    image_generate_error: "تعذر إنشاء الصورة، يرجى المحاولة مرة أخرى.",
+
+    // Hero hadith quote
+    hadith_banner_quote: "\"يُقَالُ لِصَاحِبِ الْقُرْآنِ: اقْرَأْ وَارْتَقِ وَرَتِّلْ كَمَا كُنْتَ تُرَتِّلُ فِي الدُّنْيَا، فَإِنَّ مَنْزِلَتَكَ عِنْدَ آخِرِ آيَةٍ تَقْرَؤُهَا.\"",
+
+    // Mistakes notebook guidance
+    mistakes_guidance_banner: "راجع الآية جيداً ثم اضغط <b>«إعادة الاختبار»</b> لتأكيد حفظها، أو <b>«تم التثبيت ✓»</b> بعد إتقانها.",
+
+    // Tour guide
+    step: "الخطوة",
+    skip_tour_btn: "تخطي الجولة ✕",
+    tour_step_1_title: "الشريط العلوي وأدوات التحكم والوصول السريع",
+    tour_step_1_text: "الترويسة العلوية تمنحك وصولاً فورياً لاختبارات تمكين، تثبيت التطبيق، تصدير بطاقة الإنجاز، دفتر التثبيت، دليل التطبيق، تبديل النمط، وتبديل لغة الواجهة (عربي/EN/IT). كما يمكنك النقر على العنوان في أي وقت للصعود الفوري لأعلى الصفحة.",
+    tour_step_2_title: "لوحة إنجاز الحفظ ومسار الختم",
+    tour_step_2_text: "تتابع هنا إجمالي تقدمك في حفظ القرآن الكريم (604 صفحة) بالنسبة المئوية الحية، مع شريط تقدم المسار المتبقي نحو الختم، وإحصائيات السور والأجزاء المكتملة وعدد الآيات المحفوظة.",
+    tour_step_3_title: "شعلة الالتزام ورصيد أيام التعويض (Streak)",
+    tour_step_3_text: "تابع التزامك اليومي وترقّ عبر 8 أوسمة نبوية متدرجة حتى تتوج بـ «👑 تاج الوقار». يحمي نظام التعويض سلسلتك من الانقطاع برصيد أيام تعويض (تلقائياً أو يدوياً) يزداد مع استمرارك كل 7 أسابيع.",
+    tour_step_4_title: "الورد اليومي الذكي للمراجعة والحفظ",
+    tour_step_4_text: "بطاقة ذكية تقترح عليك يومياً السور والصفحات المستحقة للمراجعة بناءً على خوارزمية التكرار المتباعد لمنع تفلت الحفظ، مع إمكانية تسجيل إنجاز مراجعة السورة بنقرة واحدة.",
+    tour_step_5_title: "خيارات العرض والبحث الفوري والتصفية",
+    tour_step_5_text: "تنقل بمرونة فائقة بين عرض السور (114)، شبكة الصفحات (604)، الأجزاء (30)، ومحرك تمكين بدون أي تمرير جانبي، مع شريط بحث فوري بالاسم أو الرقم أو الصفحة وفلاتر المحفوظ.",
+    tour_step_6_title: "تسجيل الحفظ وجدولة المراجعة (SRS)",
+    tour_step_6_text: "انقر على أي سورة لتحديد تمام حفظها، وقيّم جودة مراجعتك بثلاثة مستويات: (🟢 ممتاز 28 يوماً | 🟡 متوسط 14 يوماً | 🔴 يحتاج تثبيت 4 أيام) ليتولى النظام جدولة مراجعتها بدقة.",
+    tour_step_7_title: "شبكة الصفحات والتصفية وتحديد النطاق",
+    tour_step_7_text: "استعرض صفحات المصحف الـ 604، وحدد حفظ أي صفحة بنقرة بحرية تامة، واستخدم أزرار التصفية السريعة (الكل، المحفوظ، غير المحفوظ)، أو أداة «نطاق الصفحات»، مع إمكانية الاختبار الفوري لكل صفحة بنقرة زر (🧠).",
+    tour_step_8_title: "معاينة المصحف الشريف والتلاوة الصوتية",
+    tour_step_8_text: "اضغط على زر العين (👁️) في أي صفحة لعرض مصحف المدينة عالي الدقة، مع مشغل صوتي لـ 9 قراء (الشيخ الحصري افتراضياً)، ومتابعة رقم الآية الدقيق في السورة وموقعها، وتقليب الصفحات بالسحب (Swipe) أو الأسهم.",
+    tour_step_9_title: "منظومة «تَمْكِين» لاختبار وتثبيت الحفظ",
+    tour_step_9_text: "محرك اختبارات تفاعلي لا نهائي للآيات بالرسم العثماني؛ يدعم اختبارات الآية التالية وتحديد السورة مع حصر الاختبار بدقة في الصفحة أو الجزء المختار أو الصفحات المحفوظة، وميزة حجب الخيارات للتسميع غيباً أولاً.",
+    tour_step_10_title: "دفتر التثبيت والنسخ الاحتياطي وتصفير السجل",
+    tour_step_10_text: "سجل أخطائك في تمكين يُحفظ تلقائياً في «دفتر التثبيت» للتركيز عليه. كما يمكنك حفظ نسخة احتياطية (JSON) واستعادتها في أي وقت، أو تصفير السجل بالكامل للبدء من جديد كأول استخدام."
   },
 
   en: {
@@ -823,10 +878,65 @@ const I18N_DICTIONARY = {
     about_contact_title: "Contact, Feedback & Suggestions",
     about_contact_badge: "Direct Contact",
     about_contact_desc: "We welcome your suggestions and feedback to enhance the app and serve the Book of Allah via email:",
-    about_email_label: "Email: <bdi dir=\"ltr\">irtaqiquran@gmail.com</bdi>",
+    about_email_label: "Email: <bdi dir=\"ltr\">quran@asmpolimi.com</bdi>",
     about_hadith_footer: "«The best among you are those who learn the Quran and teach it»",
     about_dua_footer: "We ask Allah Almighty to make this work sincerely for His sake and beneficial for the memorizers of His Book",
-    about_dismiss_btn: "Got it, thanks!"
+    about_dismiss_btn: "Got it, thanks!",
+
+    // Achievement Card & Modal
+    achievement_modal_title: "Memorization & Revision Achievement Card",
+    student_name_label: "Hafiz Name:",
+    student_name_placeholder: "Write your name here to appear on the certificate...",
+    card_basmalah: "In the name of Allah, the Most Gracious, the Most Merciful",
+    card_certificate_title: "Holy Qur'an Memorization Achievement Certificate",
+    card_awarded_to: "Awarded to: ",
+    card_blessing: "May Allah grant you success in serving His Book and acting upon it",
+    card_ratio_label: "Completion Ratio of the Holy Qur'an",
+    card_progress_label: "{current} of {total} pages",
+    card_remaining_pages: "{count} pages remaining",
+    pages_remaining_notice: "{count} pages remaining",
+    khatm_completed_badge: "Completed by the Grace of Allah 🎉",
+    khatm_congrats: "Masha'Allah! Blessed be the Most Merciful, you completed the entire Qur'an 🎉",
+    card_stat_ayahs: "Verses",
+    card_stat_pages: "Pages",
+    card_stat_surahs: "Surahs",
+    card_stat_juz: "Juz'",
+    card_hadith_footer: "«The best among you are those who learn the Qur'an and teach it»",
+    save_card_image_btn: "Save as Image to Gallery",
+    generating_image_btn: "Generating image...",
+    export_file_prefix: "quran_achievement",
+    image_download_success: "Image downloaded successfully to your device!",
+    image_generate_error: "Could not generate image, please try again.",
+
+    // Hero hadith quote
+    hadith_banner_quote: "\"It will be said to the companion of the Qur'an: 'Recite and ascend, and recite slowly and distinctly as you used to recite in the world, for your status will be at the last verse you recite.'\"",
+
+    // Mistakes notebook guidance
+    mistakes_guidance_banner: "Review the verse thoroughly, then click <b>\"Retest\"</b> to verify memorization, or <b>\"Mastered ✓\"</b> once perfected.",
+
+    // Tour guide
+    step: "Step",
+    skip_tour_btn: "Skip Tour ✕",
+    tour_step_1_title: "Top Header & Quick Navigation Tools",
+    tour_step_1_text: "The header gives you instant access to Tamkeen quizzes, app install, achievement card export, mistakes notebook, app guide, theme toggle, and language switch (Arabic/EN/IT). Click the header title anytime to scroll to the top.",
+    tour_step_2_title: "Memorization Dashboard & Completion Path",
+    tour_step_2_text: "Track your total Holy Qur'an memorization progress (604 pages) with live percentages, remaining path progress bar toward completion, and stats on completed Surahs, Ajza, and memorized verses.",
+    tour_step_3_title: "Consistency Streak & Recovery Days Credit",
+    tour_step_3_text: "Track your daily streak and advance through 8 prophetic milestones up to «👑 Crown of Dignity». The recovery system protects your streak from breaking with recovery credits (automatic or manual) earned through continuous weekly commitment.",
+    tour_step_4_title: "Smart Daily Ward for Review & Memorization",
+    tour_step_4_text: "A smart card suggesting Surahs and pages due for daily review using Spaced Repetition algorithms to prevent forgetting, allowing you to log review completion with a single click.",
+    tour_step_5_title: "Display Modes, Instant Search & Filters",
+    tour_step_5_text: "Switch seamlessly between Surahs view (114), Pages grid (604), Ajza (30), and Tamkeen engine without side scrolling, featuring instant search by name, number, or page, and memorization filters.",
+    tour_step_6_title: "Log Memorization & Schedule Reviews (SRS)",
+    tour_step_6_text: "Click on any Surah to mark memorization, and rate your review quality with three levels: (🟢 Excellent 28d | 🟡 Good 14d | 🔴 Needs Retention 4d) so the system accurately schedules future reviews.",
+    tour_step_7_title: "Pages Grid, Filters & Range Selection",
+    tour_step_7_text: "Explore all 604 Qur'an pages, toggle memorization freely with a single tap, use quick filter buttons (All, Memorized, Unmemorized), or the Range tool, with instant quiz testing per page (🧠).",
+    tour_step_8_title: "Mushaf Preview & Audio Recitations",
+    tour_step_8_text: "Tap the eye icon (👁️) on any page to view high-resolution Medina Mushaf pages, complete with audio player for 9 reciters (Sheikh Al-Husary by default), verse tracking, and smooth swipe or arrow page navigation.",
+    tour_step_9_title: "«Tamkeen» System for Quizzes & Mastery",
+    tour_step_9_text: "An endless interactive testing engine with Uthmani script verses; supports Next Verse and Identify Surah modes, scoped precisely to selected pages, Juz, or memorized pages, with hidden options to recite from memory first.",
+    tour_step_10_title: "Mistakes Notebook, Backup & Data Reset",
+    tour_step_10_text: "Your quiz mistakes in Tamkeen are automatically saved in the Mistakes Notebook for focused practice. You can also export/import a JSON backup anytime, or reset all data to start fresh."
   },
 
   it: {
@@ -1234,10 +1344,65 @@ const I18N_DICTIONARY = {
     about_contact_title: "Contatti, Feedback e Suggerimenti",
     about_contact_badge: "Contatto Diretto",
     about_contact_desc: "Siamo felici di ricevere le vostre opinioni e suggerimenti per migliorare l'app e servire il Libro di Allah via email:",
-    about_email_label: "Email: <bdi dir=\"ltr\">irtaqiquran@gmail.com</bdi>",
+    about_email_label: "Email: <bdi dir=\"ltr\">quran@asmpolimi.com</bdi>",
     about_hadith_footer: "«Il migliore tra voi è colui che impara il Corano e lo insegna»",
     about_dua_footer: "Chiediamo ad Allah l'Onnipotente di rendere questa opera sincera per la Sua Causa e utile a chi memorizza il Suo Libro",
-    about_dismiss_btn: "Ho capito, grazie!"
+    about_dismiss_btn: "Ho capito, grazie!",
+
+    // Achievement Card & Modal
+    achievement_modal_title: "Scheda di Traguardo Memorizzazione e Ripasso",
+    student_name_label: "Nome dell'Hafiz:",
+    student_name_placeholder: "Scrivi il tuo nome qui per vederlo sul certificato...",
+    card_basmalah: "Nel nome di Allah, il Clementissimo, il Misericordioso",
+    card_certificate_title: "Certificato di Traguardo di Memorizzazione del Sacro Corano",
+    card_awarded_to: "Conferito a: ",
+    card_blessing: "Che Allah ti conceda successo nel servire il Suo Libro e agire in base ad esso",
+    card_ratio_label: "Percentuale Completata del Sacro Corano",
+    card_progress_label: "{current} di {total} pagine",
+    card_remaining_pages: "{count} pagine rimanenti",
+    pages_remaining_notice: "{count} pagine rimanenti",
+    khatm_completed_badge: "Completato per Grazia di Allah 🎉",
+    khatm_congrats: "Masha'Allah! Benedetto sia il Misericordioso, hai completato l'intero Corano 🎉",
+    card_stat_ayahs: "Versetti",
+    card_stat_pages: "Pagine",
+    card_stat_surahs: "Sure",
+    card_stat_juz: "Juz'",
+    card_hadith_footer: "«Il migliore tra voi è colui che impara il Corano e lo insegna»",
+    save_card_image_btn: "Salva come Immagine nella Galleria",
+    generating_image_btn: "Generazione immagine in corso...",
+    export_file_prefix: "traguardo_corano",
+    image_download_success: "Immagine scaricata con successo sul tuo dispositivo!",
+    image_generate_error: "Impossibile generare l'immagine, riprova.",
+
+    // Hero hadith quote
+    hadith_banner_quote: "\"Sarà detto al compagno del Corano: 'Leggi e ascendi, e recita con cura come recitavi nel mondo terreno, poiché il tuo rango sarà presso l'ultimo versetto che reciterai.'\"",
+
+    // Mistakes notebook guidance
+    mistakes_guidance_banner: "Rileggi attentamente il versetto, poi premi <b>«Ripeti Test»</b> per verificare la memorizzazione, o <b>«Consolidato ✓»</b> dopo averlo padroneggiato.",
+
+    // Tour guide
+    step: "Passaggio",
+    skip_tour_btn: "Salta Tour ✕",
+    tour_step_1_title: "Barra Superiore e Strumenti Rapidi",
+    tour_step_1_text: "La barra superiore ti offre accesso immediato ai quiz Tamkeen, installazione dell'app, esportazione del traguardo, quaderno errori, guida dell'app, tema e selezione lingua (Arabo/EN/IT). Clicca sul titolo in qualsiasi momento per risalire.",
+    tour_step_2_title: "Cruscotto di Memorizzazione e Percorso di Completamento",
+    tour_step_2_text: "Monitora qui i tuoi progressi totali di memorizzazione del Sacro Corano (604 pagine) in percentuale live, con barra di avanzamento verso il completamento e statistiche di Sure, Juz e versetti appresi.",
+    tour_step_3_title: "Serie di Costanza e Credito Giorni di Recupero",
+    tour_step_3_text: "Segui la tua costanza quotidiana e avanza attraverso 8 traguardi profetici fino alla «👑 Corona della Dignità». Il sistema di recupero protegge la tua serie dalle interruzioni con crediti (automatici o manuali).",
+    tour_step_4_title: "Ward Giornaliero Intelligente per Ripasso e Memorizzazione",
+    tour_step_4_text: "Una scheda intelligente che propone quotidianamente le Sure e le pagine da ripassare tramite algoritmi di ripetizione spaziata, registrando il ripasso con un solo tocco.",
+    tour_step_5_title: "Modalità di Visualizzazione, Ricerca Istantanea e Filtri",
+    tour_step_5_text: "Passa con fluidità tra la vista Sure (114), griglia Pagine (604), Juz (30) e motore Tamkeen senza scorrimento laterale, con ricerca istantanea per nome, numero o pagina e filtri di memorizzazione.",
+    tour_step_6_title: "Registrazione Memorizzazione e Pianificazione Ripasso (SRS)",
+    tour_step_6_text: "Tocca qualsiasi Sura per contrassegnare la memorizzazione e valuta il ripasso con tre livelli: (🟢 Eccellente 28g | 🟡 Medio 14g | 🔴 Da Rafforzare 4g) affinché il sistema pianifichi con precisione.",
+    tour_step_7_title: "Griglia Pagine, Filtri e Selezione Intervallo",
+    tour_step_7_text: "Esplora tutte le 604 pagine del Corano, seleziona la memorizzazione liberamente con un tocco, usa i filtri rapidi (Tutti, Memorizzati, Non Memorizzati) o l'intervallo con test immediato per pagina (🧠).",
+    tour_step_8_title: "Anteprima Mushaf e Recitazione Audio",
+    tour_step_8_text: "Tocca l'icona dell'occhio (👁️) su qualsiasi pagina per visualizzare il Mushaf di Medina ad alta risoluzione, con lettore audio per 9 recitatori (Sheikh Al-Husary predefinito) e sfogliamento con swipe o frecce.",
+    tour_step_9_title: "Sistema «Tamkeen» per Test e Consolidamento",
+    tour_step_9_text: "Un motore di test interattivo infinito con versetti in grafia Uthmani; supporta Versetto Successivo e Identifica Sura, mirati a pagina, Juz o pagine memorizzate, con opzioni nascoste per recitare a memoria prima.",
+    tour_step_10_title: "Quaderno Errori, Backup e Azzeramento Dati",
+    tour_step_10_text: "I tuoi errori nei quiz Tamkeen vengono salvati automaticamente nel Quaderno degli Errori per una revisione mirata. Puoi anche esportare/importare un backup JSON o azzerare tutti i dati per ricominciare."
   }
 };
 
@@ -1253,19 +1418,26 @@ function getAppLanguage() {
 }
 
 /**
- * Get translated string by key with optional fallback
+ * Get translated string by key with optional fallback and parameter interpolation
  */
-function t(key, fallback = '') {
+function t(key, fallback = '', params = null) {
+  let paramObj = params;
+  let fallbackStr = fallback;
+  if (typeof fallback === 'object' && fallback !== null) {
+    paramObj = fallback;
+    fallbackStr = key;
+  }
   const lang = getAppLanguage();
   const dict = I18N_DICTIONARY[lang] || I18N_DICTIONARY['ar'];
-  if (dict && dict[key] !== undefined) {
-    return dict[key];
+  let str = (dict && dict[key] !== undefined)
+    ? dict[key]
+    : (I18N_DICTIONARY['ar'] && I18N_DICTIONARY['ar'][key] !== undefined ? I18N_DICTIONARY['ar'][key] : (fallbackStr || key));
+  if (paramObj && typeof paramObj === 'object') {
+    for (const [k, v] of Object.entries(paramObj)) {
+      str = str.replace(new RegExp(`\\{${k}\\}`, 'g'), v);
+    }
   }
-  const arDict = I18N_DICTIONARY['ar'];
-  if (arDict && arDict[key] !== undefined) {
-    return arDict[key];
-  }
-  return fallback || key;
+  return str;
 }
 
 /**
@@ -1350,10 +1522,15 @@ function applyLanguageToUI() {
 
   // 8. Re-render dynamic elements if app controller is loaded
   try {
+    if (typeof updateMetrics === 'function') updateMetrics();
+    if (typeof updateCardDate === 'function') updateCardDate();
     if (typeof renderAll === 'function') renderAll();
     if (typeof updatePagesFilterUI === 'function') updatePagesFilterUI();
     if (typeof renderTamkeenQuiz === 'function') renderTamkeenQuiz();
     if (typeof renderMistakesNotebook === 'function') renderMistakesNotebook();
+    if (typeof coachMarksActive !== 'undefined' && coachMarksActive && typeof renderCoachStep === 'function') {
+      renderCoachStep();
+    }
   } catch (err) {
     console.warn("Language re-render notice:", err);
   }

@@ -527,10 +527,14 @@ function updateCardDate() {
   const el = document.getElementById('cardDateDisplay');
   if (!el) return;
   const now = new Date();
-  const greg = now.toLocaleDateString('ar-EG-u-nu-latn', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+  const lang = (typeof getAppLanguage === 'function') ? getAppLanguage() : 'ar';
+  const localeMap = { ar: 'ar-EG-u-nu-latn', en: 'en-US', it: 'it-IT' };
+  const loc = localeMap[lang] || 'ar-EG-u-nu-latn';
+  const greg = now.toLocaleDateString(loc, { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
   let text = greg;
   try {
-    const hij = now.toLocaleDateString('ar-SA-u-ca-islamic-umalqura-nu-latn', { day: 'numeric', month: 'long', year: 'numeric' });
+    const hijLoc = lang === 'ar' ? 'ar-SA-u-ca-islamic-umalqura-nu-latn' : `${loc}-u-ca-islamic-umalqura`;
+    const hij = now.toLocaleDateString(hijLoc, { day: 'numeric', month: 'long', year: 'numeric' });
     if (hij) text += ' • ' + hij;
   } catch (e) { }
   el.textContent = text;
@@ -602,12 +606,15 @@ function updateMetrics() {
   if (elAyahsMem) elAyahsMem.textContent = formatStdNum(totalAyahs);
 
   const pagesLeft = 604 - memorizedPagesCount;
+  const numPagesLeft = (typeof formatStdNum === 'function') ? formatStdNum(pagesLeft) : pagesLeft;
   const elRemNotice = document.getElementById('statRemainingNotice');
   if (elRemNotice) {
     if (pagesLeft === 0) {
-      elRemNotice.textContent = "ما شاء الله! تبارك الرحمن أتممت حفظ القرآن كاملاً 🎉";
+      elRemNotice.textContent = (typeof t === 'function') ? t('khatm_congrats') : "ما شاء الله! تبارك الرحمن أتممت حفظ القرآن كاملاً 🎉";
     } else {
-      elRemNotice.textContent = `باقي ${formatStdNum(pagesLeft)} صفحة`;
+      elRemNotice.textContent = (typeof t === 'function')
+        ? t('pages_remaining_notice', { count: numPagesLeft })
+        : `باقي ${numPagesLeft} صفحة`;
     }
   }
 
@@ -616,10 +623,21 @@ function updateMetrics() {
   const cardProgressBar = document.getElementById('cardProgressBar');
   if (cardProgressBar) cardProgressBar.style.width = `${pagePercent}%`;
   const cardProgressLabel = document.getElementById('cardProgressLabel');
-  if (cardProgressLabel) cardProgressLabel.textContent = `${formatStdNum(memorizedPagesCount)} من 604 صفحة`;
+  if (cardProgressLabel) {
+    const numCurr = (typeof formatStdNum === 'function') ? formatStdNum(memorizedPagesCount) : memorizedPagesCount;
+    cardProgressLabel.textContent = (typeof t === 'function')
+      ? t('card_progress_label', { current: numCurr, total: 604 })
+      : `${numCurr} من 604 صفحة`;
+  }
   const cardRemainingNotice = document.getElementById('cardRemainingNotice');
   if (cardRemainingNotice) {
-    cardRemainingNotice.textContent = pagesLeft === 0 ? "تم الختم بحمد الله 🎉" : `باقي ${formatStdNum(pagesLeft)} صفحة`;
+    if (pagesLeft === 0) {
+      cardRemainingNotice.textContent = (typeof t === 'function') ? t('khatm_completed_badge') : "تم الختم بحمد الله 🎉";
+    } else {
+      cardRemainingNotice.textContent = (typeof t === 'function')
+        ? t('card_remaining_pages', { count: numPagesLeft })
+        : `باقي ${numPagesLeft} صفحة`;
+    }
   }
   const elCardAyahs = document.getElementById('cardAyahsDisplay');
   if (elCardAyahs) elCardAyahs.textContent = formatStdNum(totalAyahs);
@@ -905,4 +923,10 @@ function getStreakMotivator(streak) {
     progressToNext,
     daysRemaining
   };
+}
+
+if (typeof window !== 'undefined') {
+  window.updateMetrics = updateMetrics;
+  window.updateCardDate = updateCardDate;
+  window.updateStudentNameDisplay = updateStudentNameDisplay;
 }

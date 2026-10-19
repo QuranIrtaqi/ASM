@@ -207,5 +207,5 @@ QrnTrc/
 ## 📬 للتواصل والمقترحات
 
 نسعد بتلقي استفساراتكم واقتراحاتكم لتطوير التطبيق:
-* ✉️ **البريد الإلكتروني:** [irtaqiquran@gmail.com](mailto:irtaqiquran@gmail.com)
+* ✉️ **البريد الإلكتروني:** [quran@asmpolimi.com](mailto:quran@asmpolimi.com)
 

@@ -1,4 +1,4 @@
-const CACHE_NAME = 'irtaqi-cache-v39';
+const CACHE_NAME = 'irtaqi-cache-v40';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
@@ -46,10 +46,28 @@ self.addEventListener('fetch', (event) => {
 
   event.respondWith((async () => {
     const cache = await caches.open(CACHE_NAME);
-    const cached = await cache.match(req);
 
-    // Stale-while-revalidate: answer from cache instantly, refresh in the background.
-    // Cross-origin fonts/scripts (opaque or CORS) are cached too, so they work offline.
+    // Network-first for local origin assets so code updates take effect immediately
+    if (url.origin === self.location.origin) {
+      try {
+        const netRes = await fetch(req);
+        if (netRes && netRes.ok) {
+          cache.put(req, netRes.clone());
+        }
+        return netRes;
+      } catch (err) {
+        const cached = await cache.match(req);
+        if (cached) return cached;
+        if (req.destination === 'document') {
+          const fallback = await cache.match('./index.html');
+          if (fallback) return fallback;
+        }
+        return Response.error();
+      }
+    }
+
+    // Stale-while-revalidate for external resources (fonts, CDNs)
+    const cached = await cache.match(req);
     const network = fetch(req).then((res) => {
       if (res && (res.ok || res.type === 'opaque')) cache.put(req, res.clone());
       return res;
@@ -62,11 +80,6 @@ self.addEventListener('fetch', (event) => {
 
     const res = await network;
     if (res) return res;
-
-    if (req.destination === 'document') {
-      const fallback = await cache.match('./index.html');
-      if (fallback) return fallback;
-    }
     return Response.error();
   })());
 });
