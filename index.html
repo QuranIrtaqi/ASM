@@ -695,34 +695,34 @@
             <!-- Dynamic Range Selectors Sub-bars -->
             <div id="tamkeenSurahRangeInputs"
               class="hidden flex items-center gap-2 flex-wrap bg-emerald-950/60 p-2 rounded-xl border border-emerald-700/60 text-xs text-emerald-100">
-              <span class="font-bold text-gold-300">نطاق السور:</span>
-              <label class="text-[11px] opacity-80">من:</label>
+              <span data-i18n="tamkeen_surah_range_title" class="font-bold text-gold-300">نطاق السور:</span>
+              <label data-i18n="tamkeen_from_label" class="text-[11px] opacity-80">من:</label>
               <select id="tamkeenSurahStart" onchange="applyTamkeenRangeChange()"
                 class="py-0.5 px-2 rounded-lg bg-emerald-900 border border-emerald-700 text-white text-xs cursor-pointer"></select>
-              <label class="text-[11px] opacity-80">إلى:</label>
+              <label data-i18n="tamkeen_to_label" class="text-[11px] opacity-80">إلى:</label>
               <select id="tamkeenSurahEnd" onchange="applyTamkeenRangeChange()"
                 class="py-0.5 px-2 rounded-lg bg-emerald-900 border border-emerald-700 text-white text-xs cursor-pointer"></select>
             </div>
 
             <div id="tamkeenPageRangeInputs"
               class="hidden flex items-center gap-2 flex-wrap bg-emerald-950/60 p-2 rounded-xl border border-emerald-700/60 text-xs text-emerald-100">
-              <span class="font-bold text-gold-300">نطاق الصفحات:</span>
-              <label class="text-[11px] opacity-80">من صفحة:</label>
+              <span data-i18n="tamkeen_page_range_title" class="font-bold text-gold-300">نطاق الصفحات:</span>
+              <label data-i18n="tamkeen_from_page_label" class="text-[11px] opacity-80">من صفحة:</label>
               <input id="tamkeenPageStart" type="number" min="1" max="604" value="1"
                 onchange="applyTamkeenRangeChange()"
                 class="w-16 py-0.5 px-2 rounded-lg bg-emerald-900 border border-emerald-700 text-white text-xs text-center font-bold font-sans">
-              <label class="text-[11px] opacity-80">إلى صفحة:</label>
+              <label data-i18n="tamkeen_to_page_label" class="text-[11px] opacity-80">إلى صفحة:</label>
               <input id="tamkeenPageEnd" type="number" min="1" max="604" value="20" onchange="applyTamkeenRangeChange()"
                 class="w-16 py-0.5 px-2 rounded-lg bg-emerald-900 border border-emerald-700 text-white text-xs text-center font-bold font-sans">
             </div>
 
             <div id="tamkeenJuzRangeInputs"
               class="hidden flex items-center gap-2 flex-wrap bg-emerald-950/60 p-2 rounded-xl border border-emerald-700/60 text-xs text-emerald-100">
-              <span class="font-bold text-gold-300">نطاق الأجزاء:</span>
-              <label class="text-[11px] opacity-80">من جزء:</label>
+              <span data-i18n="tamkeen_juz_range_title" class="font-bold text-gold-300">نطاق الأجزاء:</span>
+              <label data-i18n="tamkeen_from_juz_label" class="text-[11px] opacity-80">من جزء:</label>
               <select id="tamkeenJuzStart" onchange="applyTamkeenRangeChange()"
                 class="py-0.5 px-2 rounded-lg bg-emerald-900 border border-emerald-700 text-white text-xs cursor-pointer"></select>
-              <label class="text-[11px] opacity-80">إلى جزء:</label>
+              <label data-i18n="tamkeen_to_juz_label" class="text-[11px] opacity-80">إلى جزء:</label>
               <select id="tamkeenJuzEnd" onchange="applyTamkeenRangeChange()"
                 class="py-0.5 px-2 rounded-lg bg-emerald-900 border border-emerald-700 text-white text-xs cursor-pointer"></select>
             </div>
@@ -976,12 +976,12 @@
           </div>
           <div>
             <h3 class="font-black text-slate-900 dark:text-white text-base sm:text-lg flex items-center gap-2">
-              عن تطبيق «إرتَقِ»
-              <span
+              <span data-i18n="about_app_heading">عن تطبيق «إرتَقِ»</span>
+              <span data-i18n="about_app_badge"
                 class="text-[10px] px-2 py-0.5 rounded-full bg-gold-100 dark:bg-gold-950 text-gold-800 dark:text-gold-300 border border-gold-300 dark:border-gold-700 font-bold">إرتَقِ
                 بالقرآن</span>
             </h3>
-            <p class="text-xs text-slate-500 dark:text-slate-400">دليلك الكامل للاستفادة القصوى من ميزات التطبيق</p>
+            <p data-i18n="about_app_subtitle" class="text-xs text-slate-500 dark:text-slate-400">دليلك الكامل للاستفادة القصوى من ميزات التطبيق</p>
           </div>
         </div>
         <button id="btnCloseAboutModal"
@@ -999,9 +999,9 @@
           class="p-3.5 rounded-2xl bg-emerald-50/80 dark:bg-emerald-950/40 border border-emerald-200/80 dark:border-emerald-800/60 flex items-start gap-3">
           <span class="text-2xl shrink-0">✨</span>
           <div class="space-y-1">
-            <h4 class="font-bold text-emerald-900 dark:text-emerald-200 text-xs sm:text-sm">مرحباً بك في تطبيق إرتَقِ
+            <h4 data-i18n="about_welcome_title" class="font-bold text-emerald-900 dark:text-emerald-200 text-xs sm:text-sm">مرحباً بك في تطبيق إرتَقِ
             </h4>
-            <p class="text-[11px] sm:text-xs text-emerald-800/90 dark:text-emerald-300/90">
+            <p data-i18n="about_welcome_p" class="text-[11px] sm:text-xs text-emerald-800/90 dark:text-emerald-300/90">
               صُمم تطبيق «إرتَقِ بالقرآن» ليكون رفيقك المخلص لحفظ ومراجعة القرآن الكريم كاملاً (604 صفحة) بأسلوب عصري،
               تفاعلي، ومحفز للهمة.
             </p>
@@ -1018,12 +1018,12 @@
             </div>
             <div>
               <h4 class="font-black text-xs sm:text-sm text-white flex items-center gap-1.5">
-                <span>الجولة التفاعلية المصورة لواجهة التطبيق</span>
-                <span
+                <span data-i18n="about_tour_title">الجولة التفاعلية المصورة لواجهة التطبيق</span>
+                <span data-i18n="about_tour_badge"
                   class="text-[10px] px-2 py-0.5 rounded-full bg-gold-400/20 text-gold-300 border border-gold-400/30 font-bold">دليل
                   شامل</span>
               </h4>
-              <p class="text-[11px] sm:text-xs text-emerald-100/90 mt-0.5">
+              <p data-i18n="about_tour_desc" class="text-[11px] sm:text-xs text-emerald-100/90 mt-0.5">
                 شرح توضيحي تفاعلي من 10 خطوات يغطي كافة وظائف وأدوات التطبيق ومحرك الاختبار خطوة بخطوة.
               </p>
             </div>
@@ -1031,7 +1031,7 @@
           <button id="btnLaunchTutorialFromAbout"
             class="px-3.5 py-2 rounded-xl bg-gradient-to-r from-gold-400 to-amber-400 hover:from-gold-500 hover:to-amber-500 text-slate-950 font-bold text-xs shadow-sm transition active:scale-95 flex items-center justify-center gap-1.5 shrink-0">
             <i data-lucide="sparkle" class="w-3.5 h-3.5 text-slate-950 shrink-0"></i>
-            <span>ابدأ الجولة الآن</span>
+            <span data-i18n="about_tour_btn">ابدأ الجولة الآن</span>
           </button>
         </div>
 
@@ -1044,9 +1044,9 @@
                 class="w-7 h-7 rounded-xl bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 flex items-center justify-center">
                 <i data-lucide="sparkles" class="w-4 h-4"></i>
               </span>
-              أحدث التحديثات والتحسينات (تحديث المنظومة):
+              <span data-i18n="about_updates_title">أحدث التحديثات والتحسينات (تحديث المنظومة):</span>
             </span>
-            <span
+            <span data-i18n="about_updates_badge"
               class="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-800 dark:text-emerald-300 font-bold border border-emerald-500/30">
               إصدار محسّن ✨
             </span>
@@ -1056,69 +1056,53 @@
             <!-- Bug Fix 1: Pages Selection & Filtering -->
             <div
               class="p-2.5 rounded-xl bg-white/80 dark:bg-slate-900/70 border border-slate-200/80 dark:border-slate-800 space-y-1">
-              <strong class="text-emerald-800 dark:text-emerald-300 font-bold flex items-center gap-1.5">
+              <strong data-i18n="about_feat_1_title" class="text-emerald-800 dark:text-emerald-300 font-bold flex items-center gap-1.5">
                 <i data-lucide="check-circle" class="w-3.5 h-3.5 text-emerald-600"></i>
                 ١. تصفية وتحديد الصفحات المحفوظة وغير المحفوظة بسلاسة (إصلاح وتطوير):
               </strong>
-              <p class="text-slate-600 dark:text-slate-400">
+              <p data-i18n="about_feat_1_p1" class="text-slate-600 dark:text-slate-400">
                 • <strong>حل مشكلة التحديد والتصفية:</strong> تم إلغاء قيود النقر السابقة نهائياً؛ يمكنك الآن النقر
                 بحرية على أي صفحة في الشبكة لتبديل حالة حفظها فوراً دون أي تجميد.
               </p>
-              <p class="text-slate-600 dark:text-slate-400">
-                • <strong>أزرار تصفية تفاعلية سريعة:</strong> إضافة أزرار بأعلى شبكة الصفحات مع عدادات فورية: <code
-                  class="px-1 py-0.5 rounded bg-slate-100 dark:bg-slate-800 font-bold text-slate-800 dark:text-slate-200">الكل (604)</code>
-                و<code
-                  class="px-1 py-0.5 rounded bg-emerald-100 dark:bg-emerald-950 font-bold text-emerald-800 dark:text-emerald-300">المحفوظ</code>
-                و<code
-                  class="px-1 py-0.5 rounded bg-slate-100 dark:bg-slate-800 font-bold text-slate-700 dark:text-slate-300">غير المحفوظ</code>،
-                مع إخفاء الأجزاء الفارغة تلقائياً عند التصفية لسهولة التصفح.
+              <p data-i18n="about_feat_1_p2" class="text-slate-600 dark:text-slate-400">
+                • <strong>أزرار تصفية تفاعلية سريعة:</strong> إضافة أزرار بأعلى شبكة الصفحات مع عدادات فورية: الكل (604) والمحفوظ وغير المحفوظ، مع إخفاء الأجزاء الفارغة تلقائياً عند التصفية لسهولة التصفح.
               </p>
             </div>
 
             <!-- Bug Fix 2: Tamkeen Strict Page & Juz Scoping -->
             <div
               class="p-2.5 rounded-xl bg-white/80 dark:bg-slate-900/70 border border-slate-200/80 dark:border-slate-800 space-y-1">
-              <strong class="text-amber-800 dark:text-amber-300 font-bold flex items-center gap-1.5">
+              <strong data-i18n="about_feat_2_title" class="text-amber-800 dark:text-amber-300 font-bold flex items-center gap-1.5">
                 <i data-lucide="check-circle" class="w-3.5 h-3.5 text-amber-600"></i>
                 ٢. تمكين: اختبار دقيق ومحصور في الصفحة أو الجزء المختار حصراً (إصلاح وتطوير):
               </strong>
-              <p class="text-slate-600 dark:text-slate-400">
+              <p data-i18n="about_feat_2_p1" class="text-slate-600 dark:text-slate-400">
                 • <strong>حصر نطاق الأسئلة بدقة:</strong> تم حل مشكلة شمول الاختبار لكامل السورة عند اختيار صفحة معينة
-                أو جزء معين؛ أصبحت الآيات تُولد <strong>فقط وحصرياً من الآيات التابعة للصفحة أو الجزء المحدد</strong>
-                بالرقم والحدود الدقيقة.
+                أو جزء معين؛ أصبحت الآيات تُولد فقط وحصرياً من الآيات التابعة للصفحة أو الجزء المحدد بالرقم والحدود الدقيقة.
               </p>
-              <p class="text-slate-600 dark:text-slate-400">
-                • <strong>نطاق الصفحات المحفوظة:</strong> خيار جديد في تمكين: <code
-                  class="px-1 py-0.5 rounded bg-amber-100 dark:bg-amber-950 font-bold text-amber-800 dark:text-amber-300">الصفحات التي حفظتها فقط</code>
-                لاختبار صفحاتك المحفوظة دون الحاجة لختم السورة كاملة.
+              <p data-i18n="about_feat_2_p2" class="text-slate-600 dark:text-slate-400">
+                • <strong>نطاق الصفحات المحفوظة:</strong> خيار جديد في تمكين: «الصفحات التي حفظتها فقط» لاختبار صفحاتك المحفوظة دون الحاجة لختم السورة كاملة.
               </p>
-              <p class="text-slate-600 dark:text-slate-400">
-                • <strong>أزرار الاختبار الفوري (اختبرني 🧠):</strong> إضافة أزرار مباشرة للاختبار في زاوية كل صفحة،
-                وداخل نافذة معاينة المصحف، وفي بطاقات الأجزاء، وأداة نطاق الصفحات للانتقال السريع لاختبار الصفحة أو
-                الجزء بضغطة واحدة.
+              <p data-i18n="about_feat_2_p3" class="text-slate-600 dark:text-slate-400">
+                • <strong>أزرار الاختبار الفوري (اختبرني 🧠):</strong> إضافة أزرار مباشرة للاختبار في زاوية كل صفحة، وداخل نافذة معاينة المصحف، وفي بطاقات الأجزاء، وأداة نطاق الصفحات للانتقال السريع لاختبار الصفحة أو الجزء بضغطة واحدة.
               </p>
             </div>
 
             <!-- Bug Fix 3: Protection against Accidental Surah Completion & Smart Page Preservation -->
             <div
               class="p-2.5 rounded-xl bg-white/80 dark:bg-slate-900/70 border border-slate-200/80 dark:border-slate-800 space-y-1">
-              <strong class="text-teal-800 dark:text-teal-300 font-bold flex items-center gap-1.5">
+              <strong data-i18n="about_feat_3_title" class="text-teal-800 dark:text-teal-300 font-bold flex items-center gap-1.5">
                 <i data-lucide="shield-check" class="w-3.5 h-3.5 text-teal-600"></i>
                 ٣. حماية الحفظ ومنع التحديد العرضي للسور واستعادة الصفحات تلقائياً:
               </strong>
-              <p class="text-slate-600 dark:text-slate-400">
-                • <strong>فصل زر الإتمام عن تصفح السورة:</strong> أصبح النقر على بطاقة السورة يفتح تصفحها في المصحف
-                بأمان تام دون تغيير حالتها، بينما تم تخصيص زر التحقق (✓) المستقل حصراً لإتمام السورة لتفادي أي ضغطة غير
-                مقصودة أثناء التمرير.
+              <p data-i18n="about_feat_3_p1" class="text-slate-600 dark:text-slate-400">
+                • <strong>فصل زر الإتمام عن تصفح السورة:</strong> أصبح النقر على بطاقة السورة يفتح تصفحها في المصحف بأمان تام دون تغيير حالتها، بينما تم تخصيص زر التحقق (✓) المستقل حصراً لإتمام السورة لتفادي أي ضغطة غير مقصودة أثناء التمرير.
               </p>
-              <p class="text-slate-600 dark:text-slate-400">
-                • <strong>الحفاظ الذكي على الصفحات المحفوظة سابقاً:</strong> عند إلغاء إتمام سورة، يسترجع التطبيق
-                تلقائياً صفحاتك وآياتك التي كنت قد حفظتها مسبقاً بدقة متناهية دون أن تفقد أي صفحة كنت قد حددتها قبل
-                إتمام السورة.
+              <p data-i18n="about_feat_3_p2" class="text-slate-600 dark:text-slate-400">
+                • <strong>الحفاظ الذكي على الصفحات المحفوظة سابقاً:</strong> عند إلغاء إتمام سورة، يسترجع التطبيق تلقائياً صفحاتك وآياتك التي كنت قد حفظتها مسبقاً بدقة متناهية دون أن تفقد أي صفحة كنت قد حددتها قبل إتمام السورة.
               </p>
-              <p class="text-slate-600 dark:text-slate-400">
-                • <strong>خاصية التراجع الفوري (تراجع ↩️):</strong> ظهور زر تراجع مباشر عند إتمام أي سورة للرجوع السريع
-                بضغطة واحدة في حال الضغط بالخطأ.
+              <p data-i18n="about_feat_3_p3" class="text-slate-600 dark:text-slate-400">
+                • <strong>خاصية التراجع الفوري (تراجع ↩️):</strong> ظهور زر تراجع مباشر عند إتمام أي سورة للرجوع السريع بضغطة واحدة في حال الضغط بالخطأ.
               </p>
             </div>
           </div>
@@ -1128,7 +1112,7 @@
         <div class="space-y-3">
           <h4 class="font-black text-slate-900 dark:text-white text-xs sm:text-sm flex items-center gap-1.5">
             <i data-lucide="compass" class="w-4 h-4 text-emerald-600"></i>
-            أبرز مميزات التطبيق وكيف تستفيد منها:
+            <span data-i18n="about_core_features_title">أبرز مميزات التطبيق وكيف تستفيد منها:</span>
           </h4>
 
           <!-- Highlight Card: Tamkeen Testing Engine -->
@@ -1140,14 +1124,14 @@
                   class="w-7 h-7 rounded-xl bg-amber-500/20 text-amber-600 dark:text-amber-400 flex items-center justify-center">
                   <i data-lucide="brain" class="w-4 h-4"></i>
                 </span>
-                منظومة «تَمْكِين» لاختبار وتثبيت الحفظ (جديد)
+                <span data-i18n="about_tamkeen_highlight_title">منظومة «تَمْكِين» لاختبار وتثبيت الحفظ (جديد)</span>
               </span>
               <span
                 class="text-[10px] px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-700 dark:text-amber-300 font-bold border border-amber-500/30">
                 Open API تلقائي
               </span>
             </div>
-            <p class="text-[11px] sm:text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+            <p data-i18n="about_tamkeen_highlight_desc" class="text-[11px] sm:text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
               محرك اختبار تفاعلي لا نهائي يجلب الآيات بالرسم العثماني مباشرة، مع دعم كامل للاختبار الحصري بالصفحة
               المحددة، أو الجزء، أو السورة، أو الصفحات المحفوظة:
             </p>
@@ -1156,8 +1140,8 @@
                 class="p-2 rounded-xl bg-white/70 dark:bg-slate-900/60 border border-slate-200/60 dark:border-slate-800 flex items-start gap-2">
                 <span class="text-amber-500 font-bold">🔄</span>
                 <div>
-                  <strong class="text-slate-800 dark:text-slate-200 block">الآية التالية:</strong>
-                  <span class="text-slate-500 dark:text-slate-400">تُعرض آية ويُطلب منك تحديد واستحضار الآية التالية لها
+                  <strong data-i18n="about_tamkeen_f1_title" class="text-slate-800 dark:text-slate-200 block">الآية التالية:</strong>
+                  <span data-i18n="about_tamkeen_f1_desc" class="text-slate-500 dark:text-slate-400">تُعرض آية ويُطلب منك تحديد واستحضار الآية التالية لها
                     مباشرة ضمن نطاقك المختار.</span>
                 </div>
               </div>
@@ -1165,8 +1149,8 @@
                 class="p-2 rounded-xl bg-white/70 dark:bg-slate-900/60 border border-slate-200/60 dark:border-slate-800 flex items-start gap-2">
                 <span class="text-amber-500 font-bold">📖</span>
                 <div>
-                  <strong class="text-slate-800 dark:text-slate-200 block">تحديد السورة:</strong>
-                  <span class="text-slate-500 dark:text-slate-400">تُعرض آية كريمة وعليك معرفة اسم السورة مع حجب اسم
+                  <strong data-i18n="about_tamkeen_f2_title" class="text-slate-800 dark:text-slate-200 block">تحديد السورة:</strong>
+                  <span data-i18n="about_tamkeen_f2_desc" class="text-slate-500 dark:text-slate-400">تُعرض آية كريمة وعليك معرفة اسم السورة مع حجب اسم
                     السورة لعدم حرق الإجابة.</span>
                 </div>
               </div>
@@ -1174,12 +1158,12 @@
             <div
               class="p-2 rounded-xl bg-amber-50 dark:bg-amber-950/40 border border-amber-200/60 dark:border-amber-800/40 text-[10.5px] sm:text-[11px] text-amber-900 dark:text-amber-200 flex items-center gap-1.5">
               <i data-lucide="eye-off" class="w-3.5 h-3.5 text-amber-600 shrink-0"></i>
-              <span><strong>التسميع غيباً أولاً:</strong> يتم إخفاء الخيارات تلقائياً بضبابية لطيفة لتشجيعك على استحضار
+              <span data-i18n="about_tamkeen_f3"><strong>التسميع غيباً أولاً:</strong> يتم إخفاء الخيارات تلقائياً بضبابية لطيفة لتشجيعك على استحضار
                 الآية في صدرك أولاً قبل كشفها للتأكد.</span>
             </div>
             <div class="flex items-center gap-1.5 px-1 text-[10.5px] text-amber-800/80 dark:text-amber-300/80">
               <i data-lucide="rotate-ccw" class="w-3 h-3 text-amber-600 dark:text-amber-400 shrink-0"></i>
-              <span><strong>تصفير النتائج:</strong> يمكنك تصفير عداد الأسئلة والدقة وسلسلة التتابع في أي وقت عبر زر
+              <span data-i18n="about_tamkeen_f4"><strong>تصفير النتائج:</strong> يمكنك تصفير عداد الأسئلة والدقة وسلسلة التتابع في أي وقت عبر زر
                 «تصفير» في لوحة الإحصائيات.</span>
             </div>
           </div>
@@ -1189,9 +1173,9 @@
               class="p-3 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700/60 space-y-1">
               <span class="font-bold text-xs text-slate-900 dark:text-white flex items-center gap-1.5">
                 <i data-lucide="layout-grid" class="w-3.5 h-3.5 text-emerald-600"></i>
-                شبكة الصفحات وتحديد النطاق
+                <span data-i18n="about_card_grid_title">شبكة الصفحات وتحديد النطاق</span>
               </span>
-              <p class="text-[11px] text-slate-500 dark:text-slate-400">
+              <p data-i18n="about_card_grid_desc" class="text-[11px] text-slate-500 dark:text-slate-400">
                 انقر على أي صفحة لتحديدها كمحفوظة، أو استخدم أزرار التصفية السريعة (الكل، المحفوظ، غير المحفوظ)، أو أداة
                 "نطاق الصفحات" لتحديد أو إلغاء صفحات متتالية دفعة واحدة مع إمكانية الاختبار الفوري لكل صفحة.
               </p>
@@ -1201,9 +1185,9 @@
               class="p-3 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700/60 space-y-1">
               <span class="font-bold text-xs text-slate-900 dark:text-white flex items-center gap-1.5">
                 <i data-lucide="volume-2" class="w-3.5 h-3.5 text-gold-500"></i>
-                معاينة المصحف والتلاوة الصوتية
+                <span data-i18n="about_card_mushaf_title">معاينة المصحف والتلاوة الصوتية</span>
               </span>
-              <p class="text-[11px] text-slate-500 dark:text-slate-400">
+              <p data-i18n="about_card_mushaf_desc" class="text-[11px] text-slate-500 dark:text-slate-400">
                 اضغط على أيقونة العين (`👁️`) لعرض صفحة مصحف المدينة عالي الدقة، مع مشغل صوتي لـ 9 قراء (الشيخ الحصري
                 افتراضياً) وبيان دقيق لرقم الآية بالسورة وموقعها، والتقليب بالسحب (Swipe).
               </p>
@@ -1213,9 +1197,9 @@
               class="p-3 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700/60 space-y-1">
               <span class="font-bold text-xs text-slate-900 dark:text-white flex items-center gap-1.5">
                 <i data-lucide="refresh-cw" class="w-3.5 h-3.5 text-teal-600"></i>
-                المراجعة الذكية المتباعدة (SRS)
+                <span data-i18n="about_card_srs_title">المراجعة الذكية المتباعدة (SRS)</span>
               </span>
-              <p class="text-[11px] text-slate-500 dark:text-slate-400">
+              <p data-i18n="about_card_srs_desc" class="text-[11px] text-slate-500 dark:text-slate-400">
                 قيّم إتقان مراجعة سورك بـ (🟢 ممتاز 28 يوماً | 🟡 متوسط 14 يوماً | 🔴 يحتاج تثبيت 4 أيام) ليتولى التطبيق
                 جدولة مواعيد المراجعة لمنع التفلت.
               </p>
@@ -1225,9 +1209,9 @@
               class="p-3 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700/60 space-y-1">
               <span class="font-bold text-xs text-slate-900 dark:text-white flex items-center gap-1.5">
                 <i data-lucide="flame" class="w-3.5 h-3.5 text-amber-500"></i>
-                شعلة الأيام المتتالية (Streak)
+                <span data-i18n="about_card_streak_title">شعلة الأيام المتتالية (Streak)</span>
               </span>
-              <p class="text-[11px] text-slate-500 dark:text-slate-400">
+              <p data-i18n="about_card_streak_desc" class="text-[11px] text-slate-500 dark:text-slate-400">
                 حافظ على وردك اليومي دون انقطاع لترتقي عبر 8 أوسمة نبوية تبدأ من "🌱 بداية مباركة" حتى تتوج بـ "👑 تاج
                 الوقار" (100+ يوم).
               </p>
@@ -1237,9 +1221,9 @@
               class="p-3 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700/60 space-y-1">
               <span class="font-bold text-xs text-slate-900 dark:text-white flex items-center gap-1.5">
                 <i data-lucide="award" class="w-3.5 h-3.5 text-gold-600"></i>
-                شهادة وبطاقة الإنجاز الرسمية
+                <span data-i18n="about_card_cert_title">شهادة وبطاقة الإنجاز الرسمية</span>
               </span>
-              <p class="text-[11px] text-slate-500 dark:text-slate-400">
+              <p data-i18n="about_card_cert_desc" class="text-[11px] text-slate-500 dark:text-slate-400">
                 وثّق مسيرتك بشهادة شرفية موثقة باسمك وتاريخ اليوم ونسبة الختم مع إمكانية تصديرها كصورة PNG عالية الجودة
                 للمشاركة والطباعة.
               </p>
@@ -1249,9 +1233,9 @@
               class="p-3 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700/60 space-y-1">
               <span class="font-bold text-xs text-slate-900 dark:text-white flex items-center gap-1.5">
                 <i data-lucide="book-marked" class="w-3.5 h-3.5 text-rose-600"></i>
-                دفتر التثبيت وسجل الأخطاء
+                <span data-i18n="about_card_notebook_title">دفتر التثبيت وسجل الأخطاء</span>
               </span>
-              <p class="text-[11px] text-slate-500 dark:text-slate-400">
+              <p data-i18n="about_card_notebook_desc" class="text-[11px] text-slate-500 dark:text-slate-400">
                 تسجيل تلقائي لأي سؤال تخطئ فيه في تمكين مع حفظ الآية والسورة والجواب الخاطئ للتركيز على مواضع اللبس
                 وتثبيتها.
               </p>
@@ -1261,9 +1245,9 @@
               class="p-3 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700/60 space-y-1">
               <span class="font-bold text-xs text-slate-900 dark:text-white flex items-center gap-1.5">
                 <i data-lucide="shield-alert" class="w-3.5 h-3.5 text-amber-500"></i>
-                حماية السلسلة وأيام التعويض
+                <span data-i18n="about_card_protection_title">حماية السلسلة وأيام التعويض</span>
               </span>
-              <p class="text-[11px] text-slate-500 dark:text-slate-400">
+              <p data-i18n="about_card_protection_desc" class="text-[11px] text-slate-500 dark:text-slate-400">
                 رصيد تعويض لحماية سلسلتك (تلقائياً أو يدوياً) يبدأ بيوم واحد ويزداد كل 7 أسابيع من الالتزام المتواصل حتى
                 لا تفقد أوسمتك عند الانشغال.
               </p>
@@ -1273,11 +1257,10 @@
               class="p-3 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700/60 space-y-1">
               <span class="font-bold text-xs text-slate-900 dark:text-white flex items-center gap-1.5">
                 <i data-lucide="calendar-check" class="w-3.5 h-3.5 text-emerald-600"></i>
-                الورد اليومي الذكي ومنبه الحفظ
+                <span data-i18n="about_card_ward_title">الورد اليومي الذكي ومنبه الحفظ</span>
               </span>
-              <p class="text-[11px] text-slate-500 dark:text-slate-400">
-                بطاقة ذكية تقترح ورد مراجعتك وحفظك اليومي، مع منبه محلي يذكرك يومياً بوقت الحفظ والمراجعة دون الحاجة
-                للإنترنت.
+              <p data-i18n="about_card_ward_desc" class="text-[11px] text-slate-500 dark:text-slate-400">
+                بطاقة ذكية تقترح ورد مراجعتك وحفظك اليومي مرتباً حسب الأولوية ومواعيد التكرار المتباعد لترسيخ المحفوظ ومنع التفلت.
               </p>
             </div>
 
@@ -1285,9 +1268,9 @@
               class="p-3 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700/60 space-y-1">
               <span class="font-bold text-xs text-slate-900 dark:text-white flex items-center gap-1.5">
                 <i data-lucide="database" class="w-3.5 h-3.5 text-indigo-500"></i>
-                النسخ الاحتياطي وتصفير السجل
+                <span data-i18n="about_card_backup_title">النسخ الاحتياطي وتصفير السجل</span>
               </span>
-              <p class="text-[11px] text-slate-500 dark:text-slate-400">
+              <p data-i18n="about_card_backup_desc" class="text-[11px] text-slate-500 dark:text-slate-400">
                 تصدير واستيراد بياناتك بصيغة JSON بأمان تام أسفل بطاقة التخطيط، مع إمكانية تصفير السجل الشامل للبدء من
                 جديد كأول مرة.
               </p>
@@ -1297,9 +1280,9 @@
               class="p-3 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700/60 space-y-1">
               <span class="font-bold text-xs text-slate-900 dark:text-white flex items-center gap-1.5">
                 <i data-lucide="smartphone" class="w-3.5 h-3.5 text-teal-600"></i>
-                التثبيت والعمل أوفلاين (PWA)
+                <span data-i18n="about_card_pwa_title">التثبيت والعمل أوفلاين (PWA)</span>
               </span>
-              <p class="text-[11px] text-slate-500 dark:text-slate-400">
+              <p data-i18n="about_card_pwa_desc" class="text-[11px] text-slate-500 dark:text-slate-400">
                 ثبّت التطبيق مباشرة على شاشة هاتفك أو حاسوبك بدون متجر تطبيقات، واستمتع بكامل الميزات دون الحاجة لشبكة
                 إنترنت.
               </p>
@@ -1312,9 +1295,9 @@
           class="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 space-y-1.5">
           <h4 class="font-bold text-xs text-slate-900 dark:text-white flex items-center gap-1.5">
             <i data-lucide="shield-check" class="w-4 h-4 text-emerald-600"></i>
-            أمانك وخصوصية بياناتك 100%
+            <span data-i18n="about_privacy_title">أمانك وخصوصية بياناتك 100%</span>
           </h4>
-          <p class="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">
+          <p data-i18n="about_privacy_desc" class="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">
             جميع بيانات حفظك وملاحظاتك مُخزنة محلياً على جهازك فقط وفي ذاكرة متصفحك. لا يتطلب التطبيق أي تسجيل حساب، ولا
             يتم إرسال أي معلومة إلى أي خادم خارجي. يمكنك في أي وقت تصدير نسخة احتياطية بنقرة زر لنقل تقدمك لهاتف آخر.
           </p>
@@ -1326,13 +1309,13 @@
           <div class="flex items-center justify-between gap-2">
             <h4 class="font-bold text-xs sm:text-sm text-slate-900 dark:text-white flex items-center gap-1.5">
               <i data-lucide="message-circle" class="w-4 h-4 text-emerald-600 dark:text-emerald-400"></i>
-              <span>للتواصل والملاحظات والاقتراحات</span>
+              <span data-i18n="about_contact_title">للتواصل والملاحظات والاقتراحات</span>
             </h4>
-            <span
+            <span data-i18n="about_contact_badge"
               class="text-[10px] px-2 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 font-bold border border-emerald-300 dark:border-emerald-700">تواصل
               مباشر</span>
           </div>
-          <p class="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">
+          <p data-i18n="about_contact_desc" class="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">
             نسعد بآرائكم وملاحظاتكم لتطوير التطبيق وخدمة كتاب الله عبر البريد الإلكتروني:
           </p>
 
@@ -1346,16 +1329,16 @@
                 <rect width="20" height="16" x="2" y="4" rx="2" />
                 <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
               </svg>
-              <span>البريد الإلكتروني: <bdi dir="ltr">irtaqiquran@gmail.com</bdi></span>
+              <span data-i18n-html="about_email_label">البريد الإلكتروني: <bdi dir="ltr">irtaqiquran@gmail.com</bdi></span>
             </a>
           </div>
         </div>
 
         <!-- Footer Hadith -->
         <div class="text-center pt-2 space-y-1 border-t border-slate-100 dark:border-slate-800">
-          <p class="text-xs font-bold text-gold-700 dark:text-gold-300 font-quran">«خَيْرُكُمْ مَنْ تَعَلَّمَ الْقُرْآنَ
+          <p data-i18n="about_hadith_footer" class="text-xs font-bold text-gold-700 dark:text-gold-300 font-quran">«خَيْرُكُمْ مَنْ تَعَلَّمَ الْقُرْآنَ
             وَعَلَّمَهُ»</p>
-          <p class="text-[10px] text-slate-400">نسأل الله تعالى أن يجعله عملاً خالصاً لوجهه الكريم ونافعاً لحفاظ كتابه
+          <p data-i18n="about_dua_footer" class="text-[10px] text-slate-400">نسأل الله تعالى أن يجعله عملاً خالصاً لوجهه الكريم ونافعاً لحفاظ كتابه
           </p>
         </div>
 
@@ -1363,7 +1346,7 @@
 
       <!-- Footer Button -->
       <div class="p-3.5 bg-slate-50 dark:bg-slate-850 border-t border-slate-100 dark:border-slate-800 shrink-0">
-        <button id="btnDismissAboutModal"
+        <button id="btnDismissAboutModal" data-i18n="about_dismiss_btn"
           class="w-full py-2.5 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-bold transition shadow-sm active:scale-95">
           حسناً، استوعبت ذلك
         </button>

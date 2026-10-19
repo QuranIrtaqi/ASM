@@ -48,22 +48,28 @@ let tamkeenState = {
 function initTamkeenScopeDropdowns() {
   const surahStartEl = document.getElementById('tamkeenSurahStart');
   const surahEndEl = document.getElementById('tamkeenSurahEnd');
-  if (surahStartEl && surahEndEl && surahStartEl.options.length === 0) {
-    const surahOptions = SURAHS.map(s => `<option value="${s.id}">${formatStdNum(s.id)}. سورة ${s.name}</option>`).join('');
+  const surahPrefix = typeof t === 'function' ? t('surah_prefix', 'سورة ') : 'سورة ';
+  if (surahStartEl && surahEndEl) {
+    const prevStart = surahStartEl.value;
+    const prevEnd = surahEndEl.value;
+    const surahOptions = SURAHS.map(s => `<option value="${s.id}">${formatStdNum(s.id)}. ${surahPrefix}${s.name}</option>`).join('');
     surahStartEl.innerHTML = surahOptions;
     surahEndEl.innerHTML = surahOptions;
-    surahStartEl.value = tamkeenState.scopeSurahStart || 1;
-    surahEndEl.value = tamkeenState.scopeSurahEnd || 114;
+    surahStartEl.value = prevStart || tamkeenState.scopeSurahStart || 1;
+    surahEndEl.value = prevEnd || tamkeenState.scopeSurahEnd || 114;
   }
 
   const juzStartEl = document.getElementById('tamkeenJuzStart');
   const juzEndEl = document.getElementById('tamkeenJuzEnd');
-  if (juzStartEl && juzEndEl && juzStartEl.options.length === 0) {
-    const juzOptions = AJZA.map(j => `<option value="${j.juz}">جزء ${formatStdNum(j.juz)} (${j.name})</option>`).join('');
+  const juzPrefix = typeof t === 'function' ? t('tab_by_juz', 'جزء') : 'جزء';
+  if (juzStartEl && juzEndEl) {
+    const prevStart = juzStartEl.value;
+    const prevEnd = juzEndEl.value;
+    const juzOptions = AJZA.map(j => `<option value="${j.juz}">${juzPrefix} ${formatStdNum(j.juz)} (${j.name})</option>`).join('');
     juzStartEl.innerHTML = juzOptions;
     juzEndEl.innerHTML = juzOptions;
-    juzStartEl.value = tamkeenState.scopeJuzStart || 1;
-    juzEndEl.value = tamkeenState.scopeJuzEnd || 30;
+    juzStartEl.value = prevStart || tamkeenState.scopeJuzStart || 1;
+    juzEndEl.value = prevEnd || tamkeenState.scopeJuzEnd || 30;
   }
 }
 
@@ -129,7 +135,7 @@ function clearTamkeenSingleTarget() {
   }
   updateTamkeenScopeInputsVisibility();
   if (typeof showToast === 'function') {
-    showToast('تم الخروج من الاختبار المخصص والعودة للنطاق العام');
+    showToast(typeof t === 'function' ? t('tamkeen_toast_exit_scope', 'تم الخروج من الاختبار المخصص والعودة للنطاق العام') : 'تم الخروج من الاختبار المخصص والعودة للنطاق العام');
   }
   nextTamkeenQuestion();
 }
@@ -192,7 +198,7 @@ function executeResetTamkeenStats() {
   updateTamkeenStatsUI();
   closeResetTamkeenModal();
   if (typeof showToast === 'function') {
-    showToast('تم تصفير نتائج وإحصائيات الأسئلة بنجاح.');
+    showToast(typeof t === 'function' ? t('tamkeen_toast_reset', 'تم تصفير نتائج وإحصائيات الأسئلة بنجاح.') : 'تم تصفير نتائج وإحصائيات الأسئلة بنجاح.');
   }
 }
 
@@ -220,10 +226,10 @@ function toggleTamkeenBlur() {
   if (container) {
     if (tamkeenState.isBlurred) {
       container.classList.add('blur-sm', 'pointer-events-none');
-      if (txt) txt.textContent = 'إظهار الخيارات للتحديد';
+      if (txt) txt.textContent = typeof t === 'function' ? t('tamkeen_show_options', 'إظهار الخيارات للتحديد') : 'إظهار الخيارات للتحديد';
     } else {
       container.classList.remove('blur-sm', 'pointer-events-none');
-      if (txt) txt.textContent = 'إخفاء للتسميع غيباً أولاً';
+      if (txt) txt.textContent = typeof t === 'function' ? t('tamkeen_hide_options', 'إخفاء للتسميع غيباً أولاً') : 'إخفاء للتسميع غيباً أولاً';
     }
   }
   if (btn) {
@@ -707,7 +713,8 @@ function handleTamkeenChoice(idx) {
     if (streak === 5 || streak === 10 || streak === 15 || streak === 20 || (streak > 20 && streak % 10 === 0)) {
       if (typeof launchConfetti === 'function') launchConfetti();
       if (typeof showToast === 'function') {
-        showToast(`🎉 ما شاء الله! إتقان متتابع: ${formatStdNum(streak)} إجابات صحيحة دون خطأ!`);
+        const msg = (typeof t === 'function' ? t('tamkeen_toast_milestone', '🎉 ما شاء الله! إتقان متتابع: {streak} إجابات صحيحة دون خطأ!') : '🎉 ما شاء الله! إتقان متتابع: {streak} إجابات صحيحة دون خطأ!').replace('{streak}', formatStdNum(streak));
+        showToast(msg);
       }
     }
   } else {
@@ -733,8 +740,8 @@ function renderTamkeenQuiz() {
 
   const q = tamkeenState.currentQuestion;
   const modeNames = {
-    next_ayah: '🔄 الآية التالية',
-    surah_id: '📖 تحديد السورة'
+    next_ayah: typeof t === 'function' ? t('tamkeen_mode_next_ayah_badge', '🔄 الآية التالية') : '🔄 الآية التالية',
+    surah_id: typeof t === 'function' ? t('tamkeen_mode_surah_id_badge', '📖 تحديد السورة') : '📖 تحديد السورة'
   };
   const modeColors = {
     next_ayah: 'bg-teal-500/15 text-teal-800 dark:text-teal-300 border-teal-500/30',
@@ -743,7 +750,8 @@ function renderTamkeenQuiz() {
 
   let displayedVerse = q.verse;
 
-  const letters = ['أ', 'ب', 'ج', 'د'];
+  const currentLang = (typeof getAppLanguage === 'function') ? getAppLanguage() : 'ar';
+  const letters = (currentLang === 'ar') ? ['أ', 'ب', 'ج', 'د'] : ['A', 'B', 'C', 'D'];
   const isNextAyah = (q.mode === 'next_ayah');
   const choicesHtml = q.shuffledOptions.map((opt, idx) => {
     let btnClasses = "p-3 sm:p-4 rounded-2xl border text-right transition flex items-center justify-between gap-3 text-xs sm:text-sm font-semibold active:scale-[0.98] min-h-[50px] touch-manipulation";
@@ -796,7 +804,7 @@ function renderTamkeenQuiz() {
           </div>
           <button onclick="nextTamkeenQuestion()" class="px-5 py-2.5 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white text-xs sm:text-sm font-bold shadow-md transition active:scale-95 shrink-0 flex items-center justify-center gap-1.5">
             <span>${typeof t === 'function' ? t('next_question') : 'السؤال التالي'}</span>
-            <i data-lucide="chevron-left" class="w-4 h-4"></i>
+            <i data-lucide="${currentLang === 'ar' ? 'chevron-left' : 'chevron-right'}" class="w-4 h-4"></i>
           </button>
         </div>
       `;
@@ -819,7 +827,7 @@ function renderTamkeenQuiz() {
             </button>
             <button onclick="nextTamkeenQuestion()" class="px-4 py-2 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white text-xs sm:text-sm font-bold shadow-md transition active:scale-95 shrink-0 flex items-center justify-center gap-1.5">
               <span>${typeof t === 'function' ? t('next_question') : 'السؤال التالي'}</span>
-              <i data-lucide="chevron-left" class="w-4 h-4"></i>
+              <i data-lucide="${currentLang === 'ar' ? 'chevron-left' : 'chevron-right'}" class="w-4 h-4"></i>
             </button>
           </div>
         </div>
@@ -831,7 +839,7 @@ function renderTamkeenQuiz() {
         <div class="p-3.5 rounded-2xl bg-amber-50/90 dark:bg-gold-950/40 border border-amber-300 dark:border-gold-700/60 space-y-1.5">
           <h5 class="text-xs font-black text-amber-900 dark:text-gold-200 flex items-center gap-1.5">
             <i data-lucide="sparkle" class="w-3.5 h-3.5 text-amber-500"></i>
-            فائدة وضابط التثبيت القرآني:
+            ${typeof t === 'function' ? t('tamkeen_retention_rule_title', 'فائدة وضابط التثبيت القرآني:') : 'فائدة وضابط التثبيت القرآني:'}
           </h5>
           <p class="text-xs text-amber-900/90 dark:text-gold-300/90 leading-relaxed font-medium">
             ${q.rule}
@@ -844,14 +852,15 @@ function renderTamkeenQuiz() {
   let singleTargetBannerHtml = '';
   if (tamkeenState.singleSurahId) {
     const singleSurahMeta = SURAHS.find(s => s.id === tamkeenState.singleSurahId);
+    const surahTitle = typeof t === 'function' ? t('tamkeen_custom_surah', 'اختبار مخصص وحصري لسورة «{name}»').replace('{name}', singleSurahMeta ? singleSurahMeta.name : '') : `اختبار مخصص وحصري لسورة «${singleSurahMeta ? singleSurahMeta.name : ''}»`;
     singleTargetBannerHtml = `
       <div class="p-2 sm:p-2.5 rounded-xl bg-amber-500/15 border border-amber-500/30 flex items-center justify-between gap-2 text-xs text-amber-900 dark:text-amber-200">
         <span class="flex items-center gap-1.5 font-bold">
           <i data-lucide="target" class="w-4 h-4 text-amber-600 dark:text-amber-400"></i>
-          اختبار مخصص وحصري لسورة «${singleSurahMeta ? singleSurahMeta.name : ''}»
+          ${surahTitle}
         </span>
         <button onclick="clearTamkeenSingleTarget()" class="px-2 py-1 rounded-lg bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:text-rose-600 dark:hover:text-rose-400 border border-slate-200 dark:border-slate-700 font-bold text-[11px] transition active:scale-95">
-          إنهاء والعودة للنطاق العام ✕
+          ${typeof t === 'function' ? t('tamkeen_exit_custom', 'إنهاء والعودة للنطاق العام ✕') : 'إنهاء والعودة للنطاق العام ✕'}
         </button>
       </div>
     `;
@@ -859,32 +868,48 @@ function renderTamkeenQuiz() {
     const pNum = tamkeenState.singlePageNum;
     const pSurahs = (q.mode === 'surah_id' && !tamkeenState.isAnswered) ? '' : ` (${getSurahsForPage(pNum)})`;
     const pJuz = getJuzForPage(pNum);
+    const pageTitle = typeof t === 'function'
+      ? t('tamkeen_custom_page', 'اختبار مخصص وحصري لصفحة «{page}»{surahs} • جزء {juz}').replace('{page}', formatStdNum(pNum)).replace('{surahs}', pSurahs).replace('{juz}', formatStdNum(pJuz))
+      : `اختبار مخصص وحصري لصفحة «${formatStdNum(pNum)}»${pSurahs} • جزء ${formatStdNum(pJuz)}`;
     singleTargetBannerHtml = `
       <div class="p-2 sm:p-2.5 rounded-xl bg-amber-500/15 border border-amber-500/30 flex items-center justify-between gap-2 text-xs text-amber-900 dark:text-amber-200">
         <span class="flex items-center gap-1.5 font-bold">
           <i data-lucide="target" class="w-4 h-4 text-amber-600 dark:text-amber-400"></i>
-          اختبار مخصص وحصري لصفحة «${formatStdNum(pNum)}»${pSurahs} • جزء ${formatStdNum(pJuz)}
+          ${pageTitle}
         </span>
         <button onclick="clearTamkeenSingleTarget()" class="px-2 py-1 rounded-lg bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:text-rose-600 dark:hover:text-rose-400 border border-slate-200 dark:border-slate-700 font-bold text-[11px] transition active:scale-95">
-          إنهاء والعودة للنطاق العام ✕
+          ${typeof t === 'function' ? t('tamkeen_exit_custom', 'إنهاء والعودة للنطاق العام ✕') : 'إنهاء والعودة للنطاق العام ✕'}
         </button>
       </div>
     `;
   } else if (tamkeenState.singleJuzNum) {
     const jNum = tamkeenState.singleJuzNum;
     const jObj = AJZA.find(j => j.juz === jNum);
+    const juzTitle = typeof t === 'function'
+      ? t('tamkeen_custom_juz', 'اختبار مخصص وحصري للجزء «{juz}» ({name})').replace('{juz}', formatStdNum(jNum)).replace('{name}', jObj ? jObj.name : '')
+      : `اختبار مخصص وحصري للجزء «${formatStdNum(jNum)}» (${jObj ? jObj.name : ''})`;
     singleTargetBannerHtml = `
       <div class="p-2 sm:p-2.5 rounded-xl bg-amber-500/15 border border-amber-500/30 flex items-center justify-between gap-2 text-xs text-amber-900 dark:text-amber-200">
         <span class="flex items-center gap-1.5 font-bold">
           <i data-lucide="target" class="w-4 h-4 text-amber-600 dark:text-amber-400"></i>
-          اختبار مخصص وحصري للجزء «${formatStdNum(jNum)}» (${jObj ? jObj.name : ''})
+          ${juzTitle}
         </span>
         <button onclick="clearTamkeenSingleTarget()" class="px-2 py-1 rounded-lg bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:text-rose-600 dark:hover:text-rose-400 border border-slate-200 dark:border-slate-700 font-bold text-[11px] transition active:scale-95">
-          إنهاء والعودة للنطاق العام ✕
+          ${typeof t === 'function' ? t('tamkeen_exit_custom', 'إنهاء والعودة للنطاق العام ✕') : 'إنهاء والعودة للنطاق العام ✕'}
         </button>
       </div>
     `;
   }
+
+  const verseMetaText = q.mode === 'surah_id' && !tamkeenState.isAnswered 
+    ? (typeof t === 'function' ? t('tamkeen_surah_id_target', 'المطلوب: تحديد اسم السورة الكريمة 🎯') : 'المطلوب: تحديد اسم السورة الكريمة 🎯')
+    : (typeof t === 'function' 
+        ? t('tamkeen_verse_meta', 'سورة {surah} • آية {ayah} • ص {page} • ج {juz}').replace('{surah}', q.surahName).replace('{ayah}', formatStdNum(q.ayahNum)).replace('{page}', formatStdNum(q.page || 1)).replace('{juz}', formatStdNum(q.juz || 1))
+        : `سورة ${q.surahName} • آية ${formatStdNum(q.ayahNum)} • ص ${formatStdNum(q.page || 1)} • ج ${formatStdNum(q.juz || 1)}`);
+
+  const promptText = (q.mode === 'next_ayah')
+    ? (typeof t === 'function' ? t('question_next_ayah_prompt', 'ما هي الآية الكريمة التالية مباشرة للآية المعروضة أعلاه؟') : q.prompt)
+    : ((q.mode === 'surah_id') ? (typeof t === 'function' ? t('question_surah_id_prompt', 'في أي سورة من كتاب الله وردت هذه الآية الكريمة؟') : q.prompt) : q.prompt);
 
   card.innerHTML = `
     ${singleTargetBannerHtml}
@@ -894,9 +919,7 @@ function renderTamkeenQuiz() {
           ${modeNames[q.mode]}
         </span>
         <span class="text-xs font-bold text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 px-2.5 py-0.5 rounded-xl">
-          ${q.mode === 'surah_id' && !tamkeenState.isAnswered 
-            ? 'المطلوب: تحديد اسم السورة الكريمة 🎯' 
-            : `سورة ${q.surahName} • آية ${formatStdNum(q.ayahNum)} • ص ${formatStdNum(q.page || 1)} • ج ${formatStdNum(q.juz || 1)}`}
+          ${verseMetaText}
         </span>
         ${q.source === 'api' ? `
           <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30 flex items-center gap-1">
@@ -905,7 +928,7 @@ function renderTamkeenQuiz() {
           </span>
         ` : `
           <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 border border-slate-200 dark:border-slate-700">
-            مخزن محلياً
+            ${typeof t === 'function' ? t('tamkeen_source_offline', 'مخزن محلياً') : 'مخزن محلياً'}
           </span>
         `}
       </div>
@@ -926,7 +949,7 @@ function renderTamkeenQuiz() {
     <div class="space-y-2">
       <h3 class="text-xs sm:text-sm font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
         <i data-lucide="help-circle" class="w-4 h-4 text-emerald-600 dark:text-emerald-400"></i>
-        ${(q.mode === 'next_ayah') ? (typeof t === 'function' ? t('question_next_ayah_prompt') : q.prompt) : ((q.mode === 'surah_id') ? (typeof t === 'function' ? t('question_surah_id_prompt') : q.prompt) : q.prompt)}
+        ${promptText}
       </h3>
 
       <div class="p-3.5 sm:p-6 rounded-2xl bg-amber-50/50 dark:bg-emerald-950/20 border-2 border-gold-400/30 dark:border-gold-600/30 text-center relative shadow-xs">
@@ -938,11 +961,11 @@ function renderTamkeenQuiz() {
 
     <div class="space-y-2 pt-1">
       <div class="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 px-1">
-        <span>اختر الإجابة الصحيحة:</span>
+        <span>${typeof t === 'function' ? t('tamkeen_choose_answer', 'اختر الإجابة الصحيحة:') : 'اختر الإجابة الصحيحة:'}</span>
         ${!tamkeenState.isAnswered ? `
           <button id="btnToggleTamkeenBlur" onclick="toggleTamkeenBlur()" class="text-emerald-700 dark:text-emerald-400 hover:underline flex items-center gap-1 font-bold text-[11px] sm:text-xs">
             <i data-lucide="${tamkeenState.isBlurred ? 'eye' : 'eye-off'}" class="w-3.5 h-3.5"></i>
-            <span id="blurToggleText">${tamkeenState.isBlurred ? 'إظهار الخيارات للتحديد' : 'إخفاء للتسميع غيباً أولاً'}</span>
+            <span id="blurToggleText">${tamkeenState.isBlurred ? (typeof t === 'function' ? t('tamkeen_show_options', 'إظهار الخيارات للتحديد') : 'إظهار الخيارات للتحديد') : (typeof t === 'function' ? t('tamkeen_hide_options', 'إخفاء للتسميع غيباً أولاً') : 'إخفاء للتسميع غيباً أولاً')}</span>
           </button>
         ` : ''}
       </div>

@@ -860,27 +860,42 @@ function getStreak() {
 
 function getStreakMotivator(streak) {
   const tiers = [
-    { min: 0, max: 2, title: "بداية مباركة", icon: "🌱", next: 3, quote: "«أَحَبُّ الأَعْمَالِ إِلَى اللهِ أَدْوَمُهَا وَإِنْ قَلَّ»", encouragement: "بداية الغيث قطرة.. ثباتك اليوم يشعل شعلة الحفظ المستمر!" },
-    { min: 3, max: 6, title: "شعلة العزيمة", icon: "🔥", next: 7, quote: "«مَنْ سَلَكَ طَرِيقًا يَلْتَمِسُ فِيهِ عِلْمًا سَهَّلَ اللهُ لَهُ بِهِ طَرِيقًا إِلَى الجَنَّةِ»", encouragement: "أوقدتَ شعلة الهمة! بضع خطوات تفصلك عن أسبوع الثبات الأول!" },
-    { min: 7, max: 13, title: "أسبوع الثبات", icon: "🌿", next: 14, quote: "«يُقَالُ لِصَاحِبِ الْقُرْآنِ: اقْرَأْ وَارْتَقِ وَرَتِّلْ»", encouragement: "ما شاء الله! أسبوع كامل في رحاب كتاب الله.. واصل لأسبوعين!" },
-    { min: 14, max: 20, title: "نور المداومة", icon: "✨", next: 21, quote: "«الْمَاهِرُ بِالْقُرْآنِ مَعَ السَّفَرَةِ الْكِرَامِ الْبَرَرَةِ»", encouragement: "أسبوعان متتاليان! النور يزداد والبركة تتنزل، واصل لترسيخ العادة!" },
-    { min: 21, max: 29, title: "عادة راسخة", icon: "💎", next: 30, quote: "«إِنَّ الَّذِينَ يَتْلُونَ كِتَابَ اللَّهِ... يَرْجُونَ تِجَارَةً لَّن تَبُورَ»", encouragement: "21 يوماً من الثبات! صنعت عادة قرآنية متأصلة، شهر النور قريب!" },
-    { min: 30, max: 59, title: "شهر النور", icon: "🌙", next: 60, quote: "«خَيْرُكُمْ مَنْ تَعَلَّمَ القُرْآنَ وَعَلَّمَهُ»", encouragement: "مبارك إتمام شهر كامل من صحبة القرآن! همتك تعانق السحاب!" },
-    { min: 60, max: 99, title: "همة الصالحين", icon: "🏆", next: 100, quote: "«اقْرَءُوا الْقُرْآنَ فَإِنَّهُ يَأْتِي يَوْمَ الْقِيَامَةِ شَفِيعًا لِأَصْحَابِهِ»", encouragement: "همة عالية تبلغ الجبال! خطوات يسيرة تفصلك عن نادي المئة وتاج الوقار!" },
-    { min: 100, max: Infinity, title: "تاج الوقار", icon: "👑", next: null, quote: "«يُوضَعُ عَلَى رَأْسِهِ تَاجُ الْوَقَارِ»", encouragement: "أكثر من 100 يوم! هنيئاً لك هذه الصحبة المباركة لكتاب الله عز وجل." }
+    { min: 0, max: 2, titleKey: 'tier_0_title', quoteKey: 'tier_0_quote', encouragementKey: 'tier_0_encouragement', title: "بداية مباركة", icon: "🌱", next: 3, quote: "«أَحَبُّ الأَعْمَالِ إِلَى اللهِ أَدْوَمُهَا وَإِنْ قَلَّ»", encouragement: "بداية الغيث قطرة.. ثباتك اليوم يشعل شعلة الحفظ المستمر!" },
+    { min: 3, max: 6, titleKey: 'tier_1_title', quoteKey: 'tier_1_quote', encouragementKey: 'tier_1_encouragement', title: "شعلة العزيمة", icon: "🔥", next: 7, quote: "«مَنْ سَلَكَ طَرِيقًا يَلْتَمِسُ فِيهِ عِلْمًا سَهَّلَ اللهُ لَهُ بِهِ طَرِيقًا إِلَى الجَنَّةِ»", encouragement: "أوقدتَ شعلة الهمة! بضع خطوات تفصلك عن أسبوع الثبات الأول!" },
+    { min: 7, max: 13, titleKey: 'tier_2_title', quoteKey: 'tier_2_quote', encouragementKey: 'tier_2_encouragement', title: "أسبوع الثبات", icon: "🌿", next: 14, quote: "«يُقَالُ لِصَاحِبِ الْقُرْآنِ: اقْرَأْ وَارْتَقِ وَرَتِّلْ»", encouragement: "ما شاء الله! أسبوع كامل في رحاب كتاب الله.. واصل لأسبوعين!" },
+    { min: 14, max: 20, titleKey: 'tier_3_title', quoteKey: 'tier_3_quote', encouragementKey: 'tier_3_encouragement', title: "نور المداومة", icon: "✨", next: 21, quote: "«الْمَاهِرُ بِالْقُرْآنِ مَعَ السَّفَرَةِ الْكِرَامِ الْبَرَرَةِ»", encouragement: "أسبوعان متتاليان! النور يزداد والبركة تتنزل، واصل لترسيخ العادة!" },
+    { min: 21, max: 29, titleKey: 'tier_4_title', quoteKey: 'tier_4_quote', encouragementKey: 'tier_4_encouragement', title: "عادة راسخة", icon: "💎", next: 30, quote: "«إِنَّ الَّذِينَ يَتْلُونَ كِتَابَ اللَّهِ... يَرْجُونَ تِجَارَةً لَّن تَبُورَ»", encouragement: "21 يوماً من الثبات! صنعت عادة قرآنية متأصلة، شهر النور قريب!" },
+    { min: 30, max: 59, titleKey: 'tier_5_title', quoteKey: 'tier_5_quote', encouragementKey: 'tier_5_encouragement', title: "شهر النور", icon: "🌙", next: 60, quote: "«خَيْرُكُمْ مَنْ تَعَلَّمَ القُرْآنَ وَعَلَّمَهُ»", encouragement: "مبارك إتمام شهر كامل من صحبة القرآن! همتك تعانق السحاب!" },
+    { min: 60, max: 99, titleKey: 'tier_6_title', quoteKey: 'tier_6_quote', encouragementKey: 'tier_6_encouragement', title: "همة الصالحين", icon: "🏆", next: 100, quote: "«اقْرَءُوا الْقُرْآنَ فَإِنَّهُ يَأْتِي يَوْمَ الْقِيَامَةِ شَفِيعًا لِأَصْحَابِهِ»", encouragement: "همة عالية تبلغ الجبال! خطوات يسيرة تفصلك عن نادي المئة وتاج الوقار!" },
+    { min: 100, max: Infinity, titleKey: 'tier_7_title', quoteKey: 'tier_7_quote', encouragementKey: 'tier_7_encouragement', title: "تاج الوقار", icon: "👑", next: null, quote: "«يُوضَعُ عَلَى رَأْسِهِ تَاجُ الْوَقَارِ»", encouragement: "أكثر من 100 يوم! هنيئاً لك هذه الصحبة المباركة لكتاب الله عز وجل." }
   ];
 
-  const current = tiers.find(t => streak >= t.min && streak <= t.max) || tiers[0];
+  const rawCurrent = tiers.find(t => streak >= t.min && streak <= t.max) || tiers[0];
+  const current = {
+    ...rawCurrent,
+    title: (typeof t === 'function' && rawCurrent.titleKey) ? t(rawCurrent.titleKey, rawCurrent.title) : rawCurrent.title,
+    quote: (typeof t === 'function' && rawCurrent.quoteKey) ? t(rawCurrent.quoteKey, rawCurrent.quote) : rawCurrent.quote,
+    encouragement: (typeof t === 'function' && rawCurrent.encouragementKey) ? t(rawCurrent.encouragementKey, rawCurrent.encouragement) : rawCurrent.encouragement
+  };
+
   let progressToNext = 100;
   let daysRemaining = 0;
   let nextTier = null;
 
-  if (current.next !== null) {
-    nextTier = tiers.find(t => t.min === current.next);
-    const span = current.next - current.min;
-    const progress = streak - current.min;
+  if (rawCurrent.next !== null) {
+    const rawNext = tiers.find(t => t.min === rawCurrent.next);
+    if (rawNext) {
+      nextTier = {
+        ...rawNext,
+        title: (typeof t === 'function' && rawNext.titleKey) ? t(rawNext.titleKey, rawNext.title) : rawNext.title,
+        quote: (typeof t === 'function' && rawNext.quoteKey) ? t(rawNext.quoteKey, rawNext.quote) : rawNext.quote,
+        encouragement: (typeof t === 'function' && rawNext.encouragementKey) ? t(rawNext.encouragementKey, rawNext.encouragement) : rawNext.encouragement
+      };
+    }
+    const span = rawCurrent.next - rawCurrent.min;
+    const progress = streak - rawCurrent.min;
     progressToNext = Math.min(100, Math.max(0, Math.round((progress / span) * 100)));
-    daysRemaining = Math.max(1, current.next - streak);
+    daysRemaining = Math.max(1, rawCurrent.next - streak);
   }
 
   return {

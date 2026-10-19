@@ -1414,9 +1414,9 @@ function renderPlanner() {
           <span class="text-[10px] text-amber-600 dark:text-amber-400">${daysAgo === null ? t('daily_ward_not_reviewed', 'لم تُراجع بعد') : t('daily_ward_overdue_prefix', 'قبل') + ' ' + formatStdNum(daysAgo) + ' ' + t('days_streak', 'يوم')}</span>
         </div>
         <div class="flex items-center gap-1">
-          <button onclick="rateSurahReview(${s.id}, 28, 'ممتاز')" title="ممتاز - مراجعة بعد 28 يوماً" class="px-2 py-0.5 rounded text-[11px] font-bold bg-emerald-50 hover:bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 dark:hover:bg-emerald-900 border border-emerald-300/80 dark:border-emerald-800 active:scale-95 transition">🟢 ممتاز</button>
-          <button onclick="rateSurahReview(${s.id}, 14, 'متوسط')" title="متوسط - مراجعة بعد 14 يوماً" class="px-2 py-0.5 rounded text-[11px] font-bold bg-amber-50 hover:bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300 dark:hover:bg-amber-900 border border-amber-300/80 dark:border-amber-800 active:scale-95 transition">🟡 متوسط</button>
-          <button onclick="rateSurahReview(${s.id}, 4, 'ضعيف')" title="ضعيف - مراجعة قريبة بعد 4 أيام" class="px-2 py-0.5 rounded text-[11px] font-bold bg-rose-50 hover:bg-rose-100 text-rose-800 dark:bg-rose-950 dark:text-rose-300 dark:hover:bg-rose-900 border border-rose-300/80 dark:border-rose-800 active:scale-95 transition">🔴 تثبيت</button>
+          <button onclick="rateSurahReview(${s.id}, 28, 'ممتاز')" title="${t('rate_excellent_title', 'ممتاز - مراجعة بعد 28 يوماً')}" class="px-2 py-0.5 rounded text-[11px] font-bold bg-emerald-50 hover:bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 dark:hover:bg-emerald-900 border border-emerald-300/80 dark:border-emerald-800 active:scale-95 transition">${t('rate_excellent', '🟢 ممتاز')}</button>
+          <button onclick="rateSurahReview(${s.id}, 14, 'متوسط')" title="${t('rate_good_title', 'متوسط - مراجعة بعد 14 يوماً')}" class="px-2 py-0.5 rounded text-[11px] font-bold bg-amber-50 hover:bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300 dark:hover:bg-amber-900 border border-amber-300/80 dark:border-amber-800 active:scale-95 transition">${t('rate_good', '🟡 متوسط')}</button>
+          <button onclick="rateSurahReview(${s.id}, 4, 'ضعيف')" title="${t('rate_weak_title', 'ضعيف - مراجعة قريبة بعد 4 أيام')}" class="px-2 py-0.5 rounded text-[11px] font-bold bg-rose-50 hover:bg-rose-100 text-rose-800 dark:bg-rose-950 dark:text-rose-300 dark:hover:bg-rose-900 border border-rose-300/80 dark:border-rose-800 active:scale-95 transition">${t('rate_weak', '🔴 تثبيت')}</button>
         </div>
       </div>
     `;
@@ -1425,15 +1425,17 @@ function renderPlanner() {
   const studyDays = state.studyDays || 7;
   const dailyTarget = (state.goal > 0 && studyDays > 0) ? Math.max(1, Math.ceil(state.goal / studyDays)) : 1;
   const chosenReviewDaysCount = (state.reviewDays && state.reviewDays.length > 0) ? state.reviewDays.length : 7;
+  const currentLang = (typeof getAppLanguage === 'function') ? getAppLanguage() : 'ar';
+  const dateLocale = (currentLang === 'en') ? 'en-US' : (currentLang === 'it' ? 'it-IT' : 'ar-EG-u-nu-latn');
 
   let goalLine = '';
   if (state.goal > 0) {
     const weeklyRate = state.goal * (studyDays / 7);
     const daysNeeded = weeklyRate > 0 ? Math.ceil(left / (state.goal / 7)) : Infinity;
-    const fin = isFinite(daysNeeded) ? addDays(curDate, daysNeeded).toLocaleDateString('ar-EG-u-nu-latn', { year: 'numeric', month: 'long', day: 'numeric' }) : 'غير محدد';
-    goalLine = `الهدف: <b class="text-slate-800 dark:text-white">${formatStdNum(state.goal)}</b> صفحة/أسبوع (بمعدل <b class="text-emerald-700 dark:text-emerald-400">${formatStdNum(dailyTarget)}</b> صفحة/يوم) • الختم المتوقع: <b class="text-emerald-700 dark:text-emerald-400">${fin}</b>`;
+    const fin = isFinite(daysNeeded) ? addDays(curDate, daysNeeded).toLocaleDateString(dateLocale, { year: 'numeric', month: 'long', day: 'numeric' }) : t('unspecified', 'غير محدد');
+    goalLine = `${t('weekly_goal_label', 'الهدف:')} <b class="text-slate-800 dark:text-white">${formatStdNum(state.goal)}</b> ${t('pages_per_week', 'صفحة/أسبوع')} (${t('rate_prefix', 'بمعدل')} <b class="text-emerald-700 dark:text-emerald-400">${formatStdNum(dailyTarget)}</b> ${t('pages_per_day', 'صفحة/يوم')}) • ${t('est_completion', 'الختم المتوقع:')} <b class="text-emerald-700 dark:text-emerald-400">${fin}</b>`;
   } else {
-    goalLine = 'حدد هدفك الأسبوعي لحساب موعد الختم المتوقع.';
+    goalLine = t('goal_line_empty', 'حدد هدفك الأسبوعي لحساب موعد الختم المتوقع.');
   }
 
   const offset = state.weekOffset || 0;
@@ -1443,7 +1445,10 @@ function renderPlanner() {
   weekStart.setDate(now.getDate() - dayOfWeek + (offset * 7));
 
   const weekDays = [];
-  const dayNames = ['السبت', 'الأحد', 'الاثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة'];
+  const dayNamesAr = ['السبت', 'الأحد', 'الاثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة'];
+  const dayNamesEn = ['Sat', 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
+  const dayNamesIt = ['Sab', 'Dom', 'Lun', 'Mar', 'Mer', 'Gio', 'Ven'];
+  const dayNames = (currentLang === 'en') ? dayNamesEn : (currentLang === 'it' ? dayNamesIt : dayNamesAr);
   let weekMemorizedTotal = 0;
   let weekReviewedTotal = 0;
 
@@ -1476,24 +1481,29 @@ function renderPlanner() {
   }
 
   const isCurrentWeek = (offset === 0);
-  const weekRangeLabel = `من ${formatStdNum(weekDays[0].dateNum)} إلى ${formatStdNum(weekDays[6].dateNum)} ${weekStart.toLocaleDateString('ar-EG-u-nu-latn', { month: 'short' })}`;
+  const monthName = weekStart.toLocaleDateString(dateLocale, { month: 'short' });
+  const weekRangeLabel = (currentLang === 'en')
+    ? `${monthName} ${formatStdNum(weekDays[0].dateNum)} - ${formatStdNum(weekDays[6].dateNum)}`
+    : (currentLang === 'it'
+      ? `${formatStdNum(weekDays[0].dateNum)} - ${formatStdNum(weekDays[6].dateNum)} ${monthName}`
+      : `من ${formatStdNum(weekDays[0].dateNum)} إلى ${formatStdNum(weekDays[6].dateNum)} ${monthName}`);
 
   const chartHtml = `
     <div id="weeklyProgressCard" class="bg-slate-50 dark:bg-slate-800/50 p-2.5 sm:p-3 rounded-2xl border border-slate-100 dark:border-slate-800 space-y-2">
       <div class="flex items-center justify-between text-xs">
         <div class="flex items-center gap-1.5">
-          <span class="font-bold text-slate-800 dark:text-slate-200">سجل إنجاز الأسبوع</span>
+          <span class="font-bold text-slate-800 dark:text-slate-200">${t('weekly_progress_title', 'سجل إنجاز الأسبوع')}</span>
           <span class="text-[10px] text-slate-400">(${weekRangeLabel})</span>
         </div>
         <div class="flex items-center gap-1">
-          <button onclick="changePlannerWeek(-1)" title="الأسبوع السابق" class="p-1 rounded hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-500 transition">
-            <i data-lucide="chevron-right" class="w-4 h-4"></i>
+          <button onclick="changePlannerWeek(-1)" title="${t('prev_week_title', 'الأسبوع السابق')}" class="p-1 rounded hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-500 transition">
+            <i data-lucide="${currentLang === 'ar' ? 'chevron-right' : 'chevron-left'}" class="w-4 h-4"></i>
           </button>
-          <button onclick="changePlannerWeek(0)" title="الأسبوع الحالي" class="px-1.5 py-0.5 rounded text-[10px] font-bold ${isCurrentWeek ? 'bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300' : 'hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-500'} transition">
-            الحالي
+          <button onclick="changePlannerWeek(0)" title="${t('current_week_title', 'الأسبوع الحالي')}" class="px-1.5 py-0.5 rounded text-[10px] font-bold ${isCurrentWeek ? 'bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300' : 'hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-500'} transition">
+            ${t('current_week_badge', 'الحالي')}
           </button>
-          <button onclick="changePlannerWeek(1)" ${isCurrentWeek ? 'disabled' : ''} title="الأسبوع التالي" class="p-1 rounded hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-500 transition ${isCurrentWeek ? 'opacity-30 cursor-not-allowed' : ''}">
-            <i data-lucide="chevron-left" class="w-4 h-4"></i>
+          <button onclick="changePlannerWeek(1)" ${isCurrentWeek ? 'disabled' : ''} title="${t('next_week_title', 'الأسبوع التالي')}" class="p-1 rounded hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-500 transition ${isCurrentWeek ? 'opacity-30 cursor-not-allowed' : ''}">
+            <i data-lucide="${currentLang === 'ar' ? 'chevron-left' : 'chevron-right'}" class="w-4 h-4"></i>
           </button>
         </div>
       </div>
@@ -1509,14 +1519,14 @@ function renderPlanner() {
             <div class="w-full flex items-center justify-center py-0.5">
               ${d.pagesLogged > 0
       ? `<span class="inline-block px-1.5 py-0.2 rounded-full bg-emerald-600 text-white text-[10px] font-bold leading-tight shadow-xs">+${formatStdNum(d.pagesLogged)}</span>`
-      : (d.isRecovered ? `<span class="text-[9px] text-teal-600 dark:text-teal-400 font-bold whitespace-nowrap">🛡️ مستدرك</span>` : `<span class="text-[11px] text-slate-300 dark:text-slate-600">-</span>`)
+      : (d.isRecovered ? `<span class="text-[9px] text-teal-600 dark:text-teal-400 font-bold whitespace-nowrap">${t('recovered_badge', '🛡️ مستدرك')}</span>` : `<span class="text-[11px] text-slate-300 dark:text-slate-600">-</span>`)
     }
             </div>
             <button onclick="toggleReviewDay('${d.key}')" title="${d.isRecovered
-      ? 'يوم مستدرك تم إنقاذ سلسلته بواسطة رصيد الاستدراك 🛡️'
+      ? t('recovered_tooltip', 'يوم مستدرك تم إنقاذ سلسلته بواسطة رصيد الاستدراك 🛡️')
       : (d.isMemorizedGoalMet
-        ? `تم إنجاز هدف الحفظ (${formatStdNum(d.pagesLogged)} من ${formatStdNum(dailyTarget)} صفحة)`
-        : (d.isReviewDone ? 'تمت المراجعة لهذا اليوم' : (d.isToday ? 'انقر لتسجيل مراجعة هذا اليوم' : 'سجل قراءة فقط')))
+        ? `${t('goal_met_tooltip_prefix', 'تم إنجاز هدف الحفظ')} (${formatStdNum(d.pagesLogged)} ${t('out_of', 'من')} ${formatStdNum(dailyTarget)} ${t('pages_unit', 'صفحة')})`
+        : (d.isReviewDone ? t('review_done_today_tooltip', 'تمت المراجعة لهذا اليوم') : (d.isToday ? t('click_to_log_review', 'انقر لتسجيل مراجعة هذا اليوم') : t('reading_only_log', 'سجل قراءة فقط'))))
     }" class="w-5 h-5 rounded-md flex items-center justify-center transition ${d.isRecovered
       ? 'bg-teal-600 text-white shadow-xs'
       : (d.isMemorizedGoalMet
@@ -1534,8 +1544,8 @@ function renderPlanner() {
       </div>
 
       <div class="flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400 pt-1 border-t border-slate-200/60 dark:border-slate-800">
-        <span>إجمالي حفظ الأسبوع: <b class="text-emerald-700 dark:text-emerald-400 font-bold">${formatStdNum(weekMemorizedTotal)}</b> صفحة</span>
-        <span>أيام مراجعة مكتملة: <b class="text-gold-600 dark:text-gold-400 font-bold">${formatStdNum(weekReviewedTotal)}</b> من ${formatStdNum(chosenReviewDaysCount)}</span>
+        <span>${t('weekly_memorized_total', 'إجمالي حفظ الأسبوع:')} <b class="text-emerald-700 dark:text-emerald-400 font-bold">${formatStdNum(weekMemorizedTotal)}</b> ${t('pages_unit', 'صفحة')}</span>
+        <span>${t('completed_review_days', 'أيام مراجعة مكتملة:')} <b class="text-gold-600 dark:text-gold-400 font-bold">${formatStdNum(weekReviewedTotal)}</b> ${t('out_of', 'من')} ${formatStdNum(chosenReviewDaysCount)}</span>
       </div>
     </div>
   `;
@@ -1557,10 +1567,10 @@ function renderPlanner() {
         <div class="p-2 sm:p-2.5 rounded-xl bg-amber-500/15 border border-amber-500/30 flex items-center justify-between gap-2 text-xs font-sans">
           <div class="flex items-center gap-1.5 text-amber-900 dark:text-amber-200">
             <i data-lucide="alert-circle" class="w-4 h-4 text-amber-600 shrink-0"></i>
-            <span class="text-[11px] font-bold">فُوّت الورد بالأمس (${yesterdayKey})!</span>
+            <span class="text-[11px] font-bold">${t('missed_yesterday_alert', 'فُوّت الورد بالأمس ({date})!').replace('{date}', yesterdayKey)}</span>
           </div>
           <button type="button" onclick="applyManualRecovery('${yesterdayKey}')" class="px-2.5 py-1 rounded-lg bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-[10px] shadow-xs active:scale-95 flex items-center gap-1 shrink-0">
-            <span>استدراك الأمس 🛡️</span>
+            <span>${t('recover_yesterday_btn', 'استدراك الأمس 🛡️')}</span>
           </button>
         </div>
       `;
@@ -1576,12 +1586,12 @@ function renderPlanner() {
             <div class="flex items-center gap-1.5">
               <span class="text-xs sm:text-sm font-black text-amber-900 dark:text-amber-200">${badgeTitle}</span>
             </div>
-            <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5 font-medium">سلسلة ثبات يومي: <b class="text-amber-600 dark:text-amber-400 font-bold text-xs sm:text-sm">${formatStdNum(streak)}</b> يوم متتالي 🔥</p>
+            <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5 font-medium">${t('daily_consistency_streak', 'سلسلة ثبات يومي:')} <b class="text-amber-600 dark:text-amber-400 font-bold text-xs sm:text-sm">${formatStdNum(streak)}</b> ${t('days_streak_fire', 'يوم متتالي 🔥')}</p>
           </div>
         </div>
         <div class="text-left font-sans">
-          <span class="text-[10px] text-slate-400 block">${motivator.nextTier ? `باقي ${formatStdNum(motivator.daysRemaining)} أيام لـ` : 'الدرجة العليا'}</span>
-          <span class="text-xs font-bold text-amber-700 dark:text-amber-300">${motivator.nextTier ? motivator.nextTier.title : '👑 متوج بالوقار'}</span>
+          <span class="text-[10px] text-slate-400 block">${motivator.nextTier ? t('days_remaining_to', 'باقي {n} أيام لـ').replace('{n}', formatStdNum(motivator.daysRemaining)) : t('highest_tier', 'الدرجة العليا')}</span>
+          <span class="text-xs font-bold text-amber-700 dark:text-amber-300">${motivator.nextTier ? motivator.nextTier.title : t('crowned_with_dignity', '👑 متوج بالوقار')}</span>
         </div>
       </div>
 
@@ -1594,18 +1604,18 @@ function renderPlanner() {
       <div class="flex flex-wrap items-center justify-between pt-1.5 border-t border-amber-500/20 dark:border-amber-400/10 text-xs font-sans gap-2">
         <div class="flex items-center gap-1.5">
           <span class="w-5 h-5 rounded-lg bg-emerald-100 dark:bg-emerald-950/80 text-emerald-800 dark:text-emerald-300 flex items-center justify-center font-bold text-xs shadow-xs">🛡️</span>
-          <span class="text-slate-700 dark:text-slate-200 font-bold">رصيد الاستدراك:</span>
+          <span class="text-slate-700 dark:text-slate-200 font-bold">${t('recovery_credit_label', 'رصيد الاستدراك:')}</span>
           <b class="text-emerald-700 dark:text-emerald-400 font-black text-sm">${formatStdNum(state.recoveryDays || 0)}</b>
-          <span class="text-[10px] text-slate-400 font-medium">يوم</span>
-          <span class="text-[10px] text-amber-700 dark:text-amber-300 font-semibold mr-1">(+1 يوم لكل أسبوع كامل 7/7)</span>
+          <span class="text-[10px] text-slate-400 font-medium">${t('days_streak', 'يوم')}</span>
+          <span class="text-[10px] text-amber-700 dark:text-amber-300 font-semibold mr-1">${t('recovery_credit_subtext', '(+1 يوم لكل أسبوع كامل 7/7)')}</span>
         </div>
 
         <div class="inline-flex items-center p-0.5 rounded-xl bg-slate-200/80 dark:bg-slate-800 border border-slate-300/60 dark:border-slate-700 text-[10px] font-bold">
-          <button type="button" onclick="setRecoveryMode('auto')" class="px-2 py-0.5 rounded-lg transition ${isAutoMode ? 'bg-emerald-700 text-white shadow-xs' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'}" title="استهلاك رصيد الاستدراك تلقائياً عند فوات يوم">
-            ⚡ تلقائي
+          <button type="button" onclick="setRecoveryMode('auto')" class="px-2 py-0.5 rounded-lg transition ${isAutoMode ? 'bg-emerald-700 text-white shadow-xs' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'}" title="${t('recovery_auto_title', 'استهلاك رصيد الاستدراك تلقائياً عند فوات يوم')}">
+            ${t('recovery_auto_btn', '⚡ تلقائي')}
           </button>
-          <button type="button" onclick="setRecoveryMode('manual')" class="px-2 py-0.5 rounded-lg transition ${!isAutoMode ? 'bg-emerald-700 text-white shadow-xs' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'}" title="أنت تقرر متى تستخدم رصيد الاستدراك يدوياً">
-            🖐️ يدوي
+          <button type="button" onclick="setRecoveryMode('manual')" class="px-2 py-0.5 rounded-lg transition ${!isAutoMode ? 'bg-emerald-700 text-white shadow-xs' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'}" title="${t('recovery_manual_title', 'أنت تقرر متى تستخدم رصيد الاستدراك يدوياً')}">
+            ${t('recovery_manual_btn', '🖐️ يدوي')}
           </button>
         </div>
       </div>
@@ -1619,7 +1629,11 @@ function renderPlanner() {
     </div>
   `;
 
-  const reviewDayNames = ['أحد', 'اثنين', 'ثلاثاء', 'أربعاء', 'خميس', 'جمعة', 'سبت'];
+  const reviewDayNamesAr = ['أحد', 'اثنين', 'ثلاثاء', 'أربعاء', 'خميس', 'جمعة', 'سبت'];
+  const reviewDayNamesEn = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  const reviewDayNamesIt = ['Dom', 'Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab'];
+  const reviewDayNames = (currentLang === 'en') ? reviewDayNamesEn : (currentLang === 'it' ? reviewDayNamesIt : reviewDayNamesAr);
+
   const dayButtonsHtml = [0, 1, 2, 3, 4, 5, 6].map(d => {
     const active = (state.reviewDays || []).includes(d);
     return `<button type="button" onclick="toggleReviewDayOption(${d})" class="px-2 py-1 rounded-lg text-xs font-bold transition border ${active ? 'bg-emerald-700 text-white border-emerald-600 shadow-xs' : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border-slate-200 dark:border-slate-700 hover:bg-slate-200'}">${reviewDayNames[d]}</button>`;
@@ -1630,33 +1644,33 @@ function renderPlanner() {
       ${streakHtml}
       <div class="flex flex-wrap items-center justify-between gap-2 text-xs">
         <div class="flex items-center gap-2">
-          <span class="text-slate-500">الهدف الأسبوعي:</span>
+          <span class="text-slate-500">${t('weekly_goal_label', 'الهدف الأسبوعي:')}</span>
           <input type="number" min="0" max="604" value="${state.goal || ''}" placeholder="0" onchange="setGoal(this.value)" class="w-16 px-2 py-1 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-center font-bold text-slate-800 dark:text-white">
-          <span class="text-slate-400">صفحة</span>
+          <span class="text-slate-400">${t('pages_unit', 'صفحة')}</span>
         </div>
         <div class="flex items-center gap-2">
-          <span class="text-slate-500">أيام الحفظ:</span>
+          <span class="text-slate-500">${t('study_days_label', 'أيام الحفظ:')}</span>
           <input type="number" min="1" max="7" value="${state.studyDays || 7}" onchange="setStudyDays(this.value)" class="w-12 px-2 py-1 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-center font-bold text-slate-800 dark:text-white">
-          <span class="text-slate-400">أيام</span>
+          <span class="text-slate-400">${t('days_unit', 'أيام')}</span>
         </div>
         <div class="text-[11px] font-semibold text-emerald-800 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/50 px-2 py-1 rounded-lg border border-emerald-200 dark:border-emerald-800">
-          الهدف اليومي: <b class="font-bold">${formatStdNum(dailyTarget)}</b> صفحة
+          ${t('daily_target_label', 'الهدف اليومي:')} <b class="font-bold">${formatStdNum(dailyTarget)}</b> ${t('pages_unit', 'صفحة')}
         </div>
       </div>
       <div class="flex flex-wrap items-center gap-1.5 text-xs pt-1">
-        <span class="text-slate-500 ml-1">أيام المراجعة المخصصة (${formatStdNum(chosenReviewDaysCount)}):</span>
+        <span class="text-slate-500 ml-1">${t('designated_review_days', 'أيام المراجعة المخصصة')} (${formatStdNum(chosenReviewDaysCount)}):</span>
         ${dayButtonsHtml}
       </div>
-      <div class="text-[11px] text-slate-500">اليوم: <b class="text-slate-800 dark:text-white">${formatStdNum(today)}</b> صفحة</div>
+      <div class="text-[11px] text-slate-500">${t('today_pages_label', 'اليوم:')} <b class="text-slate-800 dark:text-white">${formatStdNum(today)}</b> ${t('pages_unit', 'صفحة')}</div>
       ${chartHtml}
       <p class="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">${goalLine}</p>
       <div class="pt-2 border-t border-slate-100 dark:border-slate-800/80">
         <div class="flex items-center justify-between gap-2 mb-1">
-          <h3 class="text-xs font-bold text-slate-900 dark:text-white">تحتاج مراجعة ${due.length ? '(' + formatStdNum(due.length) + ')' : ''}</h3>
-          ${due.length ? '<button onclick="markAllReviewed()" class="shrink-0 px-2.5 py-1 rounded-lg bg-emerald-700 text-white text-[11px] font-bold active:scale-95">تمت مراجعة الكل</button>' : ''}
+          <h3 class="text-xs font-bold text-slate-900 dark:text-white">${t('needs_review_title', 'تحتاج مراجعة')} ${due.length ? '(' + formatStdNum(due.length) + ')' : ''}</h3>
+          ${due.length ? `<button onclick="markAllReviewed()" class="shrink-0 px-2.5 py-1 rounded-lg bg-emerald-700 text-white text-[11px] font-bold active:scale-95">${t('mark_all_reviewed_btn', 'تمت مراجعة الكل')}</button>` : ''}
         </div>
-        ${rows || '<p class="text-[11px] text-slate-500">لا توجد سور متأخرة المراجعة حالياً.</p>'}
-        ${due.length > 5 ? '<p class="text-[10px] text-slate-400 pt-1">تظهر أقدم 5 سور، وتظهر البقية بعد مراجعتها.</p>' : ''}
+        ${rows || `<p class="text-[11px] text-slate-500">${t('no_overdue_surahs', 'لا توجد سور متأخرة المراجعة حالياً.')}</p>`}
+        ${due.length > 5 ? `<p class="text-[10px] text-slate-400 pt-1">${t('overdue_surahs_limit_note', 'تظهر أقدم 5 سور، وتظهر البقية بعد مراجعتها.')}</p>` : ''}
       </div>
     </div>`;
 
