@@ -418,7 +418,7 @@ const I18N_DICTIONARY = {
     about_dismiss_btn: "حسناً، استوعبت ذلك",
 
     // Achievement Card & Modal
-    achievement_modal_title: "بطاقة إنجاز الحفظ والمراجعة",
+    achievement_modal_title: "بطاقة إنجاز الحفظ",
     student_name_label: "اسم الحافظ:",
     student_name_placeholder: "اكتب اسمك هنا ليظهر في الشهادة...",
     card_basmalah: "بسم الله الرحمن الرحيم",
@@ -884,7 +884,7 @@ const I18N_DICTIONARY = {
     about_dismiss_btn: "Got it, thanks!",
 
     // Achievement Card & Modal
-    achievement_modal_title: "Memorization & Revision Achievement Card",
+    achievement_modal_title: "Memorization Achievement Card",
     student_name_label: "Hafiz Name:",
     student_name_placeholder: "Write your name here to appear on the certificate...",
     card_basmalah: "In the name of Allah, the Most Gracious, the Most Merciful",
@@ -1350,7 +1350,7 @@ const I18N_DICTIONARY = {
     about_dismiss_btn: "Ho capito, grazie!",
 
     // Achievement Card & Modal
-    achievement_modal_title: "Scheda di Traguardo Memorizzazione e Ripasso",
+    achievement_modal_title: "Scheda di Traguardo Memorizzazione",
     student_name_label: "Nome dell'Hafiz:",
     student_name_placeholder: "Scrivi il tuo nome qui per vederlo sul certificato...",
     card_basmalah: "Nel nome di Allah, il Clementissimo, il Misericordioso",
