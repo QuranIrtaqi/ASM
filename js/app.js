@@ -211,16 +211,21 @@ function renderCoachStep() {
     `).join('');
   }
 
+  const isRTL = (typeof getAppLanguage === 'function' ? getAppLanguage() : 'ar') === 'ar';
+  const nextChevron = isRTL ? 'chevron-left' : 'chevron-right';
+  const prevChevron = isRTL ? 'chevron-right' : 'chevron-left';
+
   if (btnPrev) {
     btnPrev.style.display = currentCoachStep === 0 ? 'none' : 'inline-flex';
+    btnPrev.innerHTML = `<i data-lucide="${prevChevron}" class="w-3.5 h-3.5"></i><span>${t('prev', 'السابق')}</span>`;
   }
 
   if (btnNext) {
     if (currentCoachStep === COACH_MARKS_STEPS.length - 1) {
-      btnNext.innerHTML = `<span>إنهاء الجولة ✨</span>`;
+      btnNext.innerHTML = `<span>${t('finish_tour', 'إنهاء الجولة ✨')}</span>`;
       btnNext.className = "px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-gold-500 to-amber-500 hover:from-gold-600 hover:to-amber-600 text-slate-950 font-bold text-xs shadow-md transition active:scale-95 flex items-center gap-1";
     } else {
-      btnNext.innerHTML = `<span>التالي</span><i data-lucide="chevron-left" class="w-3.5 h-3.5"></i>`;
+      btnNext.innerHTML = `<span>${t('next', 'التالي')}</span><i data-lucide="${nextChevron}" class="w-3.5 h-3.5"></i>`;
       btnNext.className = "px-3.5 py-1.5 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs shadow-md transition active:scale-95 flex items-center gap-1";
     }
   }
@@ -378,7 +383,7 @@ function renderSurahs() {
     container.innerHTML = `
       <div class="col-span-full py-10 text-center text-slate-400 font-sans">
         <i data-lucide="book-x" class="w-10 h-10 mx-auto mb-2 opacity-40"></i>
-        <p class="text-xs sm:text-sm font-semibold">لم نجد نتائج تطابق بحثك أو عامل التصفية المحدد</p>
+        <p class="text-xs sm:text-sm font-semibold">${t('no_results_found')}</p>
       </div>
     `;
     lucide.createIcons();
@@ -392,6 +397,7 @@ function renderSurahs() {
     let pct = 0;
     let progressLabel = '';
     let pagesCount = 0;
+    const pUnit = t('p_short');
 
     for (let p = s.startPage; p <= s.endPage; p++) {
       if (state.memorizedPages[p]) pagesCount++;
@@ -400,38 +406,39 @@ function renderSurahs() {
     if (totalPages === 1) {
       if (isDone) {
         pct = 100;
-        progressLabel = `100% (${formatStdNum(1)}/${formatStdNum(1)} ص)`;
+        progressLabel = `100% (${formatStdNum(1)}/${formatStdNum(1)} ${pUnit})`;
       } else {
         pct = 0;
-        progressLabel = `0% (${formatStdNum(0)}/${formatStdNum(1)} ص)`;
+        progressLabel = `0% (${formatStdNum(0)}/${formatStdNum(1)} ${pUnit})`;
       }
     } else {
       if (isDone) {
         pct = 100;
-        progressLabel = `100% (${formatStdNum(totalPages)}/${formatStdNum(totalPages)} ص)`;
+        progressLabel = `100% (${formatStdNum(totalPages)}/${formatStdNum(totalPages)} ${pUnit})`;
       } else {
         pct = Math.round((pagesCount / totalPages) * 100);
-        progressLabel = `${pct}% (${formatStdNum(pagesCount)}/${formatStdNum(totalPages)} ص)`;
+        progressLabel = `${pct}% (${formatStdNum(pagesCount)}/${formatStdNum(totalPages)} ${pUnit})`;
       }
     }
 
     const hasStarted = !isDone && (pagesCount > 0 || (state.ayahs && state.ayahs[s.id] > 0));
 
+    const typeLabel = s.type === 'مكية' ? t('meccan') : t('medinan');
     let cardBgClass = "bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 hover:border-emerald-300 dark:hover:border-emerald-800 shadow-sm";
-    let badgeStateHtml = `<span class="text-[10px] px-2 py-0.5 rounded-full ${s.type === 'مكية' ? 'bg-amber-100 dark:bg-amber-950 text-amber-800 dark:text-amber-300' : 'bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300'} font-semibold font-sans">${s.type}</span>`;
+    let badgeStateHtml = `<span class="text-[10px] px-2 py-0.5 rounded-full ${s.type === 'مكية' ? 'bg-amber-100 dark:bg-amber-950 text-amber-800 dark:text-amber-300' : 'bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300'} font-semibold font-sans">${typeLabel}</span>`;
     let progressBarClass = "bg-emerald-600";
 
     if (isDone) {
       cardBgClass = "bg-emerald-50/80 dark:bg-emerald-950/40 border-emerald-400/80 dark:border-emerald-700 shadow-sm shadow-emerald-700/10";
-      badgeStateHtml = `<span class="text-[10px] px-2 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 font-bold border border-emerald-300/80 dark:border-emerald-800 flex items-center gap-1"><span>✓</span><span>مكتملة</span></span>`;
+      badgeStateHtml = `<span class="text-[10px] px-2 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 font-bold border border-emerald-300/80 dark:border-emerald-800 flex items-center gap-1"><span>✓</span><span>${t('completed')}</span></span>`;
     } else if (hasStarted) {
       cardBgClass = "surah-card-in-progress shadow-sm shadow-amber-900/10";
-      badgeStateHtml = `<span class="text-[10px] px-2 py-0.5 rounded-full bg-amber-100 dark:bg-amber-950 text-amber-800 dark:text-amber-300 font-bold border border-amber-300/80 dark:border-amber-800 flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span><span>قيد الحفظ (${formatStdNum(pct)}%)</span></span>`;
+      badgeStateHtml = `<span class="text-[10px] px-2 py-0.5 rounded-full bg-amber-100 dark:bg-amber-950 text-amber-800 dark:text-amber-300 font-bold border border-amber-300/80 dark:border-amber-800 flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span><span>${t('in_progress')} (${formatStdNum(pct)}%)</span></span>`;
       progressBarClass = "bg-gradient-to-l from-amber-500 to-amber-600";
     }
 
     return `
-      <div onclick="openPagePreview(${s.startPage})" class="cursor-pointer group relative p-3.5 rounded-2xl border transition-all duration-200 select-none active:scale-[0.99] touch-manipulation ${cardBgClass}" title="اضغط لتصفح السورة في المصحف">
+      <div onclick="openPagePreview(${s.startPage})" class="cursor-pointer group relative p-3.5 rounded-2xl border transition-all duration-200 select-none active:scale-[0.99] touch-manipulation ${cardBgClass}" title="${t('browse_surah_title')}">
         <div class="flex items-center justify-between gap-3">
           <div class="flex items-center gap-3 min-w-0">
             <div class="w-9 h-9 rounded-xl flex items-center justify-center font-bold text-xs font-sans shrink-0 ${isDone
@@ -448,7 +455,7 @@ function renderSurahs() {
                 ${badgeStateHtml}
               </div>
               <p class="text-xs text-slate-400 dark:text-slate-500 mt-0.5 font-sans">
-                ${formatStdNum(s.ayahs)} آية • ص ${formatStdNum(s.startPage)} إلى ${formatStdNum(s.endPage)} • الجزء ${formatStdNum(s.juz)}
+                ${formatStdNum(s.ayahs)} ${t('ayahs')} • ${t('p_short')} ${formatStdNum(s.startPage)} - ${formatStdNum(s.endPage)} • ${t('juz')} ${formatStdNum(s.juz)}
               </p>
             </div>
           </div>
@@ -459,8 +466,8 @@ function renderSurahs() {
               ? 'bg-emerald-700 hover:bg-emerald-800 text-white shadow-md shadow-emerald-700/30 active:scale-90 ring-2 ring-emerald-500/30'
               : 'border-2 border-slate-300 dark:border-slate-700 hover:border-emerald-600 dark:hover:border-emerald-400 text-slate-300 dark:text-slate-600 hover:text-emerald-700 dark:hover:text-emerald-400 bg-white/70 dark:bg-slate-800/70 active:scale-90'
             }"
-            title="${isDone ? 'إلغاء إتمام السورة (استعادة الصفحات السابقة)' : 'تحديد السورة كمكتملة الحفظ'}"
-            aria-label="${isDone ? 'إلغاء إتمام السورة' : 'تحديد السورة كمكتملة الحفظ'}">
+            title="${isDone ? t('toggle_surah_undone') : t('toggle_surah_done')}"
+            aria-label="${isDone ? t('toggle_surah_undone') : t('toggle_surah_done')}">
             <i data-lucide="check" class="w-4 h-4 stroke-[3] ${isDone ? '' : 'opacity-0 group-hover:opacity-40 transition-opacity'}"></i>
           </button>
         </div>
@@ -474,19 +481,19 @@ function renderSurahs() {
           </div>
 
           <div class="flex items-center gap-1 shrink-0">
-            <button type="button" onclick="event.stopPropagation(); triggerHaptic('light'); openPagePreview(${s.startPage})" title="تصفح وقراءة السورة في المصحف" class="px-2 py-1 rounded-lg text-[10.5px] font-bold bg-slate-100 hover:bg-emerald-50 dark:bg-slate-800 dark:hover:bg-emerald-950/50 text-slate-700 hover:text-emerald-800 dark:text-slate-300 dark:hover:text-emerald-300 border border-slate-200 dark:border-slate-700 transition active:scale-95 flex items-center gap-1">
+            <button type="button" onclick="event.stopPropagation(); triggerHaptic('light'); openPagePreview(${s.startPage})" title="${t('browse_surah_title')}" class="px-2 py-1 rounded-lg text-[10.5px] font-bold bg-slate-100 hover:bg-emerald-50 dark:bg-slate-800 dark:hover:bg-emerald-950/50 text-slate-700 hover:text-emerald-800 dark:text-slate-300 dark:hover:text-emerald-300 border border-slate-200 dark:border-slate-700 transition active:scale-95 flex items-center gap-1">
               <i data-lucide="book-open" class="w-3 h-3 text-emerald-600"></i>
-              <span>المصحف</span>
+              <span>${t('mushaf')}</span>
             </button>
-            <button type="button" onclick="event.stopPropagation(); triggerHaptic('light'); startTamkeenForSurah(${s.id})" title="اختبار فوري في تمكين لهذه السورة" class="px-2 py-1 rounded-lg text-[10.5px] font-bold bg-amber-50 hover:bg-amber-100 dark:bg-amber-950/60 dark:hover:bg-amber-900/60 text-amber-800 dark:text-amber-300 border border-amber-300/80 dark:border-amber-800 transition active:scale-95 flex items-center gap-1">
+            <button type="button" onclick="event.stopPropagation(); triggerHaptic('light'); startTamkeenForSurah(${s.id})" title="${t('test_me')}" class="px-2 py-1 rounded-lg text-[10.5px] font-bold bg-amber-50 hover:bg-amber-100 dark:bg-amber-950/60 dark:hover:bg-amber-900/60 text-amber-800 dark:text-amber-300 border border-amber-300/80 dark:border-amber-800 transition active:scale-95 flex items-center gap-1">
               <i data-lucide="brain" class="w-3 h-3 text-amber-600"></i>
-              <span>اختبرني</span>
+              <span>${t('test_me')}</span>
             </button>
           </div>
         </div>
         ${isDone ? '' : `
         <div onclick="event.stopPropagation()" class="mt-2 flex items-center gap-2 text-[11px] text-slate-500 font-sans">
-          <span>آيات محفوظة بدقة:</span>
+          <span>${t('precise_ayahs')}</span>
           <input type="number" min="0" max="${s.ayahs}" inputmode="numeric" value="${state.ayahs[s.id] || ''}" placeholder="0" onchange="setAyahs(${s.id}, this.value)" class="w-14 px-1.5 py-0.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-center font-bold text-slate-800 dark:text-white">
           <span>/ ${formatStdNum(s.ayahs)}</span>
         </div>
@@ -654,9 +661,9 @@ function renderPages() {
           <div class="col-span-full my-2.5 py-1 px-3 rounded-lg bg-emerald-500/10 dark:bg-emerald-500/15 border border-emerald-500/20 flex items-center justify-between text-[11px] font-bold text-emerald-800 dark:text-emerald-300">
             <span class="flex items-center gap-1.5">
               <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block"></span>
-              الحزب ${formatStdNum(hizb2Num)} (النصف الثاني)
+              ${t('hizb')} ${formatStdNum(hizb2Num)} (${t('second_half')})
             </span>
-            <span class="text-[10px] font-normal opacity-75">ص ${formatStdNum(midPointPage)} - ${formatStdNum(j.end)}</span>
+            <span class="text-[10px] font-normal opacity-75">${t('p_short')} ${formatStdNum(midPointPage)} - ${formatStdNum(j.end)}</span>
           </div>
         `;
       }
@@ -665,19 +672,19 @@ function renderPages() {
         <div 
           id="page-cell-${p}"
           onclick="togglePage(${p})" 
-          title="صفحة ${formatStdNum(p)} | جزء ${formatStdNum(juz)} | سورة ${surahNames} (${isDone ? 'تم الحفظ' : 'غير محفوظ'})"
+          title="${t('page')} ${formatStdNum(p)} | ${t('juz')} ${formatStdNum(juz)} | ${surahNames} (${isDone ? t('completed') : t('in_progress')})"
           class="page-box cursor-pointer relative group h-11 sm:h-12 rounded-xl text-xs font-bold flex flex-col items-center justify-center transition-all shadow-sm active:scale-95 touch-manipulation select-none ${isDone
           ? 'bg-emerald-700 text-white shadow-emerald-800/30'
           : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-emerald-100 hover:text-emerald-900 dark:hover:bg-emerald-950 dark:hover:text-emerald-200 border border-slate-200/90 dark:border-slate-700'
         }">
-          <button type="button" onclick="event.stopPropagation(); openPagePreview(${p})" title="معاينة الصفحة في المصحف" class="absolute -top-0.5 -left-0.5 w-6 h-6 flex items-center justify-center rounded-lg text-slate-400 dark:text-slate-500 hover:text-emerald-700 dark:hover:text-gold-300 opacity-75 sm:opacity-0 group-hover:opacity-100 transition active:scale-90">
+          <button type="button" onclick="event.stopPropagation(); openPagePreview(${p})" title="${t('mushaf')}" class="absolute -top-0.5 -left-0.5 w-6 h-6 flex items-center justify-center rounded-lg text-slate-400 dark:text-slate-500 hover:text-emerald-700 dark:hover:text-gold-300 opacity-75 sm:opacity-0 group-hover:opacity-100 transition active:scale-90">
             <i data-lucide="eye" class="w-3.5 h-3.5"></i>
           </button>
-          <button type="button" onclick="event.stopPropagation(); startTamkeenForPage(${p})" title="اختبار فوري في تمكين لهذه الصفحة" class="absolute -top-0.5 -right-0.5 w-6 h-6 flex items-center justify-center rounded-lg text-amber-500 hover:text-amber-600 opacity-75 sm:opacity-0 group-hover:opacity-100 transition active:scale-90">
+          <button type="button" onclick="event.stopPropagation(); startTamkeenForPage(${p})" title="${t('test_me')}" class="absolute -top-0.5 -right-0.5 w-6 h-6 flex items-center justify-center rounded-lg text-amber-500 hover:text-amber-600 opacity-75 sm:opacity-0 group-hover:opacity-100 transition active:scale-90">
             <i data-lucide="brain" class="w-3.5 h-3.5"></i>
           </button>
           <span>${formatStdNum(p)}</span>
-          <span class="text-[8px] font-normal opacity-70">ج${formatStdNum(juz)}</span>
+          <span class="text-[8px] font-normal opacity-70">${t('juz')} ${formatStdNum(juz)}</span>
         </div>
       `;
     }
@@ -698,11 +705,11 @@ function renderPages() {
             </span>
             <div>
               <div class="flex items-center gap-2">
-                <h4 class="font-bold text-slate-900 dark:text-white text-xs sm:text-sm">الجزء ${formatStdNum(j.juz)}</h4>
+                <h4 class="font-bold text-slate-900 dark:text-white text-xs sm:text-sm">${t('juz')} ${formatStdNum(j.juz)}</h4>
                 <span class="text-[11px] text-emerald-700 dark:text-emerald-400 font-quran font-normal">(${j.name})</span>
               </div>
               <p class="text-[10px] text-slate-400 font-sans">
-                الحزب ${formatStdNum(hizb1Num)} و${formatStdNum(hizb2Num)} • الصفحات ${formatStdNum(j.start)} - ${formatStdNum(j.end)}
+                ${t('hizb')} ${formatStdNum(hizb1Num)}, ${formatStdNum(hizb2Num)} • ${t('pages')} ${formatStdNum(j.start)} - ${formatStdNum(j.end)}
               </p>
             </div>
           </div>
@@ -712,15 +719,15 @@ function renderPages() {
               ${formatStdNum(juzDoneCount)}/${formatStdNum(totalInJuz)} (${juzPct}%)
             </span>
             <div class="flex items-center gap-1">
-              <button onclick="startTamkeenForJuz(${j.juz})" title="اختبار تمكين في هذا الجزء" class="px-2 py-1 rounded-lg bg-amber-50 dark:bg-amber-950/70 text-amber-800 dark:text-amber-300 hover:bg-amber-100 dark:hover:bg-amber-900 text-[11px] font-bold transition active:scale-95 flex items-center gap-1">
+              <button onclick="startTamkeenForJuz(${j.juz})" title="${t('test_juz')}" class="px-2 py-1 rounded-lg bg-amber-50 dark:bg-amber-950/70 text-amber-800 dark:text-amber-300 hover:bg-amber-100 dark:hover:bg-amber-900 text-[11px] font-bold transition active:scale-95 flex items-center gap-1">
                 <i data-lucide="brain" class="w-3 h-3 text-amber-600"></i>
-                <span>اختبرني</span>
+                <span>${t('test_me')}</span>
               </button>
-              <button onclick="markWholeJuz(${j.juz}, true)" title="حفظ الجزء بالكامل" class="px-2 py-1 rounded-lg bg-emerald-50 dark:bg-emerald-950/70 text-emerald-800 dark:text-emerald-300 hover:bg-emerald-100 dark:hover:bg-emerald-900 text-[11px] font-bold transition active:scale-95">
-                حفظ الكل
+              <button onclick="markWholeJuz(${j.juz}, true)" title="${t('mark_all_juz')}" class="px-2 py-1 rounded-lg bg-emerald-50 dark:bg-emerald-950/70 text-emerald-800 dark:text-emerald-300 hover:bg-emerald-100 dark:hover:bg-emerald-900 text-[11px] font-bold transition active:scale-95">
+                ${t('save')}
               </button>
-              <button onclick="markWholeJuz(${j.juz}, false)" title="إلغاء حفظ الجزء" class="px-2 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 text-[11px] font-bold transition active:scale-95">
-                إلغاء
+              <button onclick="markWholeJuz(${j.juz}, false)" title="${t('unmark_all_juz')}" class="px-2 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 text-[11px] font-bold transition active:scale-95">
+                ${t('cancel')}
               </button>
             </div>
           </div>
@@ -738,10 +745,9 @@ function renderPages() {
     html = `
       <div class="text-center py-12 bg-white/70 dark:bg-slate-900/70 rounded-2xl border border-dashed border-slate-300 dark:border-slate-800 p-6 space-y-3">
         <i data-lucide="search-x" class="w-10 h-10 text-slate-400 mx-auto"></i>
-        <h4 class="text-sm font-bold text-slate-700 dark:text-slate-300">${filter === 'memorized' ? 'لم تقم بتحديد أي صفحات محفوظة بعد' : 'لا توجد صفحات مطابقة'}</h4>
-        <p class="text-xs text-slate-500">${filter === 'memorized' ? 'اضغط على زر (الكل) لتتمكن من الضغط على أي صفحة لتحديد حفظها.' : 'جرب البحث برقم صفحة آخر أو إلغاء التصفية الحالية'}</p>
+        <h4 class="text-sm font-bold text-slate-700 dark:text-slate-300">${t('no_results_found')}</h4>
         <button type="button" onclick="setPagesFilter('all')" class="mt-2 px-3 py-1.5 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs shadow-sm transition active:scale-95">
-          عرض جميع الصفحات (604)
+          ${t('filter_btn_all')} (604)
         </button>
       </div>
     `;
@@ -774,13 +780,13 @@ function renderJuz() {
               ${formatStdNum(j.juz)}
             </span>
             <div>
-              <h4 class="font-bold text-slate-900 dark:text-white text-xs sm:text-sm">الجزء ${formatStdNum(j.juz)}</h4>
+              <h4 class="font-bold text-slate-900 dark:text-white text-xs sm:text-sm">${t('juz')} ${formatStdNum(j.juz)}</h4>
               <p class="text-[11px] text-slate-500 font-quran">${j.name}</p>
             </div>
           </div>
           <div class="text-left font-sans">
             <span class="text-sm font-black ${isComplete ? 'text-emerald-700 dark:text-emerald-400' : 'text-slate-700 dark:text-slate-300'}">${pct}%</span>
-            <span class="text-[10px] text-slate-400 block">${formatStdNum(donePages)}/${formatStdNum(totalPages)} صفحة</span>
+            <span class="text-[10px] text-slate-400 block">${formatStdNum(donePages)}/${formatStdNum(totalPages)} ${t('pages')}</span>
           </div>
         </div>
 
@@ -789,17 +795,17 @@ function renderJuz() {
         </div>
 
         <div class="pt-2 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs">
-          <span class="text-slate-400 text-[10px] font-sans">الصفحات: ${formatStdNum(j.start)} - ${formatStdNum(j.end)}</span>
+          <span class="text-slate-400 text-[10px] font-sans">${t('pages')}: ${formatStdNum(j.start)} - ${formatStdNum(j.end)}</span>
           <div class="flex items-center gap-1.5">
-            <button onclick="startTamkeenForJuz(${j.juz})" title="اختبار تمكين في هذا الجزء" class="px-2.5 py-1 rounded-lg bg-amber-50 dark:bg-amber-950 text-amber-800 dark:text-amber-300 hover:bg-amber-100 font-bold transition text-xs flex items-center gap-1">
+            <button onclick="startTamkeenForJuz(${j.juz})" title="${t('test_juz')}" class="px-2.5 py-1 rounded-lg bg-amber-50 dark:bg-amber-950 text-amber-800 dark:text-amber-300 hover:bg-amber-100 font-bold transition text-xs flex items-center gap-1">
               <i data-lucide="brain" class="w-3 h-3 text-amber-600"></i>
-              <span>اختبرني</span>
+              <span>${t('test_me')}</span>
             </button>
             <button onclick="markWholeJuz(${j.juz}, true)" class="px-2.5 py-1 rounded-lg bg-emerald-50 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 hover:bg-emerald-100 font-bold transition text-xs">
-              حفظ الكل
+              ${t('save')}
             </button>
             <button onclick="markWholeJuz(${j.juz}, false)" class="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:text-rose-600 font-bold transition text-xs">
-              إلغاء
+              ${t('cancel')}
             </button>
           </div>
         </div>
@@ -1378,34 +1384,34 @@ function attachPreviewSwipe() {
 function renderPlanner() {
   const el = document.getElementById('plannerCard');
   if (!el) return;
-  const t = todayStr();
+  const curDate = todayStr();
   const count = Object.keys(state.memorizedPages).length;
   const left = 604 - count;
-  const today = state.log[t] || 0;
+  const today = state.log[curDate] || 0;
 
   const due = SURAHS.filter(s => {
     if (!state.memorizedSurahs[s.id]) return false;
     const last = state.reviews[s.id];
     const interval = (state.surahIntervals && state.surahIntervals[s.id]) || REVIEW_DAYS;
     if (!last) return true;
-    return daysBetween(last, t) >= interval;
+    return daysBetween(last, curDate) >= interval;
   }).sort((a, b) => {
-    const da = state.reviews[a.id] ? daysBetween(state.reviews[a.id], t) : 9999;
-    const db = state.reviews[b.id] ? daysBetween(state.reviews[b.id], t) : 9999;
+    const da = state.reviews[a.id] ? daysBetween(state.reviews[a.id], curDate) : 9999;
+    const db = state.reviews[b.id] ? daysBetween(state.reviews[b.id], curDate) : 9999;
     return db - da;
   });
 
   const duePreview = due.slice(0, 5);
   const rows = duePreview.map(s => {
     const last = state.reviews[s.id];
-    const daysAgo = last ? daysBetween(last, t) : null;
+    const daysAgo = last ? daysBetween(last, curDate) : null;
     const currentInterval = (state.surahIntervals && state.surahIntervals[s.id]) || REVIEW_DAYS;
     return `
       <div class="flex items-center justify-between text-xs py-1.5 border-b border-slate-100 dark:border-slate-800 last:border-0 font-sans">
         <div class="flex items-center gap-2">
-          <span class="font-bold text-slate-800 dark:text-slate-200">سورة ${s.name}</span>
-          <span class="text-[10px] text-slate-400">(${formatStdNum(s.ayahs)} آية)</span>
-          <span class="text-[10px] text-amber-600 dark:text-amber-400">${daysAgo === null ? 'لم تُراجع بعد' : 'قبل ' + formatStdNum(daysAgo) + ' يوم'}</span>
+          <span class="font-bold text-slate-800 dark:text-slate-200">${t('surah_prefix', 'سورة ')}${s.name}</span>
+          <span class="text-[10px] text-slate-400">(${formatStdNum(s.ayahs)} ${t('ayah', 'آية')})</span>
+          <span class="text-[10px] text-amber-600 dark:text-amber-400">${daysAgo === null ? t('daily_ward_not_reviewed', 'لم تُراجع بعد') : t('daily_ward_overdue_prefix', 'قبل') + ' ' + formatStdNum(daysAgo) + ' ' + t('days_streak', 'يوم')}</span>
         </div>
         <div class="flex items-center gap-1">
           <button onclick="rateSurahReview(${s.id}, 28, 'ممتاز')" title="ممتاز - مراجعة بعد 28 يوماً" class="px-2 py-0.5 rounded text-[11px] font-bold bg-emerald-50 hover:bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 dark:hover:bg-emerald-900 border border-emerald-300/80 dark:border-emerald-800 active:scale-95 transition">🟢 ممتاز</button>
@@ -1424,7 +1430,7 @@ function renderPlanner() {
   if (state.goal > 0) {
     const weeklyRate = state.goal * (studyDays / 7);
     const daysNeeded = weeklyRate > 0 ? Math.ceil(left / (state.goal / 7)) : Infinity;
-    const fin = isFinite(daysNeeded) ? addDays(t, daysNeeded).toLocaleDateString('ar-EG-u-nu-latn', { year: 'numeric', month: 'long', day: 'numeric' }) : 'غير محدد';
+    const fin = isFinite(daysNeeded) ? addDays(curDate, daysNeeded).toLocaleDateString('ar-EG-u-nu-latn', { year: 'numeric', month: 'long', day: 'numeric' }) : 'غير محدد';
     goalLine = `الهدف: <b class="text-slate-800 dark:text-white">${formatStdNum(state.goal)}</b> صفحة/أسبوع (بمعدل <b class="text-emerald-700 dark:text-emerald-400">${formatStdNum(dailyTarget)}</b> صفحة/يوم) • الختم المتوقع: <b class="text-emerald-700 dark:text-emerald-400">${fin}</b>`;
   } else {
     goalLine = 'حدد هدفك الأسبوعي لحساب موعد الختم المتوقع.';
@@ -1674,15 +1680,15 @@ function renderDailyWard() {
   const memorizedCount = Object.keys(state.memorizedSurahs || {}).length;
   if (memorizedCount === 0) {
     container.innerHTML = `
-      <div class="rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-4 sm:p-5 shadow-sm text-right font-sans">
+      <div class="rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-4 sm:p-5 shadow-sm text-start font-sans">
         <div class="flex items-center gap-3">
           <div class="w-10 h-10 rounded-2xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0 border border-emerald-500/20">
             <i data-lucide="book-open-check" class="w-5 h-5"></i>
           </div>
           <div class="space-y-0.5 flex-1">
-            <h3 class="font-bold text-slate-900 dark:text-white text-sm sm:text-base">الورد اليومي الذكي للمراجعة</h3>
+            <h3 class="font-bold text-slate-900 dark:text-white text-sm sm:text-base">${t('daily_ward_title', 'الورد اليومي الذكي للمراجعة')}</h3>
             <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
-              ابدأ بتحديد السور التي تحفظها في تبويب <b>«حسب السور»</b> أو الصفحات، ليقوم النظام الذكي بجدولة ورد مراجعتك اليومي تلقائياً وفق خوارزمية التكرار المتباعد لمنع التفلت.
+              ${t('daily_ward_empty_desc', 'ابدأ بتحديد السور التي تحفظها في تبويب «حسب السور» أو الصفحات، ليقوم النظام الذكي بجدولة ورد مراجعتك اليومي تلقائياً وفق خوارزمية التكرار المتباعد لمنع التفلت.')}
             </p>
           </div>
         </div>
@@ -1708,16 +1714,16 @@ function renderDailyWard() {
             </div>
             <div>
               <div class="flex items-center gap-2">
-                <h3 class="font-bold text-slate-900 dark:text-white text-sm sm:text-base">الورد اليومي الذكي للمراجعة</h3>
-                <span class="px-2 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-950/70 text-emerald-700 dark:text-emerald-300 text-[11px] font-bold">مكتمل 100% ✓</span>
+                <h3 class="font-bold text-slate-900 dark:text-white text-sm sm:text-base">${t('daily_ward_title', 'الورد اليومي الذكي للمراجعة')}</h3>
+                <span class="px-2 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-950/70 text-emerald-700 dark:text-emerald-300 text-[11px] font-bold">${t('daily_ward_complete_badge', 'مكتمل 100% ✓')}</span>
               </div>
-              <p class="text-xs text-slate-500 dark:text-slate-400">أتممت مراجعة جميع السور المستحقة في ورد اليوم بنجاح</p>
+              <p class="text-xs text-slate-500 dark:text-slate-400">${t('daily_ward_complete_desc', 'أتممت مراجعة جميع السور المستحقة في ورد اليوم بنجاح')}</p>
             </div>
           </div>
           <button type="button" onclick="switchMode('tamkeen')"
             class="self-start sm:self-auto px-3.5 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs shadow-sm transition active:scale-95 flex items-center gap-1.5">
             <i data-lucide="brain" class="w-3.5 h-3.5"></i>
-            <span>اختبر حفظك في تمكين</span>
+            <span>${t('daily_ward_test_tamkeen', 'اختبر حفظك في تمكين')}</span>
           </button>
         </div>
 
@@ -1725,12 +1731,12 @@ function renderDailyWard() {
           <div class="flex items-center gap-2">
             <i data-lucide="sparkle" class="w-4 h-4 text-emerald-600 shrink-0"></i>
             <span class="text-xs font-bold text-emerald-900 dark:text-emerald-200">
-              هنيئاً لك! لا توجد سور مستحقة للمراجعة حالياً. حافظت على عهد القرآن وتثبيت آياته اليوم.
+              ${t('daily_ward_complete_congrats', 'هنيئاً لك! لا توجد سور مستحقة للمراجعة حالياً. حافظت على عهد القرآن وتثبيت آياته اليوم.')}
             </span>
           </div>
           ${reviewedTodayCount > 0 ? `
             <button type="button" onclick="toggleReviewedTodayExpand()" class="text-xs font-bold text-emerald-700 dark:text-emerald-300 hover:underline flex items-center gap-1 shrink-0">
-              <span>عرض ما روجع اليوم (${formatStdNum(reviewedTodayCount)})</span>
+              <span>${t('daily_ward_reviewed_today', 'عرض ما روجع اليوم')} (${formatStdNum(reviewedTodayCount)})</span>
               <i data-lucide="${isReviewedTodayExpanded ? 'chevron-up' : 'chevron-down'}" class="w-3.5 h-3.5"></i>
             </button>
           ` : ''}
@@ -1741,10 +1747,10 @@ function renderDailyWard() {
             ${reviewedToday.map(s => `
               <div class="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 flex items-center justify-between text-xs">
                 <div>
-                  <span class="font-bold text-slate-800 dark:text-slate-100">سورة ${s.name}</span>
-                  <span class="text-[10px] text-slate-400 block">${s.totalVerses} آية</span>
+                  <span class="font-bold text-slate-800 dark:text-slate-100">${t('surah_prefix', 'سورة ')}${s.name}</span>
+                  <span class="text-[10px] text-slate-400 block">${s.totalVerses} ${t('ayah', 'آية')}</span>
                 </div>
-                <span class="text-emerald-600 dark:text-emerald-400 font-bold text-[11px]">تمت ✓</span>
+                <span class="text-emerald-600 dark:text-emerald-400 font-bold text-[11px]">${t('daily_ward_done', 'تمت ✓')}</span>
               </div>
             `).join('')}
           </div>
@@ -1756,16 +1762,16 @@ function renderDailyWard() {
     const dueItemsHtml = due.map(s => {
       let intervalBadge = '';
       if (s.interval <= 4) {
-        intervalBadge = `<span class="px-2 py-0.5 rounded-md bg-rose-100 dark:bg-rose-950/80 text-rose-700 dark:text-rose-300 font-bold text-[10px] border border-rose-300/60 dark:border-rose-800 flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span>كل 4 أيام (تثبيت مكثف)</span>`;
+        intervalBadge = `<span class="px-2 py-0.5 rounded-md bg-rose-100 dark:bg-rose-950/80 text-rose-700 dark:text-rose-300 font-bold text-[10px] border border-rose-300/60 dark:border-rose-800 flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span>${t('daily_ward_interval_4', 'كل 4 أيام (تثبيت مكثف)')}</span>`;
       } else if (s.interval <= 14) {
-        intervalBadge = `<span class="px-2 py-0.5 rounded-md bg-amber-100 dark:bg-amber-950/80 text-amber-700 dark:text-amber-300 font-bold text-[10px] border border-amber-300/60 dark:border-amber-800 flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>كل 14 يوم (متوسط)</span>`;
+        intervalBadge = `<span class="px-2 py-0.5 rounded-md bg-amber-100 dark:bg-amber-950/80 text-amber-700 dark:text-amber-300 font-bold text-[10px] border border-amber-300/60 dark:border-amber-800 flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>${t('daily_ward_interval_14', 'كل 14 يوم (متوسط)')}</span>`;
       } else {
-        intervalBadge = `<span class="px-2 py-0.5 rounded-md bg-emerald-100 dark:bg-emerald-950/80 text-emerald-700 dark:text-emerald-300 font-bold text-[10px] border border-emerald-300/60 dark:border-emerald-800 flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>كل 28 يوم (إتقان تام)</span>`;
+        intervalBadge = `<span class="px-2 py-0.5 rounded-md bg-emerald-100 dark:bg-emerald-950/80 text-emerald-700 dark:text-emerald-300 font-bold text-[10px] border border-emerald-300/60 dark:border-emerald-800 flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>${t('daily_ward_interval_28', 'كل 28 يوم (إتقان تام)')}</span>`;
       }
 
       const overdueText = s.overdueDays === 999 
-        ? 'لم تراجع مسبقاً' 
-        : (s.overdueDays > 0 ? `متأخرة ${formatStdNum(s.overdueDays)} يوم` : 'مستحقة اليوم');
+        ? t('daily_ward_not_reviewed', 'لم تراجع مسبقاً') 
+        : (s.overdueDays > 0 ? `${t('daily_ward_overdue_prefix', 'متأخرة')} ${formatStdNum(s.overdueDays)} ${t('days_streak', 'أيام')}` : t('daily_ward_due_today', 'مستحقة اليوم'));
 
       return `
         <div class="p-3 sm:p-3.5 rounded-2xl bg-slate-50/90 dark:bg-slate-800/60 hover:bg-slate-100/80 dark:hover:bg-slate-800 border border-slate-200/90 dark:border-slate-700/80 transition flex flex-col sm:flex-row sm:items-center justify-between gap-3">
@@ -1775,8 +1781,8 @@ function renderDailyWard() {
             </div>
             <div class="space-y-1">
               <div class="flex flex-wrap items-center gap-2">
-                <span class="font-bold text-slate-900 dark:text-white text-sm sm:text-base">سورة ${s.name}</span>
-                <span class="text-[11px] text-slate-500 dark:text-slate-400 font-medium">(${formatStdNum(s.totalVerses)} آية • ص ${formatStdNum(s.startPage)})</span>
+                <span class="font-bold text-slate-900 dark:text-white text-sm sm:text-base">${t('surah_prefix', 'سورة ')}${s.name}</span>
+                <span class="text-[11px] text-slate-500 dark:text-slate-400 font-medium">(${formatStdNum(s.totalVerses)} ${t('ayah', 'آية')} • ${t('p_short', 'ص')} ${formatStdNum(s.startPage)})</span>
                 ${intervalBadge}
               </div>
               <div class="text-[11px] text-slate-500 dark:text-slate-400 flex items-center gap-2">
@@ -1784,7 +1790,7 @@ function renderDailyWard() {
                   <i data-lucide="clock" class="w-3 h-3"></i>
                   ${overdueText}
                 </span>
-                ${s.lastReview ? `<span class="text-slate-400">• آخر مراجعة: ${s.lastReview}</span>` : ''}
+                ${s.lastReview ? `<span class="text-slate-400">• ${t('daily_ward_last_review', 'آخر مراجعة:')} ${s.lastReview}</span>` : ''}
               </div>
             </div>
           </div>
@@ -1792,14 +1798,14 @@ function renderDailyWard() {
           <div class="flex items-center gap-2 self-end sm:self-auto shrink-0">
             <button type="button" onclick="openPagePreview(${s.startPage})"
               class="px-2.5 py-1.5 rounded-xl bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 text-xs font-bold transition active:scale-95 flex items-center gap-1"
-              title="تصفح السورة في المصحف الشريف">
+              title="${t('browse_surah_title', 'تصفح السورة في المصحف')}">
               <i data-lucide="book-open" class="w-3.5 h-3.5"></i>
-              <span class="hidden sm:inline">المصحف</span>
+              <span class="hidden sm:inline">${t('mushaf', 'المصحف')}</span>
             </button>
             <button type="button" onclick="rateSurahReview(${s.id}, ${s.interval}, 'متقن')"
               class="px-3.5 py-1.5 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs shadow-xs transition active:scale-95 flex items-center gap-1.5">
               <i data-lucide="check" class="w-3.5 h-3.5"></i>
-              <span>تمت المراجعة ✓</span>
+              <span>${t('daily_ward_mark_done', 'تمت المراجعة ✓')}</span>
             </button>
           </div>
         </div>
@@ -1816,13 +1822,13 @@ function renderDailyWard() {
             </div>
             <div>
               <div class="flex items-center gap-2">
-                <h3 class="font-bold text-slate-900 dark:text-white text-sm sm:text-base">الورد اليومي الذكي للمراجعة</h3>
+                <h3 class="font-bold text-slate-900 dark:text-white text-sm sm:text-base">${t('daily_ward_title', 'الورد اليومي الذكي للمراجعة')}</h3>
                 <span class="px-2 py-0.5 rounded-full bg-rose-100 dark:bg-rose-950/70 text-rose-700 dark:text-rose-300 text-[11px] font-bold">
-                  متبقي ${formatStdNum(totalDueCount)} سورة
+                  ${t('daily_ward_remaining_surahs', 'متبقي')} ${formatStdNum(totalDueCount)} ${t('surah_unit', 'سورة')}
                 </span>
               </div>
               <p class="text-xs text-slate-500 dark:text-slate-400">
-                مرتبة حسب الأولوية وفترات التكرار المتباعد لتثبيت الحفظ في الصدور
+                ${t('daily_ward_subdesc', 'مرتبة حسب الأولوية وفترات التكرار المتباعد لتثبيت الحفظ في الصدور')}
               </p>
             </div>
           </div>
@@ -1830,9 +1836,9 @@ function renderDailyWard() {
           <div class="flex items-center gap-2 self-start sm:self-auto shrink-0">
             <button type="button" onclick="bulkMarkAllDueReviewed()"
               class="px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-xl bg-gradient-to-r from-emerald-700 to-emerald-800 hover:from-emerald-800 hover:to-emerald-900 text-white font-bold text-xs shadow-md transition active:scale-95 flex items-center gap-1.5"
-              title="تحديد مراجعة جميع سور الورد اليوم">
+              title="${t('daily_ward_bulk_btn', 'تحديد مراجعة جميع سور الورد اليوم')}">
               <i data-lucide="check-check" class="w-4 h-4"></i>
-              <span>تمت مراجعة كل الورد اليوم ✓</span>
+              <span>${t('daily_ward_bulk_btn', 'تمت مراجعة كل الورد اليوم ✓')}</span>
             </button>
           </div>
         </div>
@@ -1841,7 +1847,7 @@ function renderDailyWard() {
         <div class="p-3 rounded-2xl bg-slate-50 dark:bg-slate-800/40 border border-slate-200/80 dark:border-slate-800 space-y-1.5">
           <div class="flex items-center justify-between text-xs font-bold">
             <span class="text-slate-700 dark:text-slate-300">
-              إنجاز ورد اليوم: <b class="text-emerald-700 dark:text-emerald-400">${formatStdNum(reviewedTodayCount)}</b> من <b class="text-slate-900 dark:text-white">${formatStdNum(totalTargetToday)}</b> سورة
+              ${t('daily_ward_progress_label', 'إنجاز ورد اليوم')}: <b class="text-emerald-700 dark:text-emerald-400">${formatStdNum(reviewedTodayCount)}</b> ${t('of_total', 'من')} <b class="text-slate-900 dark:text-white">${formatStdNum(totalTargetToday)}</b> ${t('surah_unit', 'سورة')}
             </span>
             <span class="text-emerald-700 dark:text-emerald-400 font-mono">${formatStdNum(progressPercent)}%</span>
           </div>
@@ -2129,15 +2135,15 @@ function renderMistakesNotebook() {
           <i data-lucide="book-open-check" class="w-7 h-7"></i>
         </div>
         <div class="space-y-1">
-          <h4 class="font-bold text-slate-900 dark:text-white text-base">ما شاء الله تبارك الله!</h4>
+          <h4 class="font-bold text-slate-900 dark:text-white text-base">${t('mistakes_empty_title', 'ما شاء الله تبارك الله!')}</h4>
           <p class="text-xs text-slate-500 dark:text-slate-400 max-w-sm leading-relaxed">
-            دفتر التثبيت خالٍ تماماً من الأخطاء. يتم تسجيل أي آية تخطئ فيها تلقائياً أثناء اختبارات تمكين لتثبيتها وإتقانها لاحقاً.
+            ${t('mistakes_empty', 'دفتر التثبيت فارغ! حفظك متقن ومثبت بفضل الله.')}
           </p>
         </div>
         <button type="button" onclick="closeMistakesModal(); switchMode('tamkeen');"
           class="px-4 py-2 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs shadow-md transition active:scale-95 flex items-center gap-1.5">
           <i data-lucide="brain" class="w-4 h-4"></i>
-          <span>ابدأ اختبار تمكين الآن</span>
+          <span>${t('start_tamkeen_quiz_btn', 'ابدأ اختبار تمكين الآن')}</span>
         </button>
       </div>
     `;
@@ -2150,14 +2156,14 @@ function renderMistakesNotebook() {
       <div class="flex items-center justify-between gap-2">
         <div class="flex items-center gap-2">
           <span class="px-2.5 py-0.5 rounded-lg bg-emerald-100 dark:bg-emerald-950/80 text-emerald-800 dark:text-emerald-200 text-xs font-bold border border-emerald-300/60 dark:border-emerald-800">
-            سورة ${m.surahName || ('رقم ' + m.surahId)}
+            ${t('surah_prefix', 'سورة ')}${m.surahName || (t('surah_unit', 'سورة') + ' ' + m.surahId)}
           </span>
           <span class="px-2 py-0.5 rounded-lg bg-slate-200/80 dark:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-mono font-bold">
-            آية ${formatStdNum(m.ayahNum)}
+            ${t('ayah', 'آية')} ${formatStdNum(m.ayahNum)}
           </span>
           ${(m.count && m.count > 1) ? `
             <span class="px-2 py-0.5 rounded-lg bg-rose-100 dark:bg-rose-950/80 text-rose-700 dark:text-rose-300 text-[10px] font-bold">
-              تكرر ${formatStdNum(m.count)} مرات
+              ${t('repeated_times', 'تكرر')} ${formatStdNum(m.count)}
             </span>
           ` : ''}
         </div>
@@ -2165,7 +2171,7 @@ function renderMistakesNotebook() {
       </div>
 
       <!-- Ayah text in authentic Amiri Quran font -->
-      <div class="p-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800/80 text-right">
+      <div class="p-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800/80 text-start">
         <p class="font-quran text-base sm:text-lg text-emerald-950 dark:text-emerald-100 leading-loose" dir="rtl">
           ﴿&nbsp;${m.verse}&nbsp;﴾
         </p>
@@ -2174,12 +2180,12 @@ function renderMistakesNotebook() {
       <!-- Correction comparison -->
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
         <div class="p-2.5 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200/80 dark:border-emerald-800/60 text-emerald-900 dark:text-emerald-200 space-y-0.5">
-          <span class="text-[10px] font-bold text-emerald-700 dark:text-emerald-400 block">الإجابة الصحيحة:</span>
-          <p class="font-bold font-quran text-sm">«${m.correct}»</p>
+          <span class="text-[10px] font-bold text-emerald-700 dark:text-emerald-400 block">${t('correct_answer_label', 'الإجابة الصحيحة:')}</span>
+          <p class="font-bold font-quran text-sm" dir="rtl">«${m.correct}»</p>
         </div>
         <div class="p-2.5 rounded-xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200/80 dark:border-rose-800/60 text-rose-900 dark:text-rose-200 space-y-0.5">
-          <span class="text-[10px] font-bold text-rose-700 dark:text-rose-400 block">إجابتك السابقة:</span>
-          <p class="font-medium font-quran text-sm line-through decoration-rose-500">«${m.wrongChoice || 'إجابة غير صحيحة'}»</p>
+          <span class="text-[10px] font-bold text-rose-700 dark:text-rose-400 block">${t('your_previous_answer_label', 'إجابتك السابقة:')}</span>
+          <p class="font-medium font-quran text-sm line-through decoration-rose-500" dir="rtl">«${m.wrongChoice || 'إجابة غير صحيحة'}»</p>
         </div>
       </div>
 
@@ -2188,12 +2194,12 @@ function renderMistakesNotebook() {
         <button type="button" onclick="launchMistakeRetest('${m.id}')"
           class="px-3 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs shadow-xs transition active:scale-95 flex items-center gap-1.5">
           <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i>
-          <span>إعادة الاختبار الآن</span>
+          <span>${t('retest_now', 'إعادة الاختبار الآن')}</span>
         </button>
         <button type="button" onclick="removeMistakeFromNotebook('${m.id}')"
           class="px-3 py-1.5 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs shadow-xs transition active:scale-95 flex items-center gap-1.5">
           <i data-lucide="check" class="w-3.5 h-3.5"></i>
-          <span>تم الإتقان والتثبيت ✓</span>
+          <span>${t('mastered_done', 'تم الإتقان والتثبيت ✓')}</span>
         </button>
       </div>
     </div>
@@ -2455,6 +2461,7 @@ document.addEventListener('DOMContentLoaded', () => {
   syncCount();
   renderJuzJumpers();
   renderAll();
+  if (typeof applyLanguageToUI === 'function') applyLanguageToUI();
   attachPreviewSwipe();
   lucide.createIcons();
 

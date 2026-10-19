@@ -21,15 +21,32 @@
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- Arabic Typography: Cairo for UI and Amiri Quran for unclipped Tashkeel -->
+  <!-- Typography: Cairo for Arabic UI, Inter for EN/IT, Amiri Quran for unclipped Tashkeel -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
-    href="https://fonts.googleapis.com/css2?family=Amiri+Quran&family=Cairo:wght@400;500;600;700;800;900&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Amiri+Quran&family=Cairo:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap"
     rel="stylesheet">
 
   <!-- Lucide Icons (Modular) -->
   <script src="./js/icons.js"></script>
+
+  <!-- i18n Early Initialization (Zero Flash RTL/LTR Direction Setup) -->
+  <script>
+    (function () {
+      try {
+        var lang = localStorage.getItem('qrn_app_lang');
+        if (lang === 'en' || lang === 'it') {
+          document.documentElement.lang = lang;
+          document.documentElement.dir = 'ltr';
+        } else {
+          document.documentElement.lang = 'ar';
+          document.documentElement.dir = 'rtl';
+        }
+      } catch (e) { }
+    })();
+  </script>
+  <script src="./js/i18n.js"></script>
 
   <!-- html2canvas for Direct Image Export -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -93,7 +110,7 @@
       class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 py-1.5 sm:py-2.5 flex items-center justify-between gap-1 sm:gap-2">
 
       <div id="btnHeaderScrollTop" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })" role="button" tabindex="0"
-        title="العودة لأعلى الصفحة"
+        title="العودة لأعلى الصفحة" data-i18n-title="scroll_top_title"
         class="flex items-center gap-1.5 sm:gap-2.5 shrink-0 cursor-pointer select-none group transition-transform active:scale-95">
         <div
           class="w-7 h-7 min-[380px]:w-8 min-[380px]:h-8 sm:w-10 sm:h-10 rounded-xl sm:rounded-2xl bg-gradient-to-br from-emerald-900 via-emerald-800 to-emerald-700 flex items-center justify-center text-gold-400 shadow-md shadow-emerald-950/20 border border-gold-500/30 shrink-0 group-hover:scale-105 transition-transform">
@@ -101,11 +118,11 @@
             class="w-3.5 h-3.5 min-[380px]:w-4 min-[380px]:h-4 sm:w-5 sm:h-5 stroke-[2.2]"></i>
         </div>
         <div class="flex items-center gap-1.5">
-          <h1
+          <h1 data-i18n="brand_title"
             class="text-xs min-[360px]:text-sm sm:text-base md:text-xl font-black tracking-tight text-emerald-950 dark:text-emerald-100 whitespace-nowrap leading-tight group-hover:text-emerald-700 dark:group-hover:text-gold-300 transition-colors">
             إرتَقِ بالقرآن
           </h1>
-          <span
+          <span data-i18n="page_count_badge"
             class="text-[10px] sm:text-[11px] font-bold px-1.5 sm:px-2 py-0.5 rounded-md bg-gold-50 dark:bg-gold-950/60 text-gold-700 dark:text-gold-300 border border-gold-300 dark:border-gold-800 leading-tight whitespace-nowrap hidden min-[540px]:inline-block font-sans">
             604 صفحة
           </span>
@@ -113,46 +130,67 @@
       </div>
 
       <div class="flex items-center gap-1 sm:gap-1.5 shrink-0">
+        <!-- Language Switcher Button Group: Arabic / English / Italian -->
+        <div id="langSelectorGroup"
+          class="flex items-center bg-slate-100/90 dark:bg-slate-800/90 p-0.5 rounded-xl border border-slate-200 dark:border-slate-700/80 shadow-xs text-xs font-bold shrink-0"
+          role="group" aria-label="Language selection">
+          <button type="button" data-lang-btn="ar" onclick="setAppLanguage('ar')"
+            class="lang-btn px-2 sm:px-2.5 py-1 rounded-lg transition-all text-[11px] leading-tight font-bold bg-emerald-700 text-white shadow-xs"
+            title="العربية">
+            عربي
+          </button>
+          <button type="button" data-lang-btn="en" onclick="setAppLanguage('en')"
+            class="lang-btn px-2 sm:px-2.5 py-1 rounded-lg transition-all text-[11px] leading-tight font-semibold text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200/60 dark:hover:bg-slate-700/60"
+            title="English">
+            EN
+          </button>
+          <button type="button" data-lang-btn="it" onclick="setAppLanguage('it')"
+            class="lang-btn px-2 sm:px-2.5 py-1 rounded-lg transition-all text-[11px] leading-tight font-semibold text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200/60 dark:hover:bg-slate-700/60"
+            title="Italiano">
+            IT
+          </button>
+        </div>
+
         <button id="btnHeaderTamkeen"
           class="hidden sm:flex items-center gap-1 px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-xl text-[11px] sm:text-sm font-bold bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white shadow-sm shadow-amber-900/30 transition active:scale-95"
-          title="اختبار وتثبيت الحفظ (تمكين)">
+          title="اختبار وتثبيت الحفظ (تمكين)" data-i18n-title="tamkeen_title">
           <i data-lucide="brain" class="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0 text-white"></i>
-          <span>تمكين</span>
+          <span data-i18n="tamkeen">تمكين</span>
         </button>
 
         <button id="btnInstallApp"
           class="p-1.5 sm:px-2.5 sm:py-1.5 rounded-xl text-xs font-bold bg-emerald-700 hover:bg-emerald-800 text-white shadow-sm shadow-emerald-900/30 transition active:scale-95 flex items-center gap-1 shrink-0 animate-pulse"
-          title="تثبيت التطبيق على الشاشة الرئيسية">
+          title="تثبيت التطبيق على الشاشة الرئيسية" data-i18n-title="install_title">
           <i data-lucide="smartphone" class="w-4 h-4 text-gold-300 shrink-0"></i>
-          <span id="installBtnText" class="hidden min-[480px]:inline">تثبيت</span>
+          <span id="installBtnText" data-i18n="install" class="hidden min-[480px]:inline">تثبيت</span>
         </button>
 
         <button id="btnShareCard"
           class="hidden min-[340px]:flex p-1.5 sm:px-2.5 sm:py-1.5 rounded-xl text-xs font-semibold bg-amber-50 hover:bg-amber-100 dark:bg-gold-950/50 dark:hover:bg-gold-900 text-gold-800 dark:text-gold-300 border border-gold-300/80 dark:border-gold-800 transition shadow-xs active:scale-95 items-center gap-1"
-          title="عرض بطاقة الإنجاز">
+          title="عرض بطاقة الإنجاز" data-i18n-title="share_card_title">
           <i data-lucide="award" class="w-4 h-4 text-gold-600 dark:text-gold-400 shrink-0"></i>
-          <span class="hidden md:inline">بطاقة الإنجاز</span>
+          <span data-i18n="share_card" class="hidden md:inline">بطاقة الإنجاز</span>
         </button>
 
         <button id="btnHeaderMistakes"
           class="relative p-1.5 sm:px-2.5 sm:py-1.5 rounded-xl text-xs font-semibold bg-rose-50 hover:bg-rose-100 dark:bg-rose-950/50 dark:hover:bg-rose-900/70 text-rose-800 dark:text-rose-300 border border-rose-300/80 dark:border-rose-800 transition shadow-xs active:scale-95 flex items-center gap-1"
-          title="دفتر التثبيت وسجل الأخطاء">
+          title="دفتر التثبيت وسجل الأخطاء" data-i18n-title="mistakes_title">
           <i data-lucide="book-marked" class="w-4 h-4 text-rose-600 dark:text-rose-400 shrink-0"></i>
-          <span class="hidden md:inline">دفتر التثبيت</span>
+          <span data-i18n="mistakes_notebook" class="hidden md:inline">دفتر التثبيت</span>
           <span id="headerMistakesCount"
             class="hidden absolute -top-1 -right-1 min-w-[17px] h-[17px] px-1 rounded-full bg-rose-600 text-white text-[9.5px] font-bold font-sans items-center justify-center ring-2 ring-white dark:ring-slate-900 shadow-xs leading-none">0</span>
         </button>
 
         <button id="btnAboutModal"
           class="p-1.5 sm:px-2.5 sm:py-1.5 rounded-xl text-xs font-semibold bg-emerald-50 hover:bg-emerald-100 dark:bg-emerald-950/60 dark:hover:bg-emerald-900/80 text-emerald-800 dark:text-emerald-300 border border-emerald-300/80 dark:border-emerald-800 transition shadow-xs active:scale-95 flex items-center gap-1"
-          title="عن التطبيق ودليل المستخدم">
+          title="عن التطبيق ودليل المستخدم" data-i18n-title="about_app_title">
           <i data-lucide="help-circle" class="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0"></i>
-          <span class="hidden md:inline">عن التطبيق</span>
+          <span data-i18n="about_app" class="hidden md:inline">عن التطبيق</span>
         </button>
 
         <button id="btnRemindersModal"
           class="relative p-1.5 sm:p-2 rounded-xl text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-800 transition active:scale-95 flex items-center justify-center"
-          title="منبه ورد الحفظ والمراجعة">
+          title="منبه ورد الحفظ والمراجعة" data-i18n-title="reminders_title">
           <i data-lucide="bell" class="w-4 h-4"></i>
           <span id="reminderActiveDot"
             class="hidden absolute top-1 right-1 w-2 h-2 rounded-full bg-emerald-500 ring-2 ring-white dark:ring-slate-900"></span>
@@ -160,7 +198,7 @@
 
         <button id="btnThemeToggle"
           class="p-1.5 sm:p-2 rounded-xl text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-800 transition active:scale-95 flex items-center justify-center"
-          title="تبديل النمط">
+          title="تبديل النمط" data-i18n-title="theme_toggle_title">
           <i data-lucide="moon" class="w-4 h-4 dark:hidden"></i>
           <i data-lucide="sun" class="w-4 h-4 hidden dark:inline text-gold-400"></i>
         </button>
@@ -183,13 +221,13 @@
           <div class="min-w-0">
             <div class="flex items-center gap-2 flex-wrap">
               <h3 class="text-xs sm:text-sm font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
-                <span>مرحباً بك في «إتقان»! هل ترغب في جولة سريعة للتعرف على التطبيق؟</span>
+                <span data-i18n="tutorial_title">مرحباً بك في «إرتَقِ»! هل ترغب في جولة سريعة للتعرف على التطبيق؟</span>
               </h3>
-              <span
+              <span data-i18n="tutorial_badge"
                 class="inline-block px-1.5 py-0.5 rounded text-[10px] bg-gold-400/20 text-gold-700 dark:text-gold-300 border border-gold-400/30 font-semibold">دليل
                 الواجهة</span>
             </div>
-            <p class="text-[11px] sm:text-xs text-slate-600 dark:text-slate-300 mt-0.5">
+            <p data-i18n="tutorial_desc" class="text-[11px] sm:text-xs text-slate-600 dark:text-slate-300 mt-0.5">
               شرح تفاعلي مبسط في دقيقة واحدة لجميع الأزرار والخيارات وميزات الحفظ والمراجعة لتبدأ بسهولة.
             </p>
           </div>
@@ -199,12 +237,12 @@
           <button id="btnStartTutorialFromBanner"
             class="px-3 py-1.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-700 hover:to-teal-800 text-white font-bold text-xs shadow-sm transition active:scale-95 flex items-center gap-1.5">
             <i data-lucide="compass" class="w-3.5 h-3.5 shrink-0"></i>
-            <span>بدء الجولة التعريفية</span>
+            <span data-i18n="start_tour">بدء الجولة التعريفية</span>
           </button>
           <button id="btnDismissTutorialBanner"
             class="px-2.5 py-1.5 rounded-xl text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200 hover:bg-slate-200/50 dark:hover:bg-slate-800 text-xs font-semibold transition"
             title="تخطي الدليل">
-            <span>تخطي</span>
+            <span data-i18n="skip_tour">تخطي</span>
           </button>
         </div>
       </div>
@@ -222,13 +260,13 @@
           <div class="min-w-0 flex-1">
             <div class="flex items-center gap-2 flex-wrap">
               <h3 class="text-xs sm:text-sm font-bold text-white flex items-center gap-1.5">
-                <span>تثبيت تطبيق إتقان على جهازك</span>
+                <span data-i18n="install_banner_title">تثبيت تطبيق إرتَقِ على جهازك</span>
               </h3>
-              <span
+              <span data-i18n="install_banner_badge"
                 class="inline-block px-1.5 py-0.5 rounded text-[10px] bg-gold-400/20 text-gold-300 border border-gold-400/30 font-semibold">تطبيق
                 متقدم PWA</span>
             </div>
-            <p class="text-[11px] sm:text-xs text-emerald-100/90 leading-relaxed mt-1">
+            <p data-i18n="install_banner_desc" class="text-[11px] sm:text-xs text-emerald-100/90 leading-relaxed mt-1">
               يمكنك تثبيت التطبيق للوصول السريع والعمل بدون إنترنت وحفظ تقدمك بكل سهولة.
             </p>
           </div>
@@ -238,7 +276,7 @@
           <button id="btnBannerInstall"
             class="px-3 py-1.5 rounded-xl bg-gradient-to-r from-gold-500 to-amber-500 hover:from-gold-600 hover:to-amber-600 text-slate-950 font-bold text-xs shadow-sm transition active:scale-95 flex items-center gap-1.5">
             <i data-lucide="smartphone" class="w-3.5 h-3.5 shrink-0"></i>
-            <span>تثبيت الآن</span>
+            <span data-i18n="install_now">تثبيت الآن</span>
           </button>
           <button id="btnDismissInstallBanner"
             class="p-1.5 rounded-xl text-emerald-200 hover:text-white hover:bg-emerald-800/80 transition"
@@ -260,7 +298,7 @@
               <div
                 class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-800/80 border border-emerald-700/60 text-[11px] text-gold-300 font-semibold mb-1">
                 <i data-lucide="sparkle" class="w-3 h-3 text-gold-400"></i>
-                إجمالي إنجاز الحفظ في المصحف الشريف
+                <span data-i18n="total_progress_badge">إجمالي إنجاز الحفظ في المصحف الشريف</span>
               </div>
 
               <div class="pt-0.5 pb-1">
@@ -277,7 +315,7 @@
               <div class="text-right">
                 <span id="statOverallPercent"
                   class="text-2xl sm:text-3xl font-black font-sans text-gold-400 tracking-tight leading-none">0.0%</span>
-                <span class="text-[10px] block font-bold text-emerald-200 mt-0.5">نسبة الحفظ الكلية</span>
+                <span data-i18n="total_percent_label" class="text-[10px] block font-bold text-emerald-200 mt-0.5">نسبة الحفظ الكلية</span>
               </div>
               <div
                 class="w-10 h-10 rounded-xl bg-gold-500/10 flex items-center justify-center text-gold-400 border border-gold-500/20">
@@ -290,7 +328,7 @@
             <div class="flex justify-between items-center text-xs font-semibold text-emerald-200">
               <span class="flex items-center gap-1.5">
                 <i data-lucide="trending-up" class="w-3.5 h-3.5 text-gold-400"></i>
-                المسار المقطوع نحو ختم القرآن حفظاً
+                <span data-i18n="completion_track_label">المسار المقطوع نحو ختم القرآن حفظاً</span>
               </span>
               <span id="statRemainingNotice" class="text-gold-300 font-bold font-sans">باقي 604 صفحة</span>
             </div>
@@ -306,12 +344,12 @@
             <button id="btnHeroTamkeen"
               class="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white text-xs sm:text-sm font-bold font-sans transition active:scale-95 shadow-md shadow-amber-950/30">
               <i data-lucide="brain" class="w-4 h-4 text-white"></i>
-              <span>تمكين | اختبر حفظك الآن</span>
+              <span data-i18n="hero_tamkeen_btn">تمكين | اختبر حفظك الآن</span>
             </button>
             <button id="btnMainSaveImage"
               class="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl bg-gold-500/15 hover:bg-gold-500/25 border border-gold-500/40 text-gold-300 text-xs sm:text-sm font-bold font-sans transition active:scale-95">
               <i data-lucide="award" class="w-4 h-4"></i>
-              <span>عرض بطاقة وشهادة الإنجاز</span>
+              <span data-i18n="hero_card_btn">عرض بطاقة وشهادة الإنجاز</span>
             </button>
           </div>
 
@@ -321,7 +359,7 @@
                 <i data-lucide="file-text" class="w-3.5 h-3.5"></i>
               </div>
               <div>
-                <span class="text-emerald-300 text-[10px] block leading-none mb-1">الصفحات المحفوظة</span>
+                <span data-i18n="stat_pages_label" class="text-emerald-300 text-[10px] block leading-none mb-1">الصفحات المحفوظة</span>
                 <span class="text-xs sm:text-sm font-bold text-white"><span id="statPagesMemorized">0</span> <span
                     class="text-emerald-400/80 font-normal text-xs">/ 604</span></span>
               </div>
@@ -333,7 +371,7 @@
                 <i data-lucide="bookmark" class="w-3.5 h-3.5"></i>
               </div>
               <div>
-                <span class="text-emerald-300 text-[10px] block leading-none mb-1">السور المكتملة</span>
+                <span data-i18n="stat_surahs_label" class="text-emerald-300 text-[10px] block leading-none mb-1">السور المكتملة</span>
                 <span class="text-xs sm:text-sm font-bold text-white"><span id="statSurahsMemorized">0</span> <span
                     class="text-emerald-400/80 font-normal text-xs">/ 114</span></span>
               </div>
@@ -344,7 +382,7 @@
                 <i data-lucide="layers" class="w-3.5 h-3.5"></i>
               </div>
               <div>
-                <span class="text-emerald-300 text-[10px] block leading-none mb-1">الأجزاء المكتملة</span>
+                <span data-i18n="stat_juz_label" class="text-emerald-300 text-[10px] block leading-none mb-1">الأجزاء المكتملة</span>
                 <span class="text-xs sm:text-sm font-bold text-white"><span id="statJuzCompleted">0</span> <span
                     class="text-emerald-400/80 font-normal text-xs">/ 30</span></span>
               </div>
@@ -355,7 +393,7 @@
                 <i data-lucide="hash" class="w-3.5 h-3.5"></i>
               </div>
               <div>
-                <span class="text-emerald-300 text-[10px] block leading-none mb-1">الآيات التقريبية</span>
+                <span data-i18n="stat_ayahs_label" class="text-emerald-300 text-[10px] block leading-none mb-1">الآيات التقريبية</span>
                 <span class="text-xs sm:text-sm font-bold text-white"><span id="statAyahsMemorized">0</span> <span
                     class="text-emerald-400/80 font-normal text-xs">/ 6,236</span></span>
               </div>
@@ -373,14 +411,14 @@
               class="w-6 h-6 rounded-lg bg-emerald-100 dark:bg-emerald-950 flex items-center justify-center text-emerald-700 dark:text-emerald-400">
               <i data-lucide="heart-handshake" class="w-3.5 h-3.5"></i>
             </span>
-            بُشرى لحامل القرآن
+            <span data-i18n="good_tidings_title">بُشرى لحامل القرآن</span>
           </div>
           <p
             class="text-xs font-quran text-slate-700 dark:text-slate-300 leading-relaxed italic pr-2 border-r-2 border-gold-500 my-1">
             "يُقَالُ لِصَاحِبِ الْقُرْآنِ: اقْرَأْ وَارْتَقِ وَرَتِّلْ كَمَا كُنْتَ تُرَتِّلُ فِي الدُّنْيَا، فَإِنَّ
             مَنْزِلَتَكَ عِنْدَ آخِرِ آيَةٍ تَقْرَؤُهَا."
           </p>
-          <div class="text-[10px] text-slate-400 text-left mt-1 font-medium font-sans">— رواه الترمذي وأبو داود</div>
+          <div data-i18n="hadith_source" class="text-[10px] text-slate-400 text-left mt-1 font-medium font-sans">— رواه الترمذي وأبو داود</div>
         </div>
 
         <div id="plannerCard"
@@ -393,7 +431,7 @@
             <button id="btnResetConfirm"
               class="flex items-center gap-1.5 text-rose-500 hover:text-rose-600 dark:text-rose-400 text-xs font-semibold hover:underline transition py-0.5">
               <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
-              تصفير السجل
+              <span data-i18n="reset_history">تصفير السجل</span>
             </button>
           </div>
           <div class="border-t border-slate-100 dark:border-slate-800/80"></div>
@@ -402,7 +440,7 @@
               class="flex items-center gap-1.5 text-emerald-700 dark:text-emerald-400 hover:text-emerald-800 dark:hover:text-emerald-300 text-xs font-semibold hover:underline transition py-0.5"
               title="النسخ الاحتياطي واستعادة البيانات">
               <i data-lucide="database" class="w-3.5 h-3.5"></i>
-              نسخ احتياطي واستعادة
+              <span data-i18n="backup_restore">نسخ احتياطي واستعادة</span>
             </button>
           </div>
         </div>
@@ -422,51 +460,51 @@
           <button id="tabModeSurah"
             class="tab-btn flex items-center justify-center gap-1 sm:gap-1.5 py-2 px-1 sm:px-3 rounded-xl text-xs sm:text-sm font-bold transition-all bg-white dark:bg-slate-900 text-emerald-800 dark:text-emerald-300 shadow-sm text-center whitespace-nowrap">
             <i data-lucide="book-open" class="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0"></i>
-            <span class="hidden sm:inline">حسب&nbsp;</span><span>السور</span>
+            <span data-i18n="tab_by_surah">السور</span>
             <span class="hidden sm:inline text-[9.5px] sm:text-xs font-mono opacity-75">(114)</span>
           </button>
           <button id="tabModePage"
             class="tab-btn flex items-center justify-center gap-1 sm:gap-1.5 py-2 px-1 sm:px-3 rounded-xl text-xs sm:text-sm font-semibold text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-all text-center whitespace-nowrap">
             <i data-lucide="layout-grid" class="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0"></i>
-            <span class="hidden sm:inline">شبكة&nbsp;</span><span>الصفحات</span>
+            <span data-i18n="tab_by_page">الصفحات</span>
             <span class="hidden sm:inline text-[9.5px] sm:text-xs font-mono opacity-75">(604)</span>
           </button>
           <button id="tabModeJuz"
             class="tab-btn flex items-center justify-center gap-1 sm:gap-1.5 py-2 px-1 sm:px-3 rounded-xl text-xs sm:text-sm font-semibold text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-all text-center whitespace-nowrap">
             <i data-lucide="layers" class="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0"></i>
-            <span>الأجزاء</span>
+            <span data-i18n="tab_by_juz">الأجزاء</span>
             <span class="hidden sm:inline text-[9.5px] sm:text-xs font-mono opacity-75">(30)</span>
           </button>
           <button id="tabModeTamkeen"
             class="tab-btn flex items-center justify-center gap-1 sm:gap-1.5 py-2 px-1 sm:px-3 rounded-xl text-xs sm:text-sm font-semibold text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-all text-center whitespace-nowrap">
             <i data-lucide="brain" class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-amber-500 shrink-0"></i>
-            <span>تمكين</span>
-            <span class="hidden md:inline text-[9.5px] sm:text-xs opacity-75">(اختبار)</span>
+            <span data-i18n="tab_tamkeen">تمكين</span>
+            <span data-i18n="tab_tamkeen_sub" class="hidden md:inline text-[9.5px] sm:text-xs opacity-75">(اختبار)</span>
           </button>
         </div>
       </div>
 
       <div class="flex items-center gap-2 font-sans w-full md:w-auto">
         <div class="relative flex-1 md:w-64">
-          <i data-lucide="search" class="w-4 h-4 absolute right-3 top-1/2 -translate-y-1/2 text-slate-400"></i>
-          <input type="text" id="globalSearchInput" placeholder="ابحث باسم السورة، رقمها، الصفحة..."
-            class="w-full pr-9 pl-3 py-2 rounded-xl text-xs sm:text-sm bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-600 text-slate-800 dark:text-slate-100 placeholder-slate-400 shadow-sm transition">
+          <i data-lucide="search" class="w-4 h-4 absolute start-3 top-1/2 -translate-y-1/2 text-slate-400"></i>
+          <input type="text" id="globalSearchInput" placeholder="ابحث باسم السورة، رقمها، الصفحة..." data-i18n-placeholder="search_placeholder"
+            class="w-full ps-9 pe-3 py-2 rounded-xl text-xs sm:text-sm bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-600 text-slate-800 dark:text-slate-100 placeholder-slate-400 shadow-sm transition">
         </div>
 
         <select id="filterStatusSelect"
           class="py-2 px-3 rounded-xl text-xs sm:text-sm bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-600 text-slate-800 dark:text-slate-100 shadow-sm cursor-pointer font-medium shrink-0">
-          <option value="all">عرض الكل</option>
-          <option value="memorized">المحفوظ فقط</option>
-          <option value="unmemorized">غير المحفوظ</option>
+          <option value="all" data-i18n="filter_show_all">عرض الكل</option>
+          <option value="memorized" data-i18n="filter_memorized_only">المحفوظ فقط</option>
+          <option value="unmemorized" data-i18n="filter_unmemorized_only">غير المحفوظ</option>
         </select>
       </div>
     </div>
 
     <section id="viewSurahs" class="block space-y-3 transition-all duration-300">
       <div class="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 px-1 font-sans">
-        <span>عرض <b id="filteredSurahCount" class="text-emerald-700 dark:text-emerald-400 font-bold">114</b>
-          سورة</span>
-        <span>اضغط على بطاقة السورة لتحديد تمام حفظها</span>
+        <span><span data-i18n="showing_surahs_prefix">عرض</span> <b id="filteredSurahCount" class="text-emerald-700 dark:text-emerald-400 font-bold">114</b>
+          <span data-i18n="surah_unit">سورة</span></span>
+        <span data-i18n="surah_hint">اضغط على بطاقة السورة لتصفحها في المصحف وتحديد إتمامها</span>
       </div>
       <div id="surahGridContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3"></div>
     </section>
@@ -475,11 +513,11 @@
       <div
         class="bg-white dark:bg-slate-900 p-3.5 sm:p-4 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-3 font-sans">
         <div>
-          <h3 class="font-bold text-slate-900 dark:text-white text-sm sm:text-base flex items-center gap-2">
+          <h3 data-i18n="pages_grid_title" class="font-bold text-slate-900 dark:text-white text-sm sm:text-base flex items-center gap-2">
             <i data-lucide="grid" class="w-4 h-4 text-emerald-600"></i>
             شبكة مصحف المدينة المنورة (604 صفحة)
           </h3>
-          <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+          <p data-i18n="pages_grid_desc" class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
             اضغط على رقم الصفحة للتبديل بين (محفوظ / غير محفوظ).
           </p>
         </div>
@@ -487,14 +525,14 @@
           <button type="button" onclick="setPagesFilter('all')" id="btnPagesFilterAll"
             class="px-2.5 py-1 rounded-xl text-xs font-bold transition active:scale-95 flex items-center gap-1.5 bg-slate-800 text-white dark:bg-white dark:text-slate-900 shadow-xs"
             title="عرض جميع الصفحات (604)">
-            <span>الكل</span>
+            <span data-i18n="filter_btn_all">الكل</span>
             <span id="pagesCountAll" class="text-[10px] opacity-75 font-mono">(604)</span>
           </button>
           <button type="button" onclick="setPagesFilter('memorized')" id="btnPagesFilterMemorized"
             class="px-2.5 py-1 rounded-xl text-xs font-bold transition active:scale-95 flex items-center gap-1.5 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-emerald-50 dark:hover:bg-emerald-950/60 border border-slate-200 dark:border-slate-700"
             title="عرض وتحديد الصفحات المحفوظة فقط">
             <span class="w-2.5 h-2.5 rounded-full bg-emerald-600 inline-block"></span>
-            <span>المحفوظ</span>
+            <span data-i18n="filter_btn_memorized">المحفوظ</span>
             <span id="pagesCountMemorized"
               class="text-[10px] text-emerald-700 dark:text-emerald-400 font-mono">(0)</span>
           </button>
@@ -502,7 +540,7 @@
             class="px-2.5 py-1 rounded-xl text-xs font-bold transition active:scale-95 flex items-center gap-1.5 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700"
             title="عرض الصفحات غير المحفوظة لتحديد حفظها">
             <span class="w-2.5 h-2.5 rounded-full bg-slate-400 inline-block"></span>
-            <span>غير المحفوظ</span>
+            <span data-i18n="filter_btn_unmemorized">غير المحفوظ</span>
             <span id="pagesCountUnmemorized" class="text-[10px] opacity-75 font-mono">(604)</span>
           </button>
         </div>
@@ -516,31 +554,31 @@
             class="p-1.5 rounded-xl bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-400 shrink-0">
             <i data-lucide="sliders" class="w-4 h-4"></i>
           </span>
-          <span class="font-bold text-slate-800 dark:text-slate-200">تحديد نطاق صفحات دفعة واحدة:</span>
+          <span data-i18n="range_title" class="font-bold text-slate-800 dark:text-slate-200">تحديد نطاق صفحات دفعة واحدة:</span>
         </div>
         <div class="grid grid-cols-2 sm:flex sm:items-center gap-2">
           <div class="flex items-center gap-1.5">
-            <label for="rangeStartPage" class="text-slate-500 text-[11px] font-bold shrink-0">من ص:</label>
+            <label for="rangeStartPage" data-i18n="range_from" class="text-slate-500 text-[11px] font-bold shrink-0">من ص:</label>
             <input type="number" id="rangeStartPage" min="1" max="604" placeholder="1"
               class="w-full sm:w-16 px-2 py-1.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-center font-bold text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-600">
           </div>
           <div class="flex items-center gap-1.5">
-            <label for="rangeEndPage" class="text-slate-500 text-[11px] font-bold shrink-0">إلى ص:</label>
+            <label for="rangeEndPage" data-i18n="range_to" class="text-slate-500 text-[11px] font-bold shrink-0">إلى ص:</label>
             <input type="number" id="rangeEndPage" min="1" max="604" placeholder="20"
               class="w-full sm:w-16 px-2 py-1.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-center font-bold text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-600">
           </div>
-          <button type="button" onclick="applyPageRange(true)"
+          <button type="button" onclick="applyPageRange(true)" data-i18n="range_save_btn"
             class="py-2 sm:py-1.5 px-3 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold transition shadow-sm active:scale-95 text-center">
             حفظ النطاق
           </button>
-          <button type="button" onclick="applyPageRange(false)"
+          <button type="button" onclick="applyPageRange(false)" data-i18n="range_clear_btn"
             class="py-2 sm:py-1.5 px-3 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-rose-50 hover:text-rose-600 dark:hover:bg-rose-950/60 dark:hover:text-rose-400 text-slate-700 dark:text-slate-300 font-bold transition active:scale-95 text-center">
             إلغاء النطاق
           </button>
           <button type="button" onclick="startTamkeenForCurrentPageRange()"
             class="py-2 sm:py-1.5 px-3 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold transition shadow-sm active:scale-95 text-center flex items-center justify-center gap-1.5">
             <i data-lucide="brain" class="w-3.5 h-3.5"></i>
-            <span>اختبرني في النطاق</span>
+            <span data-i18n="range_test_btn">اختبرني في النطاق</span>
           </button>
         </div>
       </div>
@@ -579,16 +617,16 @@
             </div>
             <div>
               <h2 class="text-base sm:text-xl font-black text-gold-300 flex items-center gap-2 flex-wrap">
-                <span>تَمْكِين | اختبار وتثبيت حفظ القرآن</span>
-                <span
+                <span data-i18n="tamkeen_heading">تَمْكِين | اختبار وتثبيت حفظ القرآن</span>
+                <span data-i18n="interactive_badge"
                   class="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 font-bold">تفاعلي</span>
                 <span
                   class="text-[10px] px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30 font-bold flex items-center gap-1">
                   <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                  Open API تلقائي
+                  Open API
                 </span>
               </h2>
-              <p class="text-xs text-emerald-200/90 font-medium">قِس متانة حفظك ورسوخ الآيات عبر 3 أنماط
+              <p data-i18n="tamkeen_subheading" class="text-xs text-emerald-200/90 font-medium">قِس متانة حفظك ورسوخ الآيات عبر 3 أنماط
                 اختبارية ذكية</p>
             </div>
           </div>
@@ -597,19 +635,19 @@
           <div class="flex items-center gap-1.5 sm:gap-2">
             <div class="grid grid-cols-4 gap-1.5 sm:gap-2 text-center text-xs flex-1">
               <div class="bg-white/10 backdrop-blur-md rounded-2xl p-2 border border-white/10 shadow-inner">
-                <span class="text-[10px] text-emerald-200 block font-medium">الأسئلة</span>
+                <span data-i18n="questions_stat" class="text-[10px] text-emerald-200 block font-medium">الأسئلة</span>
                 <span id="tamkeenStatTotal" class="text-xs sm:text-base font-bold text-white">0</span>
               </div>
               <div class="bg-white/10 backdrop-blur-md rounded-2xl p-2 border border-white/10 shadow-inner">
-                <span class="text-[10px] text-emerald-200 block font-medium">الصحيحة</span>
+                <span data-i18n="correct_stat" class="text-[10px] text-emerald-200 block font-medium">الصحيحة</span>
                 <span id="tamkeenStatCorrect" class="text-xs sm:text-base font-bold text-emerald-300">0</span>
               </div>
               <div class="bg-white/10 backdrop-blur-md rounded-2xl p-2 border border-white/10 shadow-inner">
-                <span class="text-[10px] text-emerald-200 block font-medium">الدقة</span>
+                <span data-i18n="accuracy_stat" class="text-[10px] text-emerald-200 block font-medium">الدقة</span>
                 <span id="tamkeenStatAccuracy" class="text-xs sm:text-base font-bold text-gold-300">0%</span>
               </div>
               <div class="bg-white/10 backdrop-blur-md rounded-2xl p-2 border border-white/10 shadow-inner">
-                <span class="text-[10px] text-emerald-200 block font-medium">التتابع</span>
+                <span data-i18n="streak_stat" class="text-[10px] text-emerald-200 block font-medium">التتابع</span>
                 <span id="tamkeenStatStreak" class="text-xs sm:text-base font-bold text-amber-300">🔥 0</span>
               </div>
             </div>
@@ -619,7 +657,7 @@
               class="self-stretch px-2 sm:px-2.5 py-1.5 rounded-2xl bg-white/10 hover:bg-rose-500/25 active:scale-95 text-emerald-200 hover:text-rose-200 border border-white/10 hover:border-rose-400/40 transition flex flex-col items-center justify-center gap-0.5 shrink-0 cursor-pointer shadow-inner"
               title="تصفير نتائج وإحصائيات الأسئلة">
               <i data-lucide="rotate-ccw" class="w-3.5 h-3.5 sm:w-4 sm:h-4"></i>
-              <span class="text-[9px] sm:text-[10px] font-bold">تصفير</span>
+              <span data-i18n="reset_btn" class="text-[9px] sm:text-[10px] font-bold">تصفير</span>
             </button>
           </div>
         </div>
@@ -631,17 +669,15 @@
           <div class="grid grid-cols-3 gap-1.5 w-full md:w-auto flex-1 max-w-xl">
             <button id="btnTamkeenMode_all" onclick="setTamkeenMode('all')"
               class="tamkeen-mode-btn px-1.5 sm:px-3 py-2 rounded-xl text-[11px] sm:text-xs font-bold transition text-center bg-white text-emerald-950 shadow-sm flex items-center justify-center gap-1">
-              <span></span>
-              <span class="truncate">شامل</span>
+              <span data-i18n="mode_all" class="truncate">شامل</span>
             </button>
             <button id="btnTamkeenMode_next_ayah" onclick="setTamkeenMode('next_ayah')"
               class="tamkeen-mode-btn px-1.5 sm:px-3 py-2 rounded-xl text-[11px] sm:text-xs font-semibold transition text-center bg-white/10 hover:bg-white/20 text-emerald-100 flex items-center justify-center gap-1">
-              <span class="truncate">الآية التالية</span>
+              <span data-i18n="mode_next_ayah" class="truncate">الآية التالية</span>
             </button>
             <button id="btnTamkeenMode_surah_id" onclick="setTamkeenMode('surah_id')"
               class="tamkeen-mode-btn px-1.5 sm:px-3 py-2 rounded-xl text-[11px] sm:text-xs font-semibold transition text-center bg-white/10 hover:bg-white/20 text-emerald-100 flex items-center justify-center gap-1">
-              <span>📖</span>
-              <span class="truncate">تحديد السورة</span>
+              <span data-i18n="mode_surah_id" class="truncate">تحديد السورة</span>
             </button>
           </div>
 
@@ -651,16 +687,16 @@
               <label for="tamkeenScopeSelect"
                 class="text-xs text-emerald-200 font-bold whitespace-nowrap flex items-center gap-1">
                 <i data-lucide="sliders" class="w-3.5 h-3.5 text-gold-400"></i>
-                نطاق الأسئلة:
+                <span data-i18n="scope_label">نطاق الأسئلة:</span>
               </label>
               <select id="tamkeenScopeSelect" onchange="setTamkeenScope(this.value)"
                 class="py-1 px-3 rounded-xl text-xs bg-emerald-900 border border-emerald-700 text-white font-medium focus:outline-none focus:ring-1 focus:ring-gold-400 cursor-pointer shadow-sm">
-                <option value="all">جميع سور القرآن الكريم</option>
-                <option value="memorized_pages">الصفحات التي حفظتها فقط</option>
-                <option value="memorized">السور المكتملة حفظاً فقط</option>
-                <option value="surah_range">نطاق سور محدد (من سورة إلى سورة)</option>
-                <option value="page_range">نطاق صفحات محدد (من صفحة إلى صفحة)</option>
-                <option value="juz_range">نطاق أجزاء محدد (من جزء إلى جزء)</option>
+                <option value="all" data-i18n="scope_all">جميع سور القرآن الكريم</option>
+                <option value="memorized_pages" data-i18n="scope_memorized_pages">الصفحات التي حفظتها فقط</option>
+                <option value="memorized" data-i18n="scope_memorized_surahs">السور المكتملة حفظاً فقط</option>
+                <option value="surah_range" data-i18n="scope_surah_range">نطاق سور محدد (من سورة إلى سورة)</option>
+                <option value="page_range" data-i18n="scope_page_range">نطاق صفحات محدد (من صفحة إلى صفحة)</option>
+                <option value="juz_range" data-i18n="scope_juz_range">نطاق أجزاء محدد (من جزء إلى جزء)</option>
               </select>
             </div>
 
@@ -720,19 +756,19 @@
       <button id="mobileTabSurah" onclick="switchMode('surah', true)" type="button"
         class="mobile-nav-btn flex flex-col items-center justify-center py-1.5 px-1 rounded-2xl text-[11px] font-bold text-emerald-800 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/70 shadow-xs cursor-pointer">
         <i data-lucide="book-open" class="w-5 h-5 mb-0.5"></i>
-        <span>السور</span>
+        <span data-i18n="mobile_surahs">السور</span>
       </button>
 
       <button id="mobileTabPage" onclick="switchMode('page', true)" type="button"
         class="mobile-nav-btn flex flex-col items-center justify-center py-1.5 px-1 rounded-2xl text-[11px] font-semibold text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white cursor-pointer">
         <i data-lucide="layout-grid" class="w-5 h-5 mb-0.5"></i>
-        <span>الصفحات</span>
+        <span data-i18n="mobile_pages">الصفحات</span>
       </button>
 
       <button id="mobileTabJuz" onclick="switchMode('juz', true)" type="button"
         class="mobile-nav-btn flex flex-col items-center justify-center py-1.5 px-1 rounded-2xl text-[11px] font-semibold text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white cursor-pointer">
         <i data-lucide="layers" class="w-5 h-5 mb-0.5"></i>
-        <span>الأجزاء</span>
+        <span data-i18n="mobile_ajza">الأجزاء</span>
       </button>
 
       <button id="mobileTabTamkeen" onclick="switchMode('tamkeen', true)" type="button"
@@ -741,7 +777,7 @@
           <i data-lucide="brain" class="w-5 h-5 mb-0.5 text-amber-500"></i>
           <span class="absolute -top-0.5 -right-1 w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
         </div>
-        <span>تَمْكِين</span>
+        <span data-i18n="mobile_tamkeen">تَمْكِين</span>
       </button>
     </div>
   </nav>
@@ -752,14 +788,13 @@
       class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 w-full max-w-sm rounded-t-3xl sm:rounded-3xl shadow-2xl p-5 space-y-4 font-sans text-center">
       <div class="drag-handle-pill sm:hidden"></div>
       <div class="space-y-1">
-        <h3 class="font-bold text-slate-900 dark:text-white text-base">الخروج من التطبيق؟</h3>
-        <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">هل تريد مغادرة الصفحة؟ بيانات حفظك محفوظة
-          على جهازك.</p>
+        <h3 data-i18n="exit_confirm_title" class="font-bold text-slate-900 dark:text-white text-base">الخروج من التطبيق؟</h3>
+        <p data-i18n="exit_confirm_desc" class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">هل تريد مغادرة الصفحة؟ بيانات حفظك محفوظة على جهازك.</p>
       </div>
       <div class="flex gap-2">
-        <button id="btnExitStay"
+        <button id="btnExitStay" data-i18n="exit_stay"
           class="flex-1 py-2.5 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white text-sm font-bold active:scale-95 transition">البقاء</button>
-        <button id="btnExitLeave"
+        <button id="btnExitLeave" data-i18n="exit_leave"
           class="flex-1 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 text-sm font-bold active:scale-95 transition">خروج</button>
       </div>
     </div>
@@ -775,16 +810,16 @@
         <i data-lucide="alert-triangle" class="w-6 h-6"></i>
       </div>
       <div class="space-y-1">
-        <h3 class="font-bold text-slate-900 dark:text-white text-base">تأكيد تصفير السجل والبيانات بالكامل</h3>
-        <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+        <h3 data-i18n="reset_modal_title" class="font-bold text-slate-900 dark:text-white text-base">تأكيد تصفير السجل والبيانات بالكامل</h3>
+        <p data-i18n="reset_modal_desc" class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
           سيتم حذف جميع بيانات الحفظ، المراجعات، أيام التعويض، دفتر التثبيت ونتائج تمكين والبدء من جديد كأنك تفتح
           التطبيق لأول مرة. هل أنت متأكد؟
         </p>
       </div>
       <div class="flex gap-2">
-        <button id="btnResetCancel"
+        <button id="btnResetCancel" data-i18n="reset_cancel_btn"
           class="flex-1 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 text-sm font-bold active:scale-95 transition">إلغاء</button>
-        <button id="btnResetYes"
+        <button id="btnResetYes" data-i18n="reset_confirm_btn"
           class="flex-1 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-sm font-bold active:scale-95 transition">نعم،
           تصفير شامل</button>
       </div>
@@ -802,17 +837,17 @@
         <i data-lucide="rotate-ccw" class="w-6 h-6"></i>
       </div>
       <div class="space-y-1">
-        <h3 class="font-bold text-slate-900 dark:text-white text-base">تصفير نتائج تمكين</h3>
-        <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+        <h3 data-i18n="reset_tamkeen_title" class="font-bold text-slate-900 dark:text-white text-base">تصفير نتائج تمكين</h3>
+        <p data-i18n="reset_tamkeen_desc" class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
           هل تريد تصفير نتائج وإحصائيات الأسئلة في تمكين (الأسئلة المجابة، الإجابات الصحيحة، نسبة الدقة والتتابع)؟
         </p>
       </div>
       <div class="flex gap-2">
-        <button id="btnResetTamkeenCancel" onclick="closeResetTamkeenModal()" type="button"
+        <button id="btnResetTamkeenCancel" onclick="closeResetTamkeenModal()" type="button" data-i18n="reset_cancel_btn"
           class="flex-1 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-sm font-bold transition active:scale-95">
           إلغاء
         </button>
-        <button id="btnResetTamkeenYes" onclick="executeResetTamkeenStats()" type="button"
+        <button id="btnResetTamkeenYes" onclick="executeResetTamkeenStats()" type="button" data-i18n="reset_tamkeen_confirm"
           class="flex-1 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-sm font-bold shadow-md shadow-rose-900/20 transition active:scale-95">
           نعم، صفّر النتائج
         </button>
@@ -891,8 +926,8 @@
             <i data-lucide="database" class="w-5 h-5"></i>
           </div>
           <div>
-            <h3 class="font-bold text-slate-900 dark:text-white text-base">النسخ الاحتياطي ونقل البيانات</h3>
-            <p class="text-xs text-slate-500">حفظ ونقل بيانات حفظك بأمان</p>
+            <h3 data-i18n="backup_modal_title" class="font-bold text-slate-900 dark:text-white text-base">النسخ الاحتياطي ونقل البيانات</h3>
+            <p data-i18n="backup_modal_sub" class="text-xs text-slate-500">حفظ ونقل بيانات حفظك بأمان</p>
           </div>
         </div>
         <button id="btnCloseBackupModal"
@@ -902,7 +937,7 @@
       </div>
 
       <div class="space-y-3">
-        <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+        <p data-i18n="backup_modal_desc" class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
           بياناتك محفوظة تلقائياً في ذاكرة المتصفح. لنقل تقدمك لهاتف آخر، قم بتصدير ملف النسخة واسترجاعه في أي وقت.
         </p>
 
@@ -910,22 +945,22 @@
           <button id="btnExportJsonFile"
             class="flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-bold transition shadow-sm">
             <i data-lucide="download" class="w-4 h-4"></i>
-            تصدير ملف النسخة
+            <span data-i18n="export_json_btn">تصدير ملف النسخة</span>
           </button>
 
           <label
             class="flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-bold cursor-pointer transition">
             <i data-lucide="upload" class="w-4 h-4"></i>
-            استيراد ملف
+            <span data-i18n="import_json_btn">استيراد ملف</span>
             <input type="file" id="importJsonFileInput" accept=".json" class="hidden">
           </label>
         </div>
 
         <div class="pt-2">
-          <label class="text-[11px] font-bold text-slate-400 block mb-1">بيانات الحفظ بصيغة JSON:</label>
+          <label data-i18n="json_label" class="text-[11px] font-bold text-slate-400 block mb-1">بيانات الحفظ بصيغة JSON:</label>
           <textarea id="jsonStateTextarea" readonly
             class="w-full h-24 p-2 text-[11px] font-mono rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 resize-none focus:outline-none"></textarea>
-          <button id="btnCopyJsonText"
+          <button id="btnCopyJsonText" data-i18n="copy_json_btn"
             class="mt-2 w-full py-2 text-xs font-bold rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 transition">
             نسخ الكود إلى الحافظة
           </button>
@@ -1627,8 +1662,8 @@
             <i data-lucide="bell" class="w-5 h-5"></i>
           </div>
           <div>
-            <h3 class="font-bold text-slate-900 dark:text-white text-base">منبه ورد الحفظ والمراجعة</h3>
-            <p class="text-xs text-slate-500 dark:text-slate-400">تذكير يومي لطيف لتثبيت الورد ومنع التفلت</p>
+            <h3 data-i18n="reminders_modal_title" class="font-bold text-slate-900 dark:text-white text-base">منبه ورد الحفظ والمراجعة</h3>
+            <p data-i18n="reminders_modal_sub" class="text-xs text-slate-500 dark:text-slate-400">تذكير يومي لطيف لتثبيت الورد ومنع التفلت</p>
           </div>
         </div>
         <button id="btnCloseRemindersModal"
@@ -1641,9 +1676,8 @@
       <div
         class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700/80 flex items-center justify-between gap-3">
         <div class="space-y-0.5">
-          <label for="chkReminderEnabled" class="text-sm font-bold text-slate-900 dark:text-white cursor-pointer">تفعيل
-            التنبيه اليومي</label>
-          <p class="text-xs text-slate-500 dark:text-slate-400">إشعار محلي بالمتصفح يذكرك بورد اليوم والسور المستحقة</p>
+          <label for="chkReminderEnabled" data-i18n="reminders_enable_label" class="text-sm font-bold text-slate-900 dark:text-white cursor-pointer">تفعيل التنبيه اليومي</label>
+          <p data-i18n="reminders_enable_desc" class="text-xs text-slate-500 dark:text-slate-400">إشعار محلي بالمتصفح يذكرك بورد اليوم والسور المستحقة</p>
         </div>
         <label class="relative inline-flex items-center cursor-pointer">
           <input type="checkbox" id="chkReminderEnabled" class="sr-only peer">
@@ -1655,29 +1689,29 @@
 
       <!-- Time input & presets -->
       <div class="space-y-3">
-        <label class="block text-xs font-bold text-slate-700 dark:text-slate-300">وقت التنبيه اليومي:</label>
+        <label data-i18n="reminders_time_label" class="block text-xs font-bold text-slate-700 dark:text-slate-300">وقت التنبيه اليومي:</label>
         <div class="flex items-center gap-3">
           <div class="relative flex-1">
             <input type="time" id="reminderTimeInput" value="09:00"
               class="w-full px-4 py-2.5 rounded-xl text-center font-bold text-base bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-emerald-600 text-slate-800 dark:text-slate-100 shadow-sm">
           </div>
-          <span class="text-xs text-slate-500 dark:text-slate-400 shrink-0 font-medium">بتوقيت جهازك</span>
+          <span data-i18n="device_time_hint" class="text-xs text-slate-500 dark:text-slate-400 shrink-0 font-medium">بتوقيت جهازك</span>
         </div>
 
         <!-- Quick Presets -->
         <div class="space-y-1.5">
-          <span class="text-[11px] font-bold text-slate-500 dark:text-slate-400">أوقات مقترحة سريعة:</span>
+          <span data-i18n="quick_presets_label" class="text-[11px] font-bold text-slate-500 dark:text-slate-400">أوقات مقترحة سريعة:</span>
           <div class="grid grid-cols-2 sm:grid-cols-4 gap-1.5 text-xs">
-            <button type="button" onclick="setQuickReminderTime('05:30')"
+            <button type="button" onclick="setQuickReminderTime('05:30')" data-i18n="fajr_preset"
               class="px-2 py-1.5 rounded-xl bg-slate-100 hover:bg-emerald-50 hover:text-emerald-700 dark:bg-slate-800 dark:hover:bg-emerald-950/50 border border-slate-200 dark:border-slate-700 font-semibold transition text-center">بعد
               الفجر 05:30</button>
-            <button type="button" onclick="setQuickReminderTime('09:00')"
+            <button type="button" onclick="setQuickReminderTime('09:00')" data-i18n="duha_preset"
               class="px-2 py-1.5 rounded-xl bg-slate-100 hover:bg-emerald-50 hover:text-emerald-700 dark:bg-slate-800 dark:hover:bg-emerald-950/50 border border-slate-200 dark:border-slate-700 font-semibold transition text-center">الضحى
               09:00</button>
-            <button type="button" onclick="setQuickReminderTime('16:30')"
+            <button type="button" onclick="setQuickReminderTime('16:30')" data-i18n="asr_preset"
               class="px-2 py-1.5 rounded-xl bg-slate-100 hover:bg-emerald-50 hover:text-emerald-700 dark:bg-slate-800 dark:hover:bg-emerald-950/50 border border-slate-200 dark:border-slate-700 font-semibold transition text-center">العصر
               16:30</button>
-            <button type="button" onclick="setQuickReminderTime('21:00')"
+            <button type="button" onclick="setQuickReminderTime('21:00')" data-i18n="isha_preset"
               class="px-2 py-1.5 rounded-xl bg-slate-100 hover:bg-emerald-50 hover:text-emerald-700 dark:bg-slate-800 dark:hover:bg-emerald-950/50 border border-slate-200 dark:border-slate-700 font-semibold transition text-center">العشاء
               21:00</button>
           </div>
@@ -1706,9 +1740,9 @@
         <button type="button" onclick="testNotificationNow()"
           class="px-3 py-2 rounded-xl text-xs font-bold text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 transition flex items-center gap-1.5">
           <i data-lucide="bell" class="w-3.5 h-3.5"></i>
-          <span>تجربة إشعار فوري</span>
+          <span data-i18n="test_notification_btn">تجربة إشعار فوري</span>
         </button>
-        <button type="button" onclick="saveReminderSettingsFromModal()"
+        <button type="button" onclick="saveReminderSettingsFromModal()" data-i18n="save_settings"
           class="px-5 py-2 rounded-xl text-xs font-bold bg-emerald-700 hover:bg-emerald-800 text-white shadow-md transition active:scale-95">
           حفظ الإعدادات
         </button>
@@ -1731,20 +1765,20 @@
           </div>
           <div>
             <div class="flex items-center gap-2">
-              <h3 class="font-bold text-slate-900 dark:text-white text-base">دفتر التثبيت وسجل الأخطاء</h3>
+              <h3 data-i18n="mistakes_notebook_heading" class="font-bold text-slate-900 dark:text-white text-base">دفتر التثبيت وسجل الأخطاء</h3>
               <span id="mistakesModalCountBadge"
                 class="px-2 py-0.5 rounded-full bg-rose-100 dark:bg-rose-950/80 text-rose-700 dark:text-rose-300 text-xs font-bold font-mono">0
                 آية</span>
             </div>
-            <p class="text-xs text-slate-500 dark:text-slate-400">الآيات التي تحتاج عناية وتكراراً من اختبارات تمكين</p>
+            <p data-i18n="mistakes_notebook_sub" class="text-xs text-slate-500 dark:text-slate-400">الآيات التي تحتاج عناية وتكراراً من اختبارات تمكين</p>
           </div>
         </div>
         <div class="flex items-center gap-1.5">
           <button id="btnClearMistakesModal" onclick="confirmClearMistakesNotebook()" type="button"
             class="px-2.5 py-1.5 rounded-xl text-xs font-bold text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/40 border border-rose-200 dark:border-rose-800 transition active:scale-95 flex items-center gap-1"
-            title="مسح كل السجل">
+            title="مسح كل السجل" data-i18n-title="clear_mistakes">
             <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
-            <span class="hidden sm:inline">مسح السجل</span>
+            <span data-i18n="clear_mistakes" class="hidden sm:inline">مسح السجل</span>
           </button>
           <button id="btnCloseMistakesModal"
             class="p-1.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-400">
@@ -1771,8 +1805,8 @@
       <!-- Modal Footer -->
       <div
         class="pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 shrink-0">
-        <span>يتحدث تلقائياً مع كل خطأ في اختبارات تمكين</span>
-        <button type="button" onclick="closeMistakesModal()"
+        <span data-i18n="mistakes_footer_hint">يتحدث تلقائياً مع كل خطأ في اختبارات تمكين</span>
+        <button type="button" onclick="closeMistakesModal()" data-i18n="close"
           class="px-4 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-bold transition">
           إغلاق
         </button>

@@ -1,10 +1,11 @@
-const CACHE_NAME = 'irtaqi-cache-v37';
+const CACHE_NAME = 'irtaqi-cache-v38';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
   './manifest.json',
   './css/styles.css',
   './js/icons.js',
+  './js/i18n.js',
   './js/data.js',
   './js/state.js',
   './js/tamkeen.js',
@@ -15,7 +16,7 @@ const ASSETS_TO_CACHE = [
   './icons/apple-touch-icon.png',
   'https://cdn.tailwindcss.com',
   'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js',
-  'https://fonts.googleapis.com/css2?family=Amiri+Quran&family=Cairo:wght@400;500;600;700;800;900&display=swap'
+  'https://fonts.googleapis.com/css2?family=Amiri+Quran&family=Cairo:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap'
 ];
 
 // allSettled: one failing URL no longer prevents everything else from being cached

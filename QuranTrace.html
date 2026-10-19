@@ -21,15 +21,32 @@
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- Arabic Typography: Cairo for UI and Amiri Quran for unclipped Tashkeel -->
+  <!-- Typography: Cairo for Arabic UI, Inter for EN/IT, Amiri Quran for unclipped Tashkeel -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
-    href="https://fonts.googleapis.com/css2?family=Amiri+Quran&family=Cairo:wght@400;500;600;700;800;900&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Amiri+Quran&family=Cairo:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap"
     rel="stylesheet">
 
   <!-- Lucide Icons (Modular) -->
   <script src="./js/icons.js"></script>
+
+  <!-- i18n Early Initialization (Zero Flash RTL/LTR Direction Setup) -->
+  <script>
+    (function () {
+      try {
+        var lang = localStorage.getItem('qrn_app_lang');
+        if (lang === 'en' || lang === 'it') {
+          document.documentElement.lang = lang;
+          document.documentElement.dir = 'ltr';
+        } else {
+          document.documentElement.lang = 'ar';
+          document.documentElement.dir = 'rtl';
+        }
+      } catch (e) { }
+    })();
+  </script>
+  <script src="./js/i18n.js"></script>
 
   <!-- html2canvas for Direct Image Export -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -158,6 +175,27 @@
           <i data-lucide="bell" class="w-4 h-4"></i>
           <span id="reminderActiveDot" class="hidden absolute top-1 right-1 w-2 h-2 rounded-full bg-emerald-500 ring-2 ring-white dark:ring-slate-900"></span>
         </button>
+
+        <!-- Language Switcher: Arabic / English / Italian -->
+        <div id="langSelectorGroup"
+          class="flex items-center p-0.5 sm:p-1 bg-slate-100 dark:bg-slate-800/80 rounded-xl border border-slate-200/80 dark:border-slate-700/80 shadow-2xs gap-0.5 font-sans"
+          role="group" aria-label="Language Selector">
+          <button type="button" onclick="setAppLanguage('ar')" data-lang-btn="ar"
+            class="lang-btn px-2 sm:px-2.5 py-1 rounded-lg transition-all text-[11px] leading-tight font-bold bg-emerald-700 text-white shadow-xs"
+            title="اللغة العربية (RTL)">
+            عربي
+          </button>
+          <button type="button" onclick="setAppLanguage('en')" data-lang-btn="en"
+            class="lang-btn px-2 sm:px-2.5 py-1 rounded-lg transition-all text-[11px] leading-tight font-semibold text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200/60 dark:hover:bg-slate-700/60"
+            title="English (LTR)">
+            EN
+          </button>
+          <button type="button" onclick="setAppLanguage('it')" data-lang-btn="it"
+            class="lang-btn px-2 sm:px-2.5 py-1 rounded-lg transition-all text-[11px] leading-tight font-semibold text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200/60 dark:hover:bg-slate-700/60"
+            title="Italiano (LTR)">
+            IT
+          </button>
+        </div>
 
         <button id="btnThemeToggle"
           class="p-1.5 sm:p-2 rounded-xl text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-800 transition active:scale-95 flex items-center justify-center"
