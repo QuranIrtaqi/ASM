@@ -64,7 +64,7 @@ const COACH_MARKS_STEPS = [
     badge: 'الخطوة 1 من 10',
     icon: 'compass',
     title: 'الشريط العلوي وأدوات التحكم والوصول السريع',
-    text: 'الترويسة العلوية تمنحك وصولاً فورياً لاختبارات تمكين، تثبيت التطبيق، تصدير بطاقة الإنجاز، دفتر التثبيت، دليل التطبيق، منبه الورد، وتبديل النمط. كما يمكنك النقر على العنوان في أي وقت للصعود الفوري لأعلى الصفحة.',
+    text: 'الترويسة العلوية تمنحك وصولاً فورياً لاختبارات تمكين، تثبيت التطبيق، تصدير بطاقة الإنجاز، دفتر التثبيت، دليل التطبيق، تبديل النمط، وتبديل لغة الواجهة (عربي/EN/IT). كما يمكنك النقر على العنوان في أي وقت للصعود الفوري لأعلى الصفحة.',
     switchView: 'surah'
   },
   {
@@ -1899,183 +1899,14 @@ function renderDailyWard() {
 }
 
 // ==========================================
-// LOCAL NOTIFICATIONS & REMINDERS (المنبه والتذكيرات)
+// NOTIFICATIONS & REMINDERS (DISABLED)
 // ==========================================
 function updateReminderUI() {
-  const dot = document.getElementById('reminderActiveDot');
-  const isEnabled = state.reminderSettings && state.reminderSettings.enabled;
-  if (dot) {
-    if (isEnabled) dot.classList.remove('hidden');
-    else dot.classList.add('hidden');
-  }
-
-  const chk = document.getElementById('chkReminderEnabled');
-  const timeInput = document.getElementById('reminderTimeInput');
-  if (chk && state.reminderSettings) chk.checked = !!state.reminderSettings.enabled;
-  if (timeInput && state.reminderSettings && state.reminderSettings.time) {
-    timeInput.value = state.reminderSettings.time;
-  }
-
-  updateReminderPermissionBox();
+  // Option removed per user request
 }
-
-function updateReminderPermissionBox() {
-  const box = document.getElementById('reminderPermissionBox');
-  const text = document.getElementById('reminderPermStatusText');
-  const btn = document.getElementById('btnRequestNotificationPerm');
-  if (!box || !text || !btn) return;
-
-  if (!('Notification' in window)) {
-    text.textContent = "متصفحك لا يدعم إشعارات الويب المحلية.";
-    btn.classList.add('hidden');
-    box.className = "p-3 rounded-2xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-800 text-xs text-rose-700 dark:text-rose-300";
-    return;
-  }
-
-  if (Notification.permission === 'granted') {
-    text.textContent = "إذن الإشعارات مفعل ومصرح به في المتصفح ✓";
-    btn.classList.add('hidden');
-    box.className = "p-3 rounded-2xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 text-xs text-emerald-800 dark:text-emerald-300 flex items-center justify-between";
-  } else if (Notification.permission === 'denied') {
-    text.textContent = "تم حظر الإشعارات في إعدادات المتصفح، يرجى تفعيلها يدوياً لتلقي التنبيهات.";
-    btn.classList.add('hidden');
-    box.className = "p-3 rounded-2xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-800 text-xs text-rose-700 dark:text-rose-300";
-  } else {
-    text.textContent = "إذن إشعارات المتصفح مطلوب لتشغيل المنبه اليومي";
-    btn.classList.remove('hidden');
-    box.className = "p-3 rounded-2xl bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800/60 text-xs text-amber-800 dark:text-amber-300 flex items-center justify-between gap-2";
-  }
-}
-
-function openRemindersModal() {
-  const modal = document.getElementById('remindersModal');
-  if (!modal) return;
-  updateReminderUI();
-  modal.classList.remove('hidden');
-}
-
-function closeRemindersModal() {
-  const modal = document.getElementById('remindersModal');
-  if (modal) modal.classList.add('hidden');
-}
-
-function setQuickReminderTime(timeStr) {
-  const timeInput = document.getElementById('reminderTimeInput');
-  if (timeInput) {
-    timeInput.value = timeStr;
-    showToast(`تم اختيار التوقيت: ${timeStr}`);
-  }
-}
-
-async function requestNotificationPermission() {
-  if (!('Notification' in window)) {
-    showToast("متصفحك لا يدعم إشعارات الويب");
-    return;
-  }
-  try {
-    const res = await Notification.requestPermission();
-    updateReminderPermissionBox();
-    if (res === 'granted') {
-      showToast("تم منح إذن الإشعارات بنجاح! ✨");
-    } else if (res === 'denied') {
-      showToast("تم رفض الإذن، يمكنك تفعيله من إعدادات المتصفح");
-    }
-  } catch (e) {
-    console.error("Permission request error:", e);
-  }
-}
-
-function saveReminderSettingsFromModal() {
-  const chk = document.getElementById('chkReminderEnabled');
-  const timeInput = document.getElementById('reminderTimeInput');
-  if (!state.reminderSettings) state.reminderSettings = { enabled: false, time: '09:00', lastNotifiedDate: null };
-
-  state.reminderSettings.enabled = chk ? chk.checked : false;
-  state.reminderSettings.time = timeInput ? timeInput.value : '09:00';
-
-  if (state.reminderSettings.enabled && 'Notification' in window && Notification.permission === 'default') {
-    requestNotificationPermission();
-  }
-
-  saveState();
-  updateReminderUI();
-  closeRemindersModal();
-  showToast(state.reminderSettings.enabled 
-    ? `تم ضبط التذكير اليومي في تمام الساعة ${state.reminderSettings.time} بنجاح 🔔` 
-    : "تم تعطيل التذكير اليومي");
-}
-
-function sendLocalNotification(title, body) {
-  if (!('Notification' in window) || Notification.permission !== 'granted') return;
-
-  const options = {
-    body,
-    icon: './icons/icon-192.png',
-    badge: './icons/icon-192.png',
-    dir: 'rtl',
-    lang: 'ar',
-    tag: 'quran-ward-reminder'
-  };
-
-  try {
-    if (navigator.serviceWorker && navigator.serviceWorker.controller) {
-      navigator.serviceWorker.ready.then(reg => {
-        reg.showNotification(title, options);
-      }).catch(() => {
-        new Notification(title, options);
-      });
-    } else {
-      new Notification(title, options);
-    }
-  } catch (e) {
-    console.warn("Notification trigger failed:", e);
-  }
-}
-
-function testNotificationNow() {
-  if (!('Notification' in window)) {
-    showToast("متصفحك لا يدعم إشعارات الويب");
-    return;
-  }
-
-  if (Notification.permission !== 'granted') {
-    requestNotificationPermission().then(() => {
-      if (Notification.permission === 'granted') {
-        sendLocalNotification("إتقان | تذكير تجريبي 🔔", "هذا إشعار تجريبي من تطبيق إرتَقِ بالقرآن لتأكيد عمل منبه الورد بنجاح.");
-        showToast("تم إرسال الإشعار التجريبي!");
-      } else {
-        showToast("يرجى منح إذن الإشعارات أولاً لتجربة الإشعار");
-      }
-    });
-  } else {
-    sendLocalNotification("إتقان | تذكير تجريبي 🔔", "هذا إشعار تجريبي من تطبيق إرتَقِ بالقرآن لتأكيد عمل منبه الورد بنجاح.");
-    showToast("تم إرسال الإشعار التجريبي!");
-  }
-}
-
-function checkDailyReminder() {
-  if (!state.reminderSettings || !state.reminderSettings.enabled) return;
-  if (!('Notification' in window) || Notification.permission !== 'granted') return;
-
-  const today = todayStr();
-  if (state.reminderSettings.lastNotifiedDate === today) return;
-
-  const now = new Date();
-  const currentHHMM = String(now.getHours()).padStart(2, '0') + ':' + String(now.getMinutes()).padStart(2, '0');
-  const targetTime = state.reminderSettings.time || '09:00';
-
-  if (currentHHMM >= targetTime) {
-    const { totalDueCount } = getDueReviewSurahs();
-    let title = "إرتَقِ بالقرآن | تذكير الورد اليومي 📖";
-    let body = totalDueCount > 0
-      ? `لديك اليوم ${formatStdNum(totalDueCount)} سورة في ورد المراجعة بانتظارك. بارك الله في وقتك وحفظك!`
-      : "حان موعد وردك اليومي من القرآن الكريم! ادخل لاختبار حفظك أو تثبيت جديدك ✨";
-
-    sendLocalNotification(title, body);
-    state.reminderSettings.lastNotifiedDate = today;
-    saveState();
-  }
-}
+function openRemindersModal() {}
+function closeRemindersModal() {}
+function checkDailyReminder() {}
 
 // ==========================================
 // MISTAKES NOTEBOOK (دفتر التثبيت وسجل الأخطاء)
@@ -2271,7 +2102,6 @@ function renderAll() {
   renderPlanner();
   renderDailyWard();
   updateMistakesBadge();
-  updateReminderUI();
   updateMobileNavBadges();
   if (state.activeView === 'surah') renderSurahs();
   else if (state.activeView === 'page') renderPages();
@@ -2638,12 +2468,6 @@ document.addEventListener('DOMContentLoaded', () => {
       const filterSelect = document.getElementById('filterStatusSelect');
       if (filterSelect) filterSelect.value = 'all';
 
-      const reminderTimeInput = document.getElementById('reminderTimeInput');
-      if (reminderTimeInput) reminderTimeInput.value = '20:00';
-
-      const reminderToggle = document.getElementById('reminderToggle');
-      if (reminderToggle) reminderToggle.checked = false;
-
       // 5. Save clean state and refresh UI
       syncCount();
       saveState();
@@ -2968,21 +2792,6 @@ document.addEventListener('DOMContentLoaded', () => {
     btnCloseMistakesModal.addEventListener('click', () => closeMistakesModal());
   }
 
-  // Reminders Modal wiring
-  const btnRemindersModal = document.getElementById('btnRemindersModal');
-  const btnCloseRemindersModal = document.getElementById('btnCloseRemindersModal');
-  const remindersModal = document.getElementById('remindersModal');
-
-  if (btnRemindersModal) {
-    btnRemindersModal.addEventListener('click', () => openRemindersModal());
-  }
-  if (btnCloseRemindersModal) {
-    btnCloseRemindersModal.addEventListener('click', () => closeRemindersModal());
-  }
-
-  // Initial check and periodic polling for daily reminder
-  checkDailyReminder();
-  setInterval(checkDailyReminder, 60000);
   initPageReciterSelect();
 
   const resetTamkeenModal = document.getElementById('resetTamkeenConfirmModal');
@@ -2994,7 +2803,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (e.target === aboutModal) aboutModal.classList.add('hidden');
     if (e.target === resetTamkeenModal) closeResetTamkeenModal();
     if (e.target === mistakesModal) closeMistakesModal();
-    if (e.target === remindersModal) closeRemindersModal();
     const previewModal = document.getElementById('pagePreviewModal');
     if (previewModal && e.target === previewModal) closePagePreview();
   });
@@ -3057,7 +2865,6 @@ document.addEventListener('DOMContentLoaded', () => {
       document.getElementById('aboutAppModal'),
       document.getElementById('mistakesNotebookModal'),
       document.getElementById('backupModal'),
-      document.getElementById('remindersModal'),
       document.getElementById('resetConfirmModal')
     ];
     const openModal = otherModals.find(m => m && !m.classList.contains('hidden'));
